@@ -7,11 +7,24 @@ class MakeBenefactor extends React.Component {
     super(props);
     this.state = {
       name: '',
+      viewers: [],
     };
+  }
+
+  componentWillMount() {
+    api.getViewers((err, list) => {
+      if (!err) {
+        this.setState({
+          ...this.state,
+          viewers: list,
+        });
+      }
+    });
   }
 
   handleChange(e) {
     this.setState({
+      ...this.state,
       name: e.target.value,
     });
   }
@@ -33,8 +46,12 @@ class MakeBenefactor extends React.Component {
                 type="text"
                 value={this.state.name}
                 onChange={e => this.handleChange(e)}
+                list="viewers"
                 required
               />
+              <datalist id="viewers">
+                {this.state.viewers.map(v => <option value={v} key={v} />)}
+              </datalist>
             </FormGroup>
             <Button type="submit">Donner le succès mécène</Button>
           </Form>

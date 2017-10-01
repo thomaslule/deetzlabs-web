@@ -20,6 +20,18 @@ const post = (path, params = {}, callback = () => {}) => {
   });
 };
 
+const get = (path, callback = () => {}) => {
+  fetch(`/api/${path}?secret=${jsCookie.get('secret')}`, {
+    method: 'GET',
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    callback('request unsuccessful');
+    return Promise.reject();
+  }).then(json => callback(null, json));
+};
+
 const api = {
   checkSecret: (secret, callback) => {
     post('check_secret', { secret }, (err, res) => {
@@ -39,6 +51,10 @@ const api = {
         'display-name': user,
       },
     });
+  },
+
+  getViewers: (callback) => {
+    get('viewers', callback);
   },
 };
 
