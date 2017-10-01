@@ -22,8 +22,8 @@ class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    api.checkSecret(this.state.secret, (valid) => {
-      if (valid) {
+    api.checkSecret(this.state.secret, (err) => {
+      if (!err) {
         jsCookie.set('secret', this.state.secret);
         this.setState({
           authenticated: true,

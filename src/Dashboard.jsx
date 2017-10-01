@@ -1,3 +1,7 @@
 import React from 'react';
+import TestButton from './TestButton';
 
-export default () => <p>Dashboard</p>;
+export default () => (
+  <div>
+    <TestButton />
+  </div>);
