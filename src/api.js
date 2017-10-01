@@ -1,7 +1,7 @@
 import jsCookie from 'js-cookie';
 import clone from 'clone';
 
-const post = (path, params, callback = () => {}) => {
+const post = (path, params = {}, callback = () => {}) => {
   const body = clone(params);
   if (!body.secret) body.secret = jsCookie.get('secret');
   fetch(`/api/${path}`, {
@@ -28,7 +28,17 @@ const api = {
   },
 
   test: () => {
-    post('test', {});
+    post('test');
+  },
+
+  makeBenefactor: (user) => {
+    post('achievement', {
+      achievement: 'Mécène',
+      user: {
+        username: user.toLowerCase(),
+        'display-name': user,
+      },
+    });
   },
 };
 

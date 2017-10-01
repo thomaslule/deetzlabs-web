@@ -46,7 +46,7 @@ class Login extends React.Component {
               <ControlLabel>Secret</ControlLabel>
               <FormControl
                 type="password"
-                value={this.state.value}
+                value={this.state.secret}
                 onChange={e => this.handleChange(e)}
               />
             </FormGroup>

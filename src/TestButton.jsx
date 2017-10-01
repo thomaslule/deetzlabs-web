@@ -1,11 +1,16 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import api from './api';
 
 const handleClick = () => {
   api.test();
 };
 
-const TestButton = () => <Button onClick={handleClick}>Test succès</Button>;
+const TestButton = () => (
+  <Row>
+    <Col xs={12}>
+      <Button onClick={handleClick}>Test succès</Button>
+    </Col>
+  </Row>);
 
 export default TestButton;
