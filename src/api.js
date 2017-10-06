@@ -1,15 +1,13 @@
 import jsCookie from 'js-cookie';
-import clone from 'clone';
 
 const post = (path, params = {}, callback = () => {}) => {
-  const body = clone(params);
-  if (!body.secret) body.secret = jsCookie.get('secret');
   fetch(`/api/${path}`, {
     method: 'POST',
-    body: JSON.stringify(body),
+    body: JSON.stringify(params),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: jsCookie.get('token') ? `Bearer ${jsCookie.get('token')}` : null,
     },
   }).then((res) => {
     if (res.ok) {
@@ -21,8 +19,11 @@ const post = (path, params = {}, callback = () => {}) => {
 };
 
 const get = (path, callback = () => {}) => {
-  fetch(`/api/${path}?secret=${jsCookie.get('secret')}`, {
+  fetch(`/api/${path}`, {
     method: 'GET',
+    headers: {
+      Authorization: jsCookie.get('token') ? `Bearer ${jsCookie.get('token')}` : null,
+    },
   }).then((res) => {
     if (res.ok) {
       return res.json();
@@ -33,9 +34,11 @@ const get = (path, callback = () => {}) => {
 };
 
 const api = {
-  checkSecret: (secret, callback) => {
-    post('check_secret', { secret }, (err, res) => {
-      callback(err, res);
+
+  login: (username, password, callback) => {
+    post('login', { username, password }, (err, res) => {
+      if (err) callback(err);
+      res.text().then(token => callback(null, token));
     });
   },
 

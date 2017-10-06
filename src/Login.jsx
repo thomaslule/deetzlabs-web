@@ -8,26 +8,34 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: jsCookie.get('secret') !== undefined,
-      secret: '',
+      authenticated: jsCookie.get('token') !== undefined,
+      username: '',
+      password: '',
     };
   }
 
-  handleChange(e) {
+  handleUsernameChange(e) {
     this.setState({
       ...this.state,
-      secret: e.target.value,
+      username: e.target.value,
+    });
+  }
+
+  handlePasswordChange(e) {
+    this.setState({
+      ...this.state,
+      password: e.target.value,
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    api.checkSecret(this.state.secret, (err) => {
+    api.login(this.state.username, this.state.password, (err, token) => {
       if (!err) {
-        jsCookie.set('secret', this.state.secret);
+        jsCookie.set('token', token);
         this.setState({
+          ...this.state,
           authenticated: true,
-          secret: this.state.secret,
         });
       }
     });
@@ -42,12 +50,20 @@ class Login extends React.Component {
       <Row>
         <Col xs={3}>
           <Form onSubmit={e => this.handleSubmit(e)}>
-            <FormGroup controlId="secret">
-              <ControlLabel>Secret</ControlLabel>
+            <FormGroup controlId="username">
+              <ControlLabel>Login</ControlLabel>
+              <FormControl
+                type="text"
+                value={this.state.username}
+                onChange={e => this.handleUsernameChange(e)}
+              />
+            </FormGroup>
+            <FormGroup controlId="password">
+              <ControlLabel>Mot de passe</ControlLabel>
               <FormControl
                 type="password"
-                value={this.state.secret}
-                onChange={e => this.handleChange(e)}
+                value={this.state.password}
+                onChange={e => this.handlePasswordChange(e)}
               />
             </FormGroup>
             <Button type="submit">Login</Button>

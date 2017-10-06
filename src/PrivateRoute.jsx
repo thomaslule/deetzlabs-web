@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import jsCookie from 'js-cookie';
 
-const isAuthenticated = () => jsCookie.get('secret') !== undefined;
+const isAuthenticated = () => jsCookie.get('token') !== undefined;
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
