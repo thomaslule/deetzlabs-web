@@ -6,7 +6,7 @@ import PrivateRoute from './PrivateRoute';
 import Login from './Login';
 
 const App = () => (
-  <Router>
+  <Router basename="/admin">
     <Grid>
       <Row>
         <PageHeader>deetzlabs</PageHeader>
