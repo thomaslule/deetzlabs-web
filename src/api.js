@@ -37,8 +37,9 @@ const api = {
 
   login: (username, password, callback) => {
     post('login', { username, password }, (err, res) => {
-      if (err) callback(err);
-      res.text().then(token => callback(null, token));
+      if (err) return callback(err);
+      if (!res.ok) return callback('request unsuccessful');
+      return res.text().then(token => callback(null, token));
     });
   },
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Row, Col, Form, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import jsCookie from 'js-cookie';
 import api from './api';
@@ -11,6 +11,7 @@ class Login extends React.Component {
       authenticated: jsCookie.get('token') !== undefined,
       username: '',
       password: '',
+      error: null,
     };
   }
 
@@ -31,7 +32,14 @@ class Login extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     api.login(this.state.username, this.state.password, (err, token) => {
-      if (!err) {
+      if (err) {
+        this.setState({
+          ...this.state,
+          username: '',
+          password: '',
+          message: 'Échec de l\'authentification',
+        });
+      } else {
         jsCookie.set('token', token);
         this.setState({
           ...this.state,
@@ -49,6 +57,7 @@ class Login extends React.Component {
     return (
       <Row>
         <Col xs={3}>
+          {this.state.message ? <Alert bsStyle="danger">{this.state.message}</Alert> : null}
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormGroup controlId="username">
               <ControlLabel>Login</ControlLabel>
