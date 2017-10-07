@@ -26,7 +26,7 @@ class MakeBenefactor extends React.Component {
           <ControlLabel>Derniers succès</ControlLabel>
           <ListGroup>
             {this.state.achievements.map((a, index) => (
-              <ListGroupItem header={a.achievement} key={index}>
+              <ListGroupItem header={a.achievement.name} key={index}>
                 {a.username}
               </ListGroupItem>))}
           </ListGroup>
