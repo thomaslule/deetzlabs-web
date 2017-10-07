@@ -49,7 +49,7 @@ const api = {
 
   makeBenefactor: (user) => {
     post('achievement', {
-      achievement: 'Mécène',
+      achievement: 'benefactor',
       user: {
         username: user.toLowerCase(),
         'display-name': user,
