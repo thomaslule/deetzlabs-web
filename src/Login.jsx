@@ -31,6 +31,13 @@ class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      jsCookie.set('token', 'DUMMY');
+      this.setState({
+        authenticated: true,
+      });
+      return;
+    }
     api.login(this.state.username, this.state.password, (err, token) => {
       if (err) {
         this.setState({
