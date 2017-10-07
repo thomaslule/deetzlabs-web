@@ -41,7 +41,7 @@ class AlertVolume extends React.Component {
   render() {
     const content = (
       <Row>
-        <Col xs={3}>
+        <Col sm={3}>
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormGroup controlId="name">
               <ControlLabel>Volume de l&apos;alerte</ControlLabel>

@@ -63,7 +63,7 @@ class Login extends React.Component {
 
     return (
       <Row>
-        <Col xs={3}>
+        <Col md={3}>
           {this.state.message ? <Alert bsStyle="danger">{this.state.message}</Alert> : null}
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormGroup controlId="username">

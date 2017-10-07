@@ -38,7 +38,7 @@ class MakeBenefactor extends React.Component {
   render() {
     return (
       <Row>
-        <Col xs={3}>
+        <Col sm={3}>
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormGroup controlId="name">
               <ControlLabel>Nom de la vieweuse</ControlLabel>

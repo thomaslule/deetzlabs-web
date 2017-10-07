@@ -8,7 +8,7 @@ const handleClick = () => {
 
 const TestButton = () => (
   <Row>
-    <Col xs={12}>
+    <Col sm={12}>
       <Button onClick={handleClick}>Test succès</Button>
     </Col>
   </Row>);
