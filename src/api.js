@@ -57,6 +57,12 @@ const api = {
     });
   },
 
+  getLastAchievements: (callback) => {
+    get('last_achievements', (err, list) => {
+      if (!err) callback(list);
+    });
+  },
+
   getViewers: (callback) => {
     get('viewers', callback);
   },
