@@ -46,7 +46,7 @@ class AlertVolume extends React.Component {
             <FormGroup controlId="name">
               <ControlLabel>Volume de l&apos;alerte</ControlLabel>
               <SliderWithToolitp
-                min={0}
+                min={0.1}
                 max={1}
                 step={0.1}
                 onChange={val => this.handleChange(val)}
