@@ -1,6 +1,7 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
 import TestButton from './TestButton';
+import AlertVolume from './AlertVolume';
 import MakeBenefactor from './MakeBenefactor';
 import Logout from './Logout';
 
@@ -8,6 +9,9 @@ export default () => (
   <div>
     <Panel>
       <TestButton />
+    </Panel>
+    <Panel>
+      <AlertVolume />
     </Panel>
     <Panel>
       <MakeBenefactor />

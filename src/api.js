@@ -60,6 +60,14 @@ const api = {
   getViewers: (callback) => {
     get('viewers', callback);
   },
+
+  getAlertVolume: (callback) => {
+    get('alert_volume', callback);
+  },
+
+  postAlertVolume: (volume) => {
+    post('alert_volume', { volume });
+  },
 };
 
 export default api;
