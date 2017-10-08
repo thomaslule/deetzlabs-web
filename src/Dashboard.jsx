@@ -11,26 +11,16 @@ export default () => (
   <div>
     <Row>
       <Col md={6}>
-        <Panel>
-          <LastAchievements />
-        </Panel>
-        <Panel>
-          <TestButton />
-        </Panel>
-        <Panel>
-          <AlertVolume />
-        </Panel>
-        <Panel>
-          <MakeBenefactor />
-        </Panel>
+        <LastAchievements />
+        <TestButton />
+        <AlertVolume />
+        <MakeBenefactor />
         <Panel>
           <Logout />
         </Panel>
       </Col>
       <Col md={6}>
-        <Panel>
-          <AllAchievements />
-        </Panel>
+        <AllAchievements />
       </Col>
     </Row>
   </div>);

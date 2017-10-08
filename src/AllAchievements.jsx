@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListGroup, ControlLabel, ListGroupItem } from 'react-bootstrap';
+import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import api from './api';
 
 class AllAchievements extends React.Component {
@@ -34,16 +34,15 @@ class AllAchievements extends React.Component {
       }))
       .sort((a, b) => a.viewers.length > b.viewers.length);
     return (
-      <div>
-        <ControlLabel>Tous les succès</ControlLabel>
-        <ListGroup>
+      <Panel header="Tous les succès">
+        <ListGroup fill>
           {achievementsWithViewers.map(a => (
             <ListGroupItem key={a.achievement} header={a.achievement}>
               {a.viewers.map(v => <span key={v}>{v}<br /></span>)}
             </ListGroupItem>
           ))}
         </ListGroup>
-      </div>);
+      </Panel>);
   }
 }
 

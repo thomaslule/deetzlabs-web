@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Panel, Button } from 'react-bootstrap';
 import api from './api';
 
 const handleClick = () => {
@@ -7,10 +7,8 @@ const handleClick = () => {
 };
 
 const TestButton = () => (
-  <Row>
-    <Col sm={12}>
-      <Button onClick={handleClick}>Test succès</Button>
-    </Col>
-  </Row>);
+  <Panel>
+    <Button onClick={handleClick}>Test succès</Button>
+  </Panel>);
 
 export default TestButton;

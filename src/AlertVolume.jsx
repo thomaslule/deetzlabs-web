@@ -1,7 +1,7 @@
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 import React from 'react';
-import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import { Form, FormGroup, Button, Panel } from 'react-bootstrap';
 import Slider from 'rc-slider';
 import api from './api';
 
@@ -40,19 +40,20 @@ class AlertVolume extends React.Component {
 
   render() {
     const content = (
-      <Form onSubmit={e => this.handleSubmit(e)}>
-        <FormGroup controlId="name">
-          <ControlLabel>Volume de l&apos;alerte</ControlLabel>
-          <SliderWithToolitp
-            min={0.1}
-            max={1}
-            step={0.1}
-            onChange={val => this.handleChange(val)}
-            defaultValue={this.state.volume}
-          />
-        </FormGroup>
-        <Button type="submit">Appliquer</Button>
-      </Form>
+      <Panel header="Volume de l'alerte">
+        <Form onSubmit={e => this.handleSubmit(e)}>
+          <FormGroup controlId="name">
+            <SliderWithToolitp
+              min={0.1}
+              max={1}
+              step={0.1}
+              onChange={val => this.handleChange(val)}
+              defaultValue={this.state.volume}
+            />
+          </FormGroup>
+          <Button type="submit">Appliquer</Button>
+        </Form>
+      </Panel>
     );
     return this.state.volume === undefined ? null : content;
   }
