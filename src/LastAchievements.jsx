@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, ListGroup, ControlLabel } from 'react-bootstrap';
+import { ListGroup, ControlLabel } from 'react-bootstrap';
 import api from './api';
 import AchievementItem from './AchievementItem';
 
@@ -8,7 +8,6 @@ class LastAchievements extends React.Component {
     super(props);
     this.state = {
       achievements: [],
-      modal: undefined,
     };
   }
 
@@ -24,16 +23,12 @@ class LastAchievements extends React.Component {
   render() {
     return (
       <div>
-        <Row>
-          <Col sm={4}>
-            <ControlLabel>Derniers succès</ControlLabel>
-            <ListGroup>
-              {this.state.achievements.map((a, index) => (
-                <AchievementItem key={index} achievement={a.achievement} username={a.username} />
-              ))}
-            </ListGroup>
-          </Col>
-        </Row>
+        <ControlLabel>Derniers succès</ControlLabel>
+        <ListGroup>
+          {this.state.achievements.map((a, index) => (
+            <AchievementItem key={index} achievement={a.achievement} username={a.username} />
+          ))}
+        </ListGroup>
       </div>);
   }
 }

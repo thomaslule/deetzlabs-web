@@ -63,6 +63,12 @@ const api = {
     });
   },
 
+  getAllAchievements: (callback) => {
+    get('all_achievements', (err, list) => {
+      if (!err) callback(list);
+    });
+  },
+
   replayAchievement: (achievement, username) => {
     post('replay_achievement', {
       achievement,
