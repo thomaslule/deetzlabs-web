@@ -2,8 +2,6 @@ import React from 'react';
 import { ListGroup, ControlLabel, ListGroupItem } from 'react-bootstrap';
 import api from './api';
 
-const sortStrings = (a, b) => a.toLowerCase() > b.toLowerCase();
-
 class AllAchievements extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +20,7 @@ class AllAchievements extends React.Component {
   }
 
   render() {
+    const sortStrings = (a, b) => a.toLowerCase() > b.toLowerCase();
     const unique = (v, i, a) => a.indexOf(v) === i;
     const achievementsWithViewers = this.state.achievements
       .map(a => a.achievement.name)
