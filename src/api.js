@@ -63,6 +63,13 @@ const api = {
     });
   },
 
+  replayAchievement: (achievement, username) => {
+    post('replay_achievement', {
+      achievement,
+      username,
+    });
+  },
+
   getViewers: (callback) => {
     get('viewers', callback);
   },

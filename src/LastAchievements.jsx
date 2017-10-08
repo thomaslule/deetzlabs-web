@@ -1,12 +1,14 @@
 import React from 'react';
-import { Row, Col, ListGroup, ListGroupItem, ControlLabel } from 'react-bootstrap';
+import { Row, Col, ListGroup, ControlLabel } from 'react-bootstrap';
 import api from './api';
+import AchievementItem from './AchievementItem';
 
-class MakeBenefactor extends React.Component {
+class LastAchievements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       achievements: [],
+      modal: undefined,
     };
   }
 
@@ -21,18 +23,19 @@ class MakeBenefactor extends React.Component {
 
   render() {
     return (
-      <Row>
-        <Col sm={4}>
-          <ControlLabel>Derniers succès</ControlLabel>
-          <ListGroup>
-            {this.state.achievements.map((a, index) => (
-              <ListGroupItem header={a.achievement.name} key={index}>
-                {a.username}
-              </ListGroupItem>))}
-          </ListGroup>
-        </Col>
-      </Row>);
+      <div>
+        <Row>
+          <Col sm={4}>
+            <ControlLabel>Derniers succès</ControlLabel>
+            <ListGroup>
+              {this.state.achievements.map((a, index) => (
+                <AchievementItem key={index} achievement={a.achievement} username={a.username} />
+              ))}
+            </ListGroup>
+          </Col>
+        </Row>
+      </div>);
   }
 }
 
-export default MakeBenefactor;
+export default LastAchievements;
