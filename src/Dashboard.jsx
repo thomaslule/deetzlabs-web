@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Row, Col } from 'react-bootstrap';
+import { Row, Col, PageHeader } from 'react-bootstrap';
 import LastAchievements from './LastAchievements';
 import AllAchievements from './AllAchievements';
 import TestButton from './TestButton';
@@ -9,15 +9,13 @@ import Logout from './Logout';
 
 export default () => (
   <div>
+    <PageHeader>deetzlabs <Logout className="pull-right" /></PageHeader>
     <Row>
       <Col md={6}>
         <LastAchievements />
         <TestButton />
         <AlertVolume />
         <MakeBenefactor />
-        <Panel>
-          <Logout />
-        </Panel>
       </Col>
       <Col md={6}>
         <AllAchievements />
