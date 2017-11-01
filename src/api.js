@@ -63,8 +63,8 @@ const api = {
     });
   },
 
-  getAllAchievements: (callback) => {
-    get('all_achievements', (err, list) => {
+  getViewersAchievements: (callback) => {
+    get('viewers_achievements', (err, list) => {
       if (!err) callback(list);
     });
   },

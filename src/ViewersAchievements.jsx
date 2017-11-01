@@ -2,7 +2,7 @@ import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 import api from './api';
 
-class AllAchievements extends React.Component {
+class ViewersAchievements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +11,7 @@ class AllAchievements extends React.Component {
   }
 
   componentWillMount() {
-    api.getAllAchievements((list) => {
+    api.getViewersAchievements((list) => {
       this.setState({
         ...this.state,
         achievements: list,
@@ -46,4 +46,4 @@ class AllAchievements extends React.Component {
   }
 }
 
-export default AllAchievements;
+export default ViewersAchievements;

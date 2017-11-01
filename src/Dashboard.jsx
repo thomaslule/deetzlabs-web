@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, PageHeader } from 'react-bootstrap';
 import LastAchievements from './LastAchievements';
-import AllAchievements from './AllAchievements';
+import ViewersAchievements from './ViewersAchievements';
 import TestButton from './TestButton';
 import AlertVolume from './AlertVolume';
 import MakeBenefactor from './MakeBenefactor';
@@ -18,7 +18,7 @@ export default () => (
         <MakeBenefactor />
       </Col>
       <Col md={6}>
-        <AllAchievements />
+        <ViewersAchievements />
       </Col>
     </Row>
   </div>);
