@@ -4,7 +4,7 @@ import LastAchievements from './LastAchievements';
 import ViewersAchievements from './ViewersAchievements';
 import TestButton from './TestButton';
 import AlertVolume from './AlertVolume';
-import MakeBenefactor from './MakeBenefactor';
+import GiveAchievement from './GiveAchievement';
 import Logout from './Logout';
 
 export default () => (
@@ -15,7 +15,7 @@ export default () => (
         <LastAchievements />
         <TestButton />
         <AlertVolume />
-        <MakeBenefactor />
+        <GiveAchievement />
       </Col>
       <Col md={6}>
         <ViewersAchievements />

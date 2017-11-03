@@ -47,13 +47,19 @@ const api = {
     post('test');
   },
 
-  makeBenefactor: (user) => {
+  giveAchievement: (viewer, achievement) => {
     post('achievement', {
-      achievement: 'benefactor',
+      achievement,
       user: {
-        username: user.toLowerCase(),
-        'display-name': user,
+        username: viewer.toLowerCase(),
+        'display-name': viewer,
       },
+    });
+  },
+
+  getAchievements: (callback) => {
+    get('all_achievements', (err, list) => {
+      if (!err) callback(list.sort((a, b) => a.name > b.name));
     });
   },
 
