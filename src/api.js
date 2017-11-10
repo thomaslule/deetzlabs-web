@@ -1,98 +1,87 @@
 import jsCookie from 'js-cookie';
+import request from 'superagent';
 
-const post = (path, params = {}, callback = () => {}) => {
-  fetch(`/api/${path}`, {
-    method: 'POST',
-    body: JSON.stringify(params),
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: jsCookie.get('token') ? `Bearer ${jsCookie.get('token')}` : null,
-    },
-  }).then((res) => {
-    if (res.ok) {
-      callback(null, res);
-    } else {
-      callback('request unsuccessful');
-    }
+const Authorization = { Authorization: `Bearer ${jsCookie.get('token')}` };
+const noop = res => res;
+
+export const login = (username, password) =>
+  request.post('/api/login')
+    .send({ username, password })
+    .then(res => res.text);
+
+export const test = () =>
+  request.post('/api/show_test_achievement')
+    .set(Authorization)
+    .then(noop);
+
+export const giveAchievement = (displayName, achievement) =>
+  request.post('/api/give_achievement')
+    .set(Authorization)
+    .send({
+      achievement,
+      viewer: displayName.toLowerCase(),
+      displayName,
+    })
+    .then(noop);
+
+export const getAchievements = () =>
+  request.get('/api/all_achievements')
+    .set(Authorization)
+    .then(res =>
+      Object.keys(res.body)
+        .map(a => ({ code: a, name: res.body[a].name }))
+        .sort((a, b) => a.name > b.name));
+
+export const getViewers = () => (
+  request.get('/api/viewers')
+    .set(Authorization)
+    .then(res => Object.values(res.body).sort())
+);
+
+export const getLastViewerAchievements = () =>
+  Promise.all([
+    request.get('/api/last_viewer_achievements').set(Authorization),
+    request.get('/api/viewers').set(Authorization),
+    request.get('/api/all_achievements').set(Authorization),
+  ],
+  ).then((res) => {
+    const viewerAchievements = res[0].body;
+    const viewers = res[1].body;
+    const achievements = res[2].body;
+    return viewerAchievements.map(va => ({
+      viewer: { id: va.viewer, displayName: viewers[va.viewer] },
+      achievement: { id: va.achievement, name: achievements[va.achievement].name },
+    }));
   });
-};
 
-const get = (path, callback = () => {}) => {
-  fetch(`/api/${path}`, {
-    method: 'GET',
-    headers: {
-      Authorization: jsCookie.get('token') ? `Bearer ${jsCookie.get('token')}` : null,
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    callback('request unsuccessful');
-    return Promise.reject();
-  }).then(json => callback(null, json));
-};
+export const getViewersAchievements = () =>
+  Promise.all([
+    request.get('/api/all_viewer_achievements').set(Authorization),
+    request.get('/api/viewers').set(Authorization),
+    request.get('/api/all_achievements').set(Authorization),
+  ]).then((res) => {
+    const viewerAchievements = res[0].body;
+    const viewers = res[1].body;
+    const achievements = res[2].body;
+    return viewerAchievements.map(va => ({
+      viewer: { id: va.viewer, displayName: viewers[va.viewer] },
+      achievement: { id: va.achievement, name: achievements[va.achievement].name },
+    }));
+  });
 
-const api = {
+export const replayAchievement = (achievement, viewer) =>
+  request.post('/api/replay_achievement', {
+    achievement,
+    viewer,
+  }).set(Authorization)
+    .then(noop);
 
-  login: (username, password, callback) => {
-    post('login', { username, password }, (err, res) => {
-      if (err) return callback(err);
-      if (!res.ok) return callback('request unsuccessful');
-      return res.text().then(token => callback(null, token));
-    });
-  },
+export const getAlertVolume = () =>
+  request.get('/api/achievement_volume')
+    .set(Authorization)
+    .then(res => res.body.volume);
 
-  test: () => {
-    post('test');
-  },
-
-  giveAchievement: (viewer, achievement) => {
-    post('achievement', {
-      achievement,
-      user: {
-        username: viewer.toLowerCase(),
-        'display-name': viewer,
-      },
-    });
-  },
-
-  getAchievements: (callback) => {
-    get('all_achievements', (err, list) => {
-      if (!err) callback(list.sort((a, b) => a.name > b.name));
-    });
-  },
-
-  getLastAchievements: (callback) => {
-    get('last_achievements', (err, list) => {
-      if (!err) callback(list);
-    });
-  },
-
-  getViewersAchievements: (callback) => {
-    get('viewers_achievements', (err, list) => {
-      if (!err) callback(list);
-    });
-  },
-
-  replayAchievement: (achievement, username) => {
-    post('replay_achievement', {
-      achievement,
-      username,
-    });
-  },
-
-  getViewers: (callback) => {
-    get('viewers', callback);
-  },
-
-  getAlertVolume: (callback) => {
-    get('alert_volume', callback);
-  },
-
-  postAlertVolume: (volume) => {
-    post('alert_volume', { volume });
-  },
-};
-
-export default api;
+export const postAlertVolume = volume =>
+  request.post('/api/change_achievement_volume', { volume })
+    .set(Authorization)
+    .then(noop);

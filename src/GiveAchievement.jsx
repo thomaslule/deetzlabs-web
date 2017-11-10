@@ -1,6 +1,6 @@
 import React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
-import api from './api';
+import * as api from './api';
 
 class GiveAchievement extends React.Component {
   constructor(props) {
@@ -14,21 +14,21 @@ class GiveAchievement extends React.Component {
   }
 
   componentWillMount() {
-    api.getViewers((err, list) => {
-      if (!err) {
+    api.getViewers()
+      .then((list) => {
         this.setState({
           ...this.state,
           viewers: list,
         });
-      }
-    });
-    api.getAchievements((list) => {
-      this.setState({
-        ...this.state,
-        achievements: list,
-        achievement: list[0].code,
       });
-    });
+    api.getAchievements()
+      .then((list) => {
+        this.setState({
+          ...this.state,
+          achievements: list,
+          achievement: list[0].code,
+        });
+      });
   }
 
   handleChangeViewer(viewer) {

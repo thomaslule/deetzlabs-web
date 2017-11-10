@@ -2,7 +2,7 @@ import React from 'react';
 import { PageHeader, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import jsCookie from 'js-cookie';
-import api from './api';
+import * as api from './api';
 
 class Login extends React.Component {
   constructor(props) {
@@ -38,22 +38,22 @@ class Login extends React.Component {
       });
       return;
     }
-    api.login(this.state.username, this.state.password, (err, token) => {
-      if (err) {
+    api.login(this.state.username, this.state.password)
+      .then((token) => {
+        jsCookie.set('token', token);
+        this.setState({
+          ...this.state,
+          authenticated: true,
+        });
+      })
+      .catch(() => {
         this.setState({
           ...this.state,
           username: '',
           password: '',
           message: 'Échec de l\'authentification',
         });
-      } else {
-        jsCookie.set('token', token);
-        this.setState({
-          ...this.state,
-          authenticated: true,
-        });
-      }
-    });
+      });
   }
 
   render() {

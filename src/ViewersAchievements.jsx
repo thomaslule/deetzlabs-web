@@ -1,6 +1,6 @@
 import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
-import api from './api';
+import * as api from './api';
 
 class ViewersAchievements extends React.Component {
   constructor(props) {
@@ -11,12 +11,13 @@ class ViewersAchievements extends React.Component {
   }
 
   componentWillMount() {
-    api.getViewersAchievements((list) => {
-      this.setState({
-        ...this.state,
-        achievements: list,
+    api.getViewersAchievements()
+      .then((list) => {
+        this.setState({
+          ...this.state,
+          achievements: list,
+        });
       });
-    });
   }
 
   render() {
@@ -29,7 +30,7 @@ class ViewersAchievements extends React.Component {
         achievement,
         viewers: this.state.achievements
           .filter(a => a.achievement.name === achievement)
-          .map(a => a.username)
+          .map(a => a.viewer.id)
           .sort(sortStrings),
       }))
       .sort((a, b) => a.viewers.length > b.viewers.length);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListGroupItem, Glyphicon, Button, Modal } from 'react-bootstrap';
-import api from './api';
+import * as api from './api';
 
 class AchievementItem extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class AchievementItem extends React.Component {
   }
 
   confirm() {
-    api.replayAchievement(this.props.achievement.code, this.props.username);
+    api.replayAchievement(this.props.achievement.id, this.props.viewer.id);
     this.setState({
       ...this.state,
       showModal: false,
@@ -45,14 +45,14 @@ class AchievementItem extends React.Component {
             <Modal.Title>Rejouer le succès</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {this.props.achievement.name} pour {this.props.username}
+            {this.props.achievement.name} pour {this.props.viewer.displayName}
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.closeModal()}>Annuler</Button>
             <Button onClick={() => this.confirm()} bsStyle="primary">Rejouer</Button>
           </Modal.Footer>
         </Modal>
-        {this.props.username}
+        {this.props.viewer.displayName}
         <Button
           onClick={e => this.showModal(e)}
           className="pull-right"
