@@ -85,3 +85,14 @@ export const postAlertVolume = volume =>
   request.post('/api/change_achievement_volume', { volume })
     .set(Authorization)
     .then(noop);
+
+export const getFollowersGoal = () =>
+  request.get('/api/followers_goal')
+    .set(Authorization)
+    .then(res => res.body);
+
+export const changeFollowersGoal = (goal, html, css) =>
+  request.post('/api/change_followers_goal')
+    .set(Authorization)
+    .send({ goal, html, css })
+    .then(noop);

@@ -5,6 +5,7 @@ import ViewersAchievements from './ViewersAchievements';
 import TestButton from './TestButton';
 import AlertVolume from './AlertVolume';
 import GiveAchievement from './GiveAchievement';
+import FollowersGoal from './FollowersGoal';
 import Logout from './Logout';
 
 export default () => (
@@ -16,6 +17,7 @@ export default () => (
         <TestButton />
         <AlertVolume />
         <GiveAchievement />
+        <FollowersGoal />
       </Col>
       <Col md={6}>
         <ViewersAchievements />
