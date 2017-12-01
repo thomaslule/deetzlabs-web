@@ -1,7 +1,7 @@
 import jsCookie from 'js-cookie';
 import request from 'superagent';
 
-const Authorization = { Authorization: `Bearer ${jsCookie.get('token')}` };
+const getAuthorization = () => ({ Authorization: `Bearer ${jsCookie.get('token')}` });
 const noop = res => res;
 
 export const login = (username, password) =>
@@ -11,12 +11,12 @@ export const login = (username, password) =>
 
 export const test = () =>
   request.post('/api/show_test_achievement')
-    .set(Authorization)
+    .set(getAuthorization())
     .then(noop);
 
 export const giveAchievement = (displayName, achievement) =>
   request.post('/api/give_achievement')
-    .set(Authorization)
+    .set(getAuthorization())
     .send({
       achievement,
       viewer: displayName.toLowerCase(),
@@ -26,7 +26,7 @@ export const giveAchievement = (displayName, achievement) =>
 
 export const getAchievements = () =>
   request.get('/api/all_achievements')
-    .set(Authorization)
+    .set(getAuthorization())
     .then(res =>
       Object.keys(res.body)
         .map(a => ({ code: a, name: res.body[a].name }))
@@ -34,15 +34,15 @@ export const getAchievements = () =>
 
 export const getViewers = () => (
   request.get('/api/viewers')
-    .set(Authorization)
+    .set(getAuthorization())
     .then(res => Object.values(res.body).sort())
 );
 
 export const getLastViewerAchievements = () =>
   Promise.all([
-    request.get('/api/last_viewer_achievements').set(Authorization),
-    request.get('/api/viewers').set(Authorization),
-    request.get('/api/all_achievements').set(Authorization),
+    request.get('/api/last_viewer_achievements').set(getAuthorization()),
+    request.get('/api/viewers').set(getAuthorization()),
+    request.get('/api/all_achievements').set(getAuthorization()),
   ],
   ).then((res) => {
     const viewerAchievements = res[0].body;
@@ -56,9 +56,9 @@ export const getLastViewerAchievements = () =>
 
 export const getViewersAchievements = () =>
   Promise.all([
-    request.get('/api/all_viewer_achievements').set(Authorization),
-    request.get('/api/viewers').set(Authorization),
-    request.get('/api/all_achievements').set(Authorization),
+    request.get('/api/all_viewer_achievements').set(getAuthorization()),
+    request.get('/api/viewers').set(getAuthorization()),
+    request.get('/api/all_achievements').set(getAuthorization()),
   ]).then((res) => {
     const viewerAchievements = res[0].body;
     const viewers = res[1].body;
@@ -73,26 +73,26 @@ export const replayAchievement = (achievement, viewer) =>
   request.post('/api/replay_achievement', {
     achievement,
     viewer,
-  }).set(Authorization)
+  }).set(getAuthorization())
     .then(noop);
 
 export const getAlertVolume = () =>
   request.get('/api/achievement_volume')
-    .set(Authorization)
+    .set(getAuthorization())
     .then(res => res.body.volume);
 
 export const postAlertVolume = volume =>
   request.post('/api/change_achievement_volume', { volume })
-    .set(Authorization)
+    .set(getAuthorization())
     .then(noop);
 
 export const getFollowersGoal = () =>
   request.get('/api/followers_goal')
-    .set(Authorization)
+    .set(getAuthorization())
     .then(res => res.body);
 
 export const changeFollowersGoal = (goal, html, css) =>
   request.post('/api/change_followers_goal')
-    .set(Authorization)
+    .set(getAuthorization())
     .send({ goal, html, css })
     .then(noop);
