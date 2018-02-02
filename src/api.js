@@ -96,3 +96,8 @@ export const changeFollowersGoal = (goal, html, css) =>
     .set(getAuthorization())
     .send({ goal, html, css })
     .then(noop);
+
+export const credits = () =>
+  request.post('/api/launch_credits')
+    .set(getAuthorization())
+    .then(noop);
