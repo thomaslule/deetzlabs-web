@@ -40,7 +40,7 @@ class Login extends React.Component {
     }
     api.login(this.state.username, this.state.password)
       .then((token) => {
-        jsCookie.set('token', token);
+        jsCookie.set('token', token, { expires: 1 });
         this.setState({
           ...this.state,
           authenticated: true,
