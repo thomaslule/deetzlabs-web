@@ -1,8 +1,34 @@
 import React from 'react';
-import { Panel, Modal, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
+import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, Col } from 'react-bootstrap';
 import * as api from './api';
 
-const codeStyle = { fontFamily: 'Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace' };
+const codeStyle = {
+  fontFamily: 'Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace',
+  fontSize: 12,
+};
+
+const getIfExists = (element, selector) => {
+  const arr = element.querySelectorAll(selector);
+  return arr.length > 0
+    ? arr[0]
+    : {};
+};
+
+const getHtmlPreview = (html) => {
+  const preview = document.createElement('div');
+  preview.innerHTML = html;
+  getIfExists(preview, '#current_amount').innerHTML = '33';
+  getIfExists(preview, '#goal').innerHTML = '100';
+  getIfExists(preview, '#current_bar').style = 'width: 33%;';
+  return preview.innerHTML;
+};
+
+const HtmlExplain = ({ tag, definition }) => (
+  <Row>
+    <Col mdOffset={3} md={3} style={codeStyle}>{tag}</Col>
+    <Col md={6}>{definition}</Col>
+  </Row>
+);
 
 class FollowersGoal extends React.Component {
   constructor(props) {
@@ -11,6 +37,7 @@ class FollowersGoal extends React.Component {
       goal: 1,
       showModal: false,
       html: '',
+      htmlPreview: '',
       css: '',
     };
   }
@@ -21,6 +48,7 @@ class FollowersGoal extends React.Component {
         this.setState({
           ...this.state,
           ...settings,
+          htmlPreview: getHtmlPreview(settings.html),
         });
       });
   }
@@ -38,11 +66,19 @@ class FollowersGoal extends React.Component {
   }
 
   handleChangeHtml(html) {
-    this.setState({ ...this.state, html });
+    this.setState({
+      ...this.state,
+      html,
+      htmlPreview: getHtmlPreview(html),
+    });
   }
 
   handleChangeCss(css) {
     this.setState({ ...this.state, css });
+  }
+
+  handlePreview() {
+    this.jsFiddleForm.submit();
   }
 
   handleSubmit(e) {
@@ -57,7 +93,7 @@ class FollowersGoal extends React.Component {
         <Button onClick={() => this.handleShowModal()}>Modifier…</Button>
         <Modal show={this.state.showModal} onHide={() => this.handleCloseModal()} bsSize="large">
           <Modal.Header closeButton>
-            <Modal.Title>Modifier l'objectif de followers</Modal.Title>
+            <Modal.Title>Modifier l{"'"}objectif de followers</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={e => this.handleSubmit(e)} horizontal>
@@ -73,13 +109,11 @@ class FollowersGoal extends React.Component {
                   />
                 </Col>
               </FormGroup>
+              <HtmlExplain tag={'<div id="current_amount" />'} definition="Nombre actuel de followers" />
+              <HtmlExplain tag={'<div id="goal" />'} definition="Objectif" />
+              <HtmlExplain tag={'<div id="current_bar" />'} definition="Barre de largeur n%" />
               <FormGroup controlId="html">
-                <Col md={3} style={{ textAlign: 'right' }}>
-                  <ControlLabel>Html</ControlLabel><br />
-                  <em>#current_amount</em> : follows actuels<br />
-                  <em>#goal</em> : objectif<br />
-                  <em>#current_bar</em> : barre de largeur n%
-                </Col>
+                <Col componentClass={ControlLabel} md={3}>Html</Col>
                 <Col md={9}>
                   <FormControl
                     componentClass="textarea"
@@ -104,10 +138,22 @@ class FollowersGoal extends React.Component {
               </FormGroup>
               <FormGroup>
                 <Col mdOffset={3} md={9}>
-                  <Button type="submit">Appliquer</Button>
+                  <ButtonToolbar>
+                    <Button onClick={() => this.handlePreview()}>Prévisualisation</Button>
+                    <Button type="submit">Appliquer</Button>
+                  </ButtonToolbar>
                 </Col>
               </FormGroup>
             </Form>
+            <form
+              ref={(form) => { this.jsFiddleForm = form; }}
+              method="post"
+              action="http://jsfiddle.net/api/post/library/pure/"
+              target="_blank"
+            >
+              <input type="hidden" name="html" value={this.state.htmlPreview} />
+              <input type="hidden" name="css" value={this.state.css} />
+            </form>
           </Modal.Body>
         </Modal>
       </Panel>
