@@ -1,6 +1,6 @@
 import React from 'react';
 import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, Col } from 'react-bootstrap';
-import * as api from './api';
+import { changeFollowersGoal } from './api';
 
 const codeStyle = {
   fontFamily: 'Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace',
@@ -30,7 +30,7 @@ const HtmlExplain = ({ tag, definition }) => (
   </Row>
 );
 
-class FollowersGoal extends React.Component {
+export default class FollowersGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,15 +42,14 @@ class FollowersGoal extends React.Component {
     };
   }
 
-  componentWillMount() {
-    api.getFollowersGoal()
-      .then((settings) => {
-        this.setState({
-          ...this.state,
-          ...settings,
-          htmlPreview: getHtmlPreview(settings.html),
-        });
+  componentWillReceiveProps({ data }) {
+    if (data) {
+      this.setState({
+        ...this.state,
+        ...data.followersGoal,
+        htmlPreview: getHtmlPreview(data.followersGoal.html),
       });
+    }
   }
 
   handleCloseModal() {
@@ -83,11 +82,14 @@ class FollowersGoal extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    api.changeFollowersGoal(this.state.goal, this.state.html, this.state.css)
+    changeFollowersGoal(this.state.goal, this.state.html, this.state.css)
       .then(() => this.handleCloseModal());
   }
 
   render() {
+    if (!this.state.html) {
+      return <div />;
+    }
     return (
       <Panel header="Modifier l'objectif de followers">
         <Button onClick={() => this.handleShowModal()}>Modifier…</Button>
@@ -160,5 +162,3 @@ class FollowersGoal extends React.Component {
     );
   }
 }
-
-export default FollowersGoal;

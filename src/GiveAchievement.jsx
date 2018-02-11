@@ -1,34 +1,23 @@
 import React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
-import * as api from './api';
+import { giveAchievement } from './api';
 
 class GiveAchievement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       viewer: '',
-      viewers: [],
       achievement: '',
-      achievements: [],
     };
   }
 
-  componentWillMount() {
-    api.getViewers()
-      .then((list) => {
-        this.setState({
-          ...this.state,
-          viewers: list,
-        });
+  componentWillReceiveProps({ data }) {
+    if (data) {
+      this.setState({
+        ...this.state,
+        achievement: data.achievements[0].code,
       });
-    api.getAchievements()
-      .then((list) => {
-        this.setState({
-          ...this.state,
-          achievements: list,
-          achievement: list[0].code,
-        });
-      });
+    }
   }
 
   handleChangeViewer(viewer) {
@@ -47,7 +36,7 @@ class GiveAchievement extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    api.giveAchievement(this.state.viewer, this.state.achievement);
+    giveAchievement(this.state.viewer, this.state.achievement);
     this.setState({
       ...this.state,
       viewer: '',
@@ -55,47 +44,51 @@ class GiveAchievement extends React.Component {
   }
 
   render() {
-    return (
-      <Panel header="Donner un succès">
-        <Form onSubmit={e => this.handleSubmit(e)} horizontal>
-          <FormGroup controlId="name">
-            <Col componentClass={ControlLabel} md={3}>Pseudo</Col>
-            <Col md={9}>
-              <FormControl
-                type="text"
-                value={this.state.viewer}
-                onChange={e => this.handleChangeViewer(e.target.value)}
-                list="viewers"
-                required
-              />
-              <datalist id="viewers">
-                {this.state.viewers.map(v => <option value={v} key={v} />)}
-              </datalist>
-            </Col>
-          </FormGroup>
-          <FormGroup controlId="achievement">
-            <Col componentClass={ControlLabel} md={3}>Succès</Col>
-            <Col md={9}>
-              <FormControl
-                componentClass="select"
-                value={this.state.achievement}
-                onChange={e => this.handleChangeAchievement(e.target.value)}
-                list="viewers"
-                required
-              >
-                {this.state.achievements.map(a =>
-                  <option key={a.code} value={a.code}>{a.name}</option>)}
-              </FormControl>
-            </Col>
-          </FormGroup>
-          <FormGroup>
-            <Col mdOffset={3} md={9}>
-              <Button type="submit">Donner le succès</Button>
-            </Col>
-          </FormGroup>
-        </Form>
-      </Panel>
-    );
+    const { data } = this.props;
+    return data
+      ? (
+        <Panel header="Donner un succès">
+          <Form onSubmit={e => this.handleSubmit(e)} horizontal>
+            <FormGroup controlId="name">
+              <Col componentClass={ControlLabel} md={3}>Pseudo</Col>
+              <Col md={9}>
+                <FormControl
+                  type="text"
+                  value={this.state.viewer}
+                  onChange={e => this.handleChangeViewer(e.target.value)}
+                  list="viewers"
+                  required
+                />
+                <datalist id="viewers">
+                  {data.viewers.map(v => <option value={v} key={v} />)}
+                </datalist>
+              </Col>
+            </FormGroup>
+            <FormGroup controlId="achievement">
+              <Col componentClass={ControlLabel} md={3}>Succès</Col>
+              <Col md={9}>
+                <FormControl
+                  componentClass="select"
+                  value={this.state.achievement}
+                  onChange={e => this.handleChangeAchievement(e.target.value)}
+                  list="viewers"
+                  required
+                >
+                  {data.achievements.map(a =>
+                    <option key={a.code} value={a.code}>{a.name}</option>,
+                  )}
+                </FormControl>
+              </Col>
+            </FormGroup>
+            <FormGroup>
+              <Col mdOffset={3} md={9}>
+                <Button type="submit">Donner le succès</Button>
+              </Col>
+            </FormGroup>
+          </Form>
+        </Panel>
+      )
+      : <div />;
   }
 }
 

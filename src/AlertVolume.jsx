@@ -3,7 +3,7 @@ import 'rc-tooltip/assets/bootstrap.css';
 import React from 'react';
 import { Form, FormGroup, Button, Panel } from 'react-bootstrap';
 import Slider from 'rc-slider';
-import * as api from './api';
+import { postAlertVolume } from './api';
 
 const SliderWithToolitp = Slider.createSliderWithTooltip(Slider);
 
@@ -15,14 +15,13 @@ class AlertVolume extends React.Component {
     };
   }
 
-  componentWillMount() {
-    api.getAlertVolume()
-      .then((volume) => {
-        this.setState({
-          ...this.state,
-          volume,
-        });
+  componentWillReceiveProps({ data }) {
+    if (data) {
+      this.setState({
+        ...this.state,
+        volume: data.alertVolume,
       });
+    }
   }
 
   handleChange(value) {
@@ -34,7 +33,7 @@ class AlertVolume extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    api.postAlertVolume(this.state.volume);
+    postAlertVolume(this.state.volume);
   }
 
   render() {
