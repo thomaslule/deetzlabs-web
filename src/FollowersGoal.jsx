@@ -36,20 +36,9 @@ export default class FollowersGoal extends React.Component {
     this.state = {
       goal: 1,
       showModal: false,
-      html: '',
-      htmlPreview: '',
-      css: '',
+      ...props.data.followersGoal,
+      htmlPreview: getHtmlPreview(props.data.followersGoal.html),
     };
-  }
-
-  componentWillReceiveProps({ data }) {
-    if (data) {
-      this.setState({
-        ...this.state,
-        ...data.followersGoal,
-        htmlPreview: getHtmlPreview(data.followersGoal.html),
-      });
-    }
   }
 
   handleCloseModal() {

@@ -11,17 +11,8 @@ class AlertVolume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      volume: undefined,
+      volume: props.data.alertVolume,
     };
-  }
-
-  componentWillReceiveProps({ data }) {
-    if (data) {
-      this.setState({
-        ...this.state,
-        volume: data.alertVolume,
-      });
-    }
   }
 
   handleChange(value) {
@@ -37,7 +28,7 @@ class AlertVolume extends React.Component {
   }
 
   render() {
-    const content = (
+    return (
       <Panel header="Volume de l'alerte">
         <Form onSubmit={e => this.handleSubmit(e)}>
           <FormGroup controlId="name">
@@ -53,7 +44,6 @@ class AlertVolume extends React.Component {
         </Form>
       </Panel>
     );
-    return this.state.volume === undefined ? null : content;
   }
 }
 

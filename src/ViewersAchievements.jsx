@@ -5,9 +5,6 @@ const sortStrings = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
 const unique = (v, i, a) => a.indexOf(v) === i;
 
 export default ({ data }) => {
-  if (!data) {
-    return <div />;
-  }
   const achievementsWithViewers = data.viewerAchievements
     .map(a => a.achievement.name)
     .filter(unique)
