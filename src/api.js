@@ -24,6 +24,15 @@ export const giveAchievement = (displayName, achievement) =>
     })
     .then(noop);
 
+export const addDonation = (viewer, amount) =>
+  request.post('/api/donate')
+    .set(getAuthorization())
+    .send({
+      viewer,
+      amount,
+    })
+    .then(noop);
+
 export const getAchievements = () =>
   request.get('/api/all_achievements')
     .set(getAuthorization())
