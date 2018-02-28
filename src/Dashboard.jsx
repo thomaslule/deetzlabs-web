@@ -45,25 +45,29 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    return this.state.data ?
-      (
-        <div>
-          <PageHeader>deetzlabs <Logout className="pull-right" /></PageHeader>
-          <Row>
-            <Col md={6}>
-              <LastAchievements data={this.state.data} />
-              <TestButton />
-              <AlertVolume data={this.state.data} />
-              <AddDonation data={this.state.data} />
-              <GiveAchievement data={this.state.data} />
-              <FollowersGoal data={this.state.data} />
-            </Col>
-            <Col md={6}>
-              <ViewersAchievements data={this.state.data} />
-            </Col>
-          </Row>
-        </div>
-      )
-      : <div />;
+    return (
+      <div>
+        <PageHeader>deetzlabs <Logout className="pull-right" /></PageHeader>
+        {
+          this.state.data
+            ? (
+              <Row>
+                <Col md={6}>
+                  <LastAchievements data={this.state.data} />
+                  <TestButton />
+                  <AlertVolume data={this.state.data} />
+                  <AddDonation data={this.state.data} />
+                  <GiveAchievement data={this.state.data} />
+                  <FollowersGoal data={this.state.data} />
+                </Col>
+                <Col md={6}>
+                  <ViewersAchievements data={this.state.data} />
+                </Col>
+              </Row>
+            )
+            : <div />
+        }
+      </div>
+    );
   }
 }
