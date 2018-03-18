@@ -58,7 +58,7 @@ export const getLastViewerAchievements = () =>
     const viewers = res[1].body;
     const achievements = res[2].body;
     return viewerAchievements.map(va => ({
-      viewer: { id: va.viewer, displayName: viewers[va.viewer] },
+      viewer: { id: va.viewer, displayName: viewers[va.viewer] || va.viewer },
       achievement: { id: va.achievement, name: achievements[va.achievement].name },
     }));
   });
@@ -73,7 +73,7 @@ export const getViewersAchievements = () =>
     const viewers = res[1].body;
     const achievements = res[2].body;
     return viewerAchievements.map(va => ({
-      viewer: { id: va.viewer, displayName: viewers[va.viewer] },
+      viewer: { id: va.viewer, displayName: viewers[va.viewer] || va.viewer },
       achievement: { id: va.achievement, name: achievements[va.achievement].name },
     }));
   });
