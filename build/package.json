@@ -1,0 +1,10 @@
+{
+  "name": "deetzlabs-web",
+  "version": "0.1.1",
+  "author": "thomaslule",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomaslule/deetzlabs-web.git"
+  }
+}
