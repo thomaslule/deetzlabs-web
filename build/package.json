@@ -1,6 +1,7 @@
 {
   "name": "deetzlabs-web",
-  "version": "0.1.1",
+  "version": "0.1.2",
+  "main": "index.js",
   "author": "thomaslule",
   "license": "ISC",
   "repository": {

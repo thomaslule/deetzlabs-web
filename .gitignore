@@ -9,6 +9,7 @@
 # production
 /build/*
 !/build/package.json
+!/build/index.js
 
 # misc
 .DS_Store
