@@ -17,30 +17,8 @@ export default class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    Promise.all([
-      api.getAchievements(),
-      api.getViewers(),
-      api.getLastViewerAchievements(),
-      api.getViewersAchievements(),
-      api.getAlertVolume(),
-      api.getFollowersGoal(),
-    ]).then(([
-      achievements,
-      viewers,
-      lastViewerAchievements,
-      viewerAchievements,
-      alertVolume,
-      followersGoal,
-    ]) => {
-      this.setState({
-        data: {
-          achievements,
-          viewers,
-          lastViewerAchievements,
-          viewerAchievements,
-          alertVolume,
-          followersGoal },
-      });
+    api.loadData().then((data) => {
+      this.setState({ data });
     });
   }
 
