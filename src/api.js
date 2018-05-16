@@ -1,13 +1,13 @@
-import jsCookie from 'js-cookie';
 import request from 'superagent';
+import { getToken } from './auth';
 
-const getAuthorization = () => ({ Authorization: `Bearer ${jsCookie.get('token')}` });
+const getAuthorization = () => ({ Authorization: `Bearer ${getToken()}` });
 const noop = res => res;
 
 export const login = (username, password) =>
   request.post('/api/login')
     .send({ username, password })
-    .then(res => res.text);
+    .then(res => res.body);
 
 export const test = () =>
   request.post('/api/show_test_achievement')

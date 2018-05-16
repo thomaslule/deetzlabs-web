@@ -1,14 +1,14 @@
 import React from 'react';
 import { PageHeader, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-import jsCookie from 'js-cookie';
+import { isAuthenticated, authenticate } from './auth';
 import * as api from './api';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: jsCookie.get('token') !== undefined,
+      authenticated: isAuthenticated(),
       username: '',
       password: '',
       error: null,
@@ -32,8 +32,8 @@ class Login extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     api.login(this.state.username, this.state.password)
-      .then((token) => {
-        jsCookie.set('token', token, { expires: 1 });
+      .then(({ token, expiresAt }) => {
+        authenticate(token, expiresAt);
         this.setState({
           ...this.state,
           authenticated: true,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-import jsCookie from 'js-cookie';
+import { logout } from './auth';
 
 class Logout extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Logout extends React.Component {
   }
 
   handleClick() {
-    jsCookie.remove('token');
+    logout();
     this.setState({ authenticated: false });
   }
 
