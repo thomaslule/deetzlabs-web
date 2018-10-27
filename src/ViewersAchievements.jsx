@@ -2,17 +2,15 @@ import React from 'react';
 import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 const sortStrings = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
-const unique = (v, i, a) => a.indexOf(v) === i;
 
 export default ({ data }) => {
-  const achievementsWithViewers = data.viewerAchievements
-    .map(a => a.achievement.name)
-    .filter(unique)
-    .map(achievement => ({
-      achievement,
-      viewers: data.viewerAchievements
-        .filter(a => a.achievement.name === achievement)
-        .map(a => a.viewer.displayName)
+  const { viewers, achievements } = data;
+  const achievementsWithViewers = Object.entries(achievements)
+    .map(([achievement, achievementName]) => ({
+      achievement: achievementName,
+      viewers: Object.keys(viewers)
+        .filter(viewerId => viewers[viewerId].achievements.includes(achievement))
+        .map(viewerId => viewers[viewerId].name)
         .sort(sortStrings),
     }))
     .sort((a, b) => a.viewers.length - b.viewers.length);

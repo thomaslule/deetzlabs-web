@@ -7,7 +7,7 @@ class GiveAchievement extends React.Component {
     super(props);
     this.state = {
       viewer: '',
-      achievement: props.data.achievements[0].code,
+      achievement: Object.keys(props.data.achievements)[0],
     };
   }
 
@@ -27,7 +27,7 @@ class GiveAchievement extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    giveAchievement(this.state.viewer, this.state.achievement);
+    giveAchievement(this.state.achievement, this.state.viewer);
     this.setState({
       ...this.state,
       viewer: '',
@@ -50,7 +50,7 @@ class GiveAchievement extends React.Component {
                 required
               />
               <datalist id="viewers">
-                {data.viewers.map(v => <option value={v} key={v} />)}
+                {Object.values(data.viewers).map(v => <option value={v.name} key={v.name} />)}
               </datalist>
             </Col>
           </FormGroup>
@@ -64,8 +64,8 @@ class GiveAchievement extends React.Component {
                 list="viewers"
                 required
               >
-                {data.achievements.map(a =>
-                  <option key={a.code} value={a.code}>{a.name}</option>,
+                {Object.keys(data.achievements).map(a =>
+                  <option key={a} value={a}>{data.achievements[a]}</option>,
                 )}
               </FormControl>
             </Col>

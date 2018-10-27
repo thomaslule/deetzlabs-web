@@ -39,7 +39,8 @@ class Login extends React.Component {
           authenticated: true,
         });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         this.setState({
           ...this.state,
           username: '',

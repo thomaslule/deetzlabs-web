@@ -26,7 +26,7 @@ class AchievementItem extends React.Component {
   }
 
   confirm() {
-    api.replayAchievement(this.props.achievement.id, this.props.viewer.id);
+    api.replayAchievement(this.props.achievement, this.props.viewer);
     this.setState({
       ...this.state,
       showModal: false,
@@ -35,7 +35,7 @@ class AchievementItem extends React.Component {
 
   render() {
     return (
-      <ListGroupItem header={this.props.achievement.name} >
+      <ListGroupItem header={this.props.achievementName} >
         <Modal
           show={this.state.showModal}
           onHide={() => this.closeModal()}
@@ -45,14 +45,14 @@ class AchievementItem extends React.Component {
             <Modal.Title>Rejouer le succès</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {this.props.achievement.name} pour {this.props.viewer.displayName}
+            {this.props.achievementName} pour {this.props.viewerName}
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.closeModal()}>Annuler</Button>
             <Button onClick={() => this.confirm()} bsStyle="primary">Rejouer</Button>
           </Modal.Footer>
         </Modal>
-        {this.props.viewer.displayName}
+        {this.props.viewerName}
         <Button
           onClick={e => this.showModal(e)}
           className="pull-right"
