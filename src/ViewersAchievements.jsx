@@ -4,13 +4,13 @@ import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 const sortStrings = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
 
 export default ({ data }) => {
-  const { viewers, achievements } = data;
+  const { viewerAchievements, achievements } = data;
   const achievementsWithViewers = Object.entries(achievements)
     .map(([achievement, achievementName]) => ({
       achievement: achievementName,
-      viewers: Object.keys(viewers)
-        .filter(viewerId => viewers[viewerId].achievements.includes(achievement))
-        .map(viewerId => viewers[viewerId].name)
+      viewers: viewerAchievements
+        .filter(viewerAchievement => viewerAchievement.achievement === achievement)
+        .map(viewerAchievement => viewerAchievement.viewerName)
         .sort(sortStrings),
     }))
     .sort((a, b) => a.viewers.length - b.viewers.length);

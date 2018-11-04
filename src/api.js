@@ -18,14 +18,16 @@ export const loadData = () => {
   checkAuthenticated();
 
   return Promise.all([
-    request.get('/api/viewers').set(getAuthorization()),
+    request.get('/api/viewer_names').set(getAuthorization()),
+    request.get('/api/viewer_achievements').set(getAuthorization()),
     request.get('/api/last_achievements').set(getAuthorization()),
     request.get('/api/achievements').set(getAuthorization()),
     request.get('/api/achievement_alert_volume').set(getAuthorization()),
     request.get('/api/followers_goal').set(getAuthorization()),
   ]).then((res) => {
     const [
-      viewers,
+      viewerNames,
+      viewerAchievements,
       lastAchievements,
       achievements,
       alertVolume,
@@ -33,7 +35,8 @@ export const loadData = () => {
     ] = res.map(obj => obj.body);
 
     return {
-      viewers,
+      viewerNames,
+      viewerAchievements,
       lastAchievements,
       achievements,
       alertVolume: alertVolume.volume,

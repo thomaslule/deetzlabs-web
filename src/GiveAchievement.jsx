@@ -50,7 +50,7 @@ class GiveAchievement extends React.Component {
                 required
               />
               <datalist id="viewers">
-                {Object.values(data.viewers).map(v => <option value={v.name} key={v.name} />)}
+                {Object.values(data.viewerNames).map(v => <option value={v} key={v} />)}
               </datalist>
             </Col>
           </FormGroup>
