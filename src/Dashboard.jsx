@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, PageHeader } from 'react-bootstrap';
 import LastAchievements from './LastAchievements';
 import ViewersAchievements from './ViewersAchievements';
+import TestButton from './TestButton';
 import AlertVolume from './AlertVolume';
 import GiveAchievement from './GiveAchievement';
 import FollowersGoal from './FollowersGoal';
@@ -30,6 +31,7 @@ export default class Dashboard extends React.Component {
               <Row>
                 <Col md={6}>
                   <LastAchievements data={this.state.data} />
+                  <TestButton />
                   <AlertVolume data={this.state.data} />
                   <GiveAchievement data={this.state.data} />
                   <FollowersGoal data={this.state.data} />
