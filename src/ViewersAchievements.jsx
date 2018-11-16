@@ -3,13 +3,20 @@ import { Panel, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 const sortStrings = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
 
+const AchievementHeader = ({ achievement }) => (
+  <div className="list-group-item-heading">
+    <h4 style={{ display: 'inline' }}>{achievement.name}</h4>
+    <em style={{ color: 'grey', marginLeft: '10px' }}>{achievement.description}</em>
+  </div>
+);
+
 export default ({ data }) => {
   const { viewerAchievements, achievements } = data;
   const achievementsWithViewers = Object.entries(achievements)
-    .map(([achievement, achievementName]) => ({
-      achievement: achievementName,
+    .map(([achievementId, achievement]) => ({
+      achievement,
       viewers: viewerAchievements
-        .filter(viewerAchievement => viewerAchievement.achievement === achievement)
+        .filter(viewerAchievement => viewerAchievement.achievement === achievementId)
         .map(viewerAchievement => viewerAchievement.viewerName)
         .sort(sortStrings),
     }))
@@ -18,7 +25,10 @@ export default ({ data }) => {
     <Panel header="Tous les succès">
       <ListGroup fill>
         {achievementsWithViewers.map(a => (
-          <ListGroupItem key={a.achievement} header={a.achievement}>
+          <ListGroupItem
+            key={a.achievement.name}
+            header={<AchievementHeader achievement={a.achievement} />}
+          >
             {a.viewers.map(v => <span key={v}>{v}<br /></span>)}
           </ListGroupItem>
         ))}

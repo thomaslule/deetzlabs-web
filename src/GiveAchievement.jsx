@@ -65,7 +65,7 @@ class GiveAchievement extends React.Component {
                 required
               >
                 {Object.keys(data.achievements).map(a =>
-                  <option key={a} value={a}>{data.achievements[a]}</option>,
+                  <option key={a} value={a}>{data.achievements[a].name}</option>,
                 )}
               </FormControl>
             </Col>
