@@ -2,6 +2,7 @@
   "name": "deetzlabs-web",
   "version": "0.1.7",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
