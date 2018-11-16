@@ -26,7 +26,7 @@ class AchievementItem extends React.Component {
   }
 
   confirm() {
-    api.replayAchievement(this.props.achievement, this.props.viewer);
+    api.replayAchievement(this.props.achievement, this.props.viewerId);
     this.setState({
       ...this.state,
       showModal: false,

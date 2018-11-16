@@ -4,6 +4,7 @@ module.exports = {
         "browser": true
     },
     "rules": {
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "import/no-extraneous-dependencies": 0
     }
 };

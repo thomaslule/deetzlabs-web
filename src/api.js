@@ -60,11 +60,11 @@ export const giveAchievement = (achievement, viewerName) => {
     .then(noop);
 };
 
-export const replayAchievement = (achievement, viewer) => {
+export const replayAchievement = (achievement, viewerId) => {
   checkAuthenticated();
   return request.post('/api/replay_achievement', {
     achievement,
-    viewer,
+    viewerId,
   }).set(getAuthorization())
     .then(noop);
 };

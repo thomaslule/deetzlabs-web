@@ -13,7 +13,7 @@ export default ({ data }) => {
             key={index}
             achievement={a.achievement}
             achievementName={achievements[a.achievement]}
-            viewer={a.viewer}
+            viewerId={a.viewerId}
             viewerName={a.viewerName}
           />
         ))}
