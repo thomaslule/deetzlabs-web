@@ -8,7 +8,9 @@ const handleClick = () => {
 
 const TestButton = () => (
   <Panel>
-    <Button onClick={handleClick}>Test succès</Button>
+    <Panel.Body>
+      <Button onClick={handleClick}>Test succès</Button>
+    </Panel.Body>
   </Panel>
 );
 

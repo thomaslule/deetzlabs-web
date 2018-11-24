@@ -22,8 +22,9 @@ export default ({ data }) => {
     }))
     .sort((a, b) => a.viewers.length - b.viewers.length);
   return (
-    <Panel header="Tous les succès">
-      <ListGroup fill>
+    <Panel>
+      <Panel.Heading>Tous les succès</Panel.Heading>
+      <ListGroup>
         {achievementsWithViewers.map(a => (
           <ListGroupItem
             key={a.achievement.name}

@@ -6,8 +6,9 @@ export default ({ data }) => {
   const { lastAchievements, achievements } = data;
 
   return (
-    <Panel header="Derniers succès">
-      <ListGroup fill>
+    <Panel>
+      <Panel.Heading>Derniers succès</Panel.Heading>
+      <ListGroup>
         {lastAchievements.map((a, index) => (
           <AchievementItem
             key={index}

@@ -29,19 +29,22 @@ class AlertVolume extends React.Component {
 
   render() {
     return (
-      <Panel header="Volume de l'alerte">
-        <Form onSubmit={e => this.handleSubmit(e)}>
-          <FormGroup controlId="name">
-            <SliderWithToolitp
-              min={0.1}
-              max={1}
-              step={0.1}
-              onChange={val => this.handleChange(val)}
-              defaultValue={this.state.volume}
-            />
-          </FormGroup>
-          <Button type="submit">Appliquer</Button>
-        </Form>
+      <Panel>
+        <Panel.Heading>Volume de l'alerte</Panel.Heading>
+        <Panel.Body>
+          <Form onSubmit={e => this.handleSubmit(e)}>
+            <FormGroup controlId="name">
+              <SliderWithToolitp
+                min={0.1}
+                max={1}
+                step={0.1}
+                onChange={val => this.handleChange(val)}
+                defaultValue={this.state.volume}
+              />
+            </FormGroup>
+            <Button type="submit">Appliquer</Button>
+          </Form>
+        </Panel.Body>
       </Panel>
     );
   }
