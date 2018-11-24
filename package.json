@@ -9,6 +9,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "rc-slider": "^8.6.3",
     "rc-tooltip": "^3.7.3",
     "react": "^16.6.3",
@@ -17,9 +19,6 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.1",
     "superagent": "^3.8.1"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "main": "src/index.js",
   "proxy": "http://localhost:3100",
