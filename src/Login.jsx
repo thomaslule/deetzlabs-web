@@ -11,22 +11,15 @@ class Login extends React.Component {
       authenticated: isAuthenticated(),
       username: '',
       password: '',
-      error: null,
     };
   }
 
   handleUsernameChange(e) {
-    this.setState({
-      ...this.state,
-      username: e.target.value,
-    });
+    this.setState({ username: e.target.value });
   }
 
   handlePasswordChange(e) {
-    this.setState({
-      ...this.state,
-      password: e.target.value,
-    });
+    this.setState({ password: e.target.value });
   }
 
   handleSubmit(e) {
@@ -34,15 +27,11 @@ class Login extends React.Component {
     api.login(this.state.username, this.state.password)
       .then(({ token, expiresAt }) => {
         authenticate(token, expiresAt);
-        this.setState({
-          ...this.state,
-          authenticated: true,
-        });
+        this.setState({ authenticated: true });
       })
       .catch((err) => {
         console.error(err);
         this.setState({
-          ...this.state,
           username: '',
           password: '',
           message: 'Échec de l\'authentification',

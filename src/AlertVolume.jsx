@@ -16,10 +16,7 @@ class AlertVolume extends React.Component {
   }
 
   handleChange(value) {
-    this.setState({
-      ...this.state,
-      volume: value,
-    });
+    this.setState({ volume: value });
   }
 
   handleSubmit(e) {
@@ -30,7 +27,7 @@ class AlertVolume extends React.Component {
   render() {
     return (
       <Panel>
-        <Panel.Heading>Volume de l'alerte</Panel.Heading>
+        <Panel.Heading>Volume de l&#39;alerte</Panel.Heading>
         <Panel.Body>
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormGroup controlId="name">

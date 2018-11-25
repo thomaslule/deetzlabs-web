@@ -50,19 +50,18 @@ export default class FollowersGoal extends React.Component {
   }
 
   handleChangeGoal(goal) {
-    this.setState({ ...this.state, goal });
+    this.setState({ goal });
   }
 
   handleChangeHtml(html) {
     this.setState({
-      ...this.state,
       html,
       htmlPreview: getHtmlPreview(html),
     });
   }
 
   handleChangeCss(css) {
-    this.setState({ ...this.state, css });
+    this.setState({ css });
   }
 
   handlePreview() {
@@ -81,7 +80,7 @@ export default class FollowersGoal extends React.Component {
     }
     return (
       <Panel header="Modifier l'objectif de followers">
-        <Panel.Heading>Modifier l'objectif de followers</Panel.Heading>
+        <Panel.Heading>Modifier l&#39;objectif de followers</Panel.Heading>
         <Panel.Body>
           <Button onClick={() => this.handleShowModal()}>Modifier…</Button>
           <Modal show={this.state.showModal} onHide={() => this.handleCloseModal()} bsSize="large">

@@ -12,26 +12,17 @@ class GiveAchievement extends React.Component {
   }
 
   handleChangeViewer(viewer) {
-    this.setState({
-      ...this.state,
-      viewer,
-    });
+    this.setState({ viewer });
   }
 
   handleChangeAchievement(achievement) {
-    this.setState({
-      ...this.state,
-      achievement,
-    });
+    this.setState({ achievement });
   }
 
   handleSubmit(e) {
     e.preventDefault();
     giveAchievement(this.state.achievement, this.state.viewer);
-    this.setState({
-      ...this.state,
-      viewer: '',
-    });
+    this.setState({ viewer: '' });
   }
 
   render() {
@@ -67,8 +58,8 @@ class GiveAchievement extends React.Component {
                   required
                 >
                   {Object.keys(data.achievements).map(a =>
-                    <option key={a} value={a}>{data.achievements[a].name}</option>,
-                  )}
+                    <option key={a} value={a}>{data.achievements[a].name}</option>)
+                  }
                 </FormControl>
               </Col>
             </FormGroup>

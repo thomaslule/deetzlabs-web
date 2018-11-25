@@ -12,30 +12,21 @@ class AchievementItem extends React.Component {
 
   showModal(e) {
     e.preventDefault();
-    this.setState({
-      ...this.state,
-      showModal: true,
-    });
+    this.setState({ showModal: true });
   }
 
   closeModal() {
-    this.setState({
-      ...this.state,
-      showModal: false,
-    });
+    this.setState({ showModal: false });
   }
 
   confirm() {
     api.replayAchievement(this.props.achievement, this.props.viewerId);
-    this.setState({
-      ...this.state,
-      showModal: false,
-    });
+    this.setState({ showModal: false });
   }
 
   render() {
     return (
-      <ListGroupItem header={this.props.achievementName} >
+      <ListGroupItem header={this.props.achievementName}>
         <Modal
           show={this.state.showModal}
           onHide={() => this.closeModal()}
