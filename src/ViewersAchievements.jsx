@@ -56,12 +56,16 @@ class AchievementItem extends React.Component {
           ? <span />
           : (
             <span id={`achievement-${achievement.id}-viewers`}>
-              {viewers.map(v => (
-                <span key={v}>
-                  {v}
-                  <br />
-                </span>
-              ))}
+              {
+                viewers.length > 0
+                  ? viewers.map(v => (
+                    <span key={v}>
+                      {v}
+                      <br />
+                    </span>
+                  ))
+                  : <em>Personne n&#39;a encore ce succès</em>
+              }
             </span>
           )
         }
