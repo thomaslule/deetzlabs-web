@@ -72,7 +72,7 @@ class AchievementItem extends React.Component {
 
 const AchievementHeader = ({ achievement, collapsed, onClick }) => (
   <div
-    style={{ cursor: 'pointer' }}
+    className="achievement-header"
     onClick={() => onClick()}
     role="button"
     tabIndex={0}
