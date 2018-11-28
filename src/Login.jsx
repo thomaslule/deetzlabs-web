@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageHeader, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
+import { PageHeader, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 import { isAuthenticated, authenticate } from './auth';
@@ -12,6 +12,7 @@ class Login extends React.Component {
       authenticated: isAuthenticated(),
       username: '',
       password: '',
+      waiting: false,
     };
   }
 
@@ -23,28 +24,27 @@ class Login extends React.Component {
     this.setState({ password: e.target.value });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
-    const { t, api } = this.props;
+    const { api } = this.props;
     const { username, password } = this.state;
-    api.login(username, password)
-      .then(({ token, expiresAt }) => {
-        authenticate(token, expiresAt);
-        this.setState({ authenticated: true });
-      })
-      .catch((err) => {
-        console.error(err);
-        this.setState({
-          username: '',
-          password: '',
-          message: t('login.error'),
-        });
+    try {
+      this.setState({ waiting: true });
+      const { token, expiresAt } = await api.login(username, password);
+      authenticate(token, expiresAt);
+      this.setState({ waiting: false, authenticated: true });
+    } catch (err) {
+      this.setState({
+        waiting: false,
+        username: '',
+        password: '',
       });
+    }
   }
 
   render() {
     const { t } = this.props;
-    const { authenticated, message, username, password } = this.state;
+    const { authenticated, username, password, waiting } = this.state;
     if (authenticated) {
       return (<Redirect to="/" />);
     }
@@ -54,7 +54,6 @@ class Login extends React.Component {
         <PageHeader>{t('deetzlabs')}</PageHeader>
         <Row>
           <Col md={3}>
-            {message ? <Alert bsStyle="danger">{message}</Alert> : null}
             <Form onSubmit={e => this.handleSubmit(e)}>
               <FormGroup controlId="username">
                 <ControlLabel>{t('login.login')}</ControlLabel>
@@ -72,7 +71,7 @@ class Login extends React.Component {
                   onChange={e => this.handlePasswordChange(e)}
                 />
               </FormGroup>
-              <Button type="submit">{t('login.signin')}</Button>
+              <Button type="submit" disabled={waiting}>{t('login.signin')}</Button>
             </Form>
           </Col>
         </Row>

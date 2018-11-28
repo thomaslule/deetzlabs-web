@@ -36,6 +36,7 @@ class FollowersGoal extends React.Component {
     super(props);
     this.state = {
       showModal: false,
+      waiting: false,
     };
   }
 
@@ -76,17 +77,23 @@ class FollowersGoal extends React.Component {
     this.jsFiddleForm.submit();
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { api } = this.props;
     const { goal, html, css } = this.state;
-    api.changeFollowersGoal(goal, html, css)
-      .then(() => this.handleCloseModal());
+    try {
+      this.setState({ waiting: true });
+      await api.changeFollowersGoal(goal, html, css);
+      this.setState({ waiting: false });
+      this.handleCloseModal();
+    } catch (err) {
+      this.setState({ waiting: false });
+    }
   }
 
   render() {
     const { t } = this.props;
-    const { goal, html, css, showModal, htmlPreview } = this.state;
+    const { goal, html, css, showModal, htmlPreview, waiting } = this.state;
     if (goal === undefined) return null;
     return (
       <Panel>
@@ -142,7 +149,7 @@ class FollowersGoal extends React.Component {
                   <Col mdOffset={3} md={9}>
                     <ButtonToolbar>
                       <Button onClick={() => this.handlePreview()}>{t('followers_goal.preview')}</Button>
-                      <Button type="submit">{t('shared.apply')}</Button>
+                      <Button type="submit" disabled={waiting}>{t('shared.apply')}</Button>
                     </ButtonToolbar>
                   </Col>
                 </FormGroup>

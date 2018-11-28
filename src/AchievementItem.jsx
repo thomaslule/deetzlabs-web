@@ -8,6 +8,7 @@ class AchievementItem extends React.Component {
     super(props);
     this.state = {
       showModal: false,
+      waiting: false,
     };
   }
 
@@ -20,15 +21,20 @@ class AchievementItem extends React.Component {
     this.setState({ showModal: false });
   }
 
-  confirm() {
+  async confirm() {
     const { achievement, viewerId, api } = this.props;
-    api.replayAchievement(achievement, viewerId);
-    this.setState({ showModal: false });
+    try {
+      this.setState({ waiting: true });
+      await api.replayAchievement(achievement, viewerId);
+      this.setState({ showModal: false, waiting: false });
+    } catch (err) {
+      this.setState({ waiting: false });
+    }
   }
 
   render() {
     const { t, achievementName, viewerName } = this.props;
-    const { showModal } = this.state;
+    const { showModal, waiting } = this.state;
     return (
       <ListGroupItem header={achievementName}>
         <Modal
@@ -44,7 +50,13 @@ class AchievementItem extends React.Component {
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={() => this.closeModal()}>{t('shared.cancel')}</Button>
-            <Button onClick={() => this.confirm()} bsStyle="primary">{t('last_achievements.replay')}</Button>
+            <Button
+              onClick={() => this.confirm()}
+              bsStyle="primary"
+              disabled={waiting}
+            >
+              {t('last_achievements.replay')}
+            </Button>
           </Modal.Footer>
         </Modal>
         {viewerName}

@@ -7,13 +7,16 @@
   },
   "alerts": {
     "error": "An error happened",
-    "sent_test": "Test alert sent"
+    "error_auth": "Authentication failure",
+    "sent_test": "Test alert sent",
+    "achievement_distributed": "Achievement distributed",
+    "achievement_replayed": "Achievement replayed",
+    "updated_parameter": "Parameter updated"
   },
   "login": {
     "login": "Login",
     "password": "Password",
-    "signin": "Sign-in",
-    "error": "Authentication failure"
+    "signin": "Sign-in"
   },
   "last_achievements": {
     "header": "Last achievements",

@@ -16,24 +16,6 @@ class ApiContextProviderToLink extends React.Component {
     };
   }
 
-  observable(path) {
-    const { subjects } = this.state;
-    if (!subjects[path]) {
-      this.update(path);
-    }
-    return subjects[path];
-  }
-
-  update(path) {
-    const { subjects } = this.state;
-    if (!subjects[path]) {
-      subjects[path] = new BehaviorSubject(undefined);
-    }
-    api.get(path).then((value) => {
-      subjects[path].next(value);
-    });
-  }
-
   achievements() {
     return this.observable('achievements');
   }
@@ -58,19 +40,42 @@ class ApiContextProviderToLink extends React.Component {
     return this.observable('followers_goal');
   }
 
-  login(username, password) {
-    return api.login(username, password);
+  async login(username, password) {
+    try {
+      return await api.login(username, password);
+    } catch (err) {
+      console.error(err);
+      const { t } = this.props;
+      this.showAlert(t('alerts.error_auth'), 'danger');
+      throw err;
+    }
   }
 
   async giveAchievement(achievement, viewer) {
-    await api.giveAchievement(achievement, viewer);
-    this.update('last_achievements');
-    this.update('viewer_names');
-    this.update('viewer_achievements');
+    const { t } = this.props;
+    try {
+      await api.giveAchievement(achievement, viewer);
+      this.showAlert(t('alerts.achievement_distributed'), 'success');
+      this.update('last_achievements');
+      this.update('viewer_names');
+      this.update('viewer_achievements');
+    } catch (err) {
+      console.error(err);
+      this.showErrorAlert();
+      throw err;
+    }
   }
 
   async replayAchievement(achievement, viewerId) {
-    await api.replayAchievement(achievement, viewerId);
+    const { t } = this.props;
+    try {
+      await api.replayAchievement(achievement, viewerId);
+      this.showAlert(t('alerts.achievement_replayed'), 'success');
+    } catch (err) {
+      console.error(err);
+      this.showErrorAlert();
+      throw err;
+    }
   }
 
   async testAlert() {
@@ -80,17 +85,33 @@ class ApiContextProviderToLink extends React.Component {
       this.showAlert(t('alerts.sent_test'), 'success');
     } catch (err) {
       console.error(err);
-      this.showAlert(t('alerts.error'), 'danger');
+      this.showErrorAlert();
       throw err;
     }
   }
 
   async changeAlertVolume(volume) {
-    await api.postAlertVolume(volume);
+    const { t } = this.props;
+    try {
+      await api.postAlertVolume(volume);
+      this.showAlert(t('alerts.updated_parameter'), 'success');
+    } catch (err) {
+      console.error(err);
+      this.showErrorAlert();
+      throw err;
+    }
   }
 
   async changeFollowersGoal(goal, html, css) {
-    await api.changeFollowersGoal(goal, html, css);
+    const { t } = this.props;
+    try {
+      await api.changeFollowersGoal(goal, html, css);
+      this.showAlert(t('alerts.updated_parameter'), 'success');
+    } catch (err) {
+      console.error(err);
+      this.showErrorAlert();
+      throw err;
+    }
   }
 
   showAlert(alert, alertLevel) {
@@ -99,14 +120,36 @@ class ApiContextProviderToLink extends React.Component {
     this.setState({
       alert,
       alertLevel,
-      alertTimeout: setTimeout(() => this.hideAlert(), 3000),
+      alertTimeout: setTimeout(() => { this.setState({ alert: undefined }); }, 5000),
     });
   }
 
-  hideAlert() {
-    const { alertTimeout } = this.state;
-    clearTimeout(alertTimeout);
-    this.setState({ alert: undefined });
+  showErrorAlert() {
+    const { t } = this.props;
+    this.showAlert(t('alerts.error'), 'danger');
+  }
+
+  observable(path) {
+    const { subjects } = this.state;
+    if (!subjects[path]) {
+      this.update(path);
+    }
+    return subjects[path];
+  }
+
+  update(path) {
+    const { subjects } = this.state;
+    if (!subjects[path]) {
+      subjects[path] = new BehaviorSubject(undefined);
+    }
+    api.get(path)
+      .then((value) => {
+        subjects[path].next(value);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.showErrorAlert();
+      });
   }
 
   render() {
@@ -130,7 +173,6 @@ class ApiContextProviderToLink extends React.Component {
           changeAlertVolume: volume => this.changeAlertVolume(volume),
           changeFollowersGoal: (goal, html, css) => this.changeFollowersGoal(goal, html, css),
           showAlert: (msg, lvl) => this.showAlert(msg, lvl),
-          hideAlert: () => this.hideAlert(),
           alert,
           alertLevel,
         }}

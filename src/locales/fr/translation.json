@@ -7,13 +7,16 @@
   },
   "alerts": {
     "error": "Une erreur est survenue",
-    "sent_test": "Alerte de test envoyée"
+    "error_auth": "Échec de l'authentification",
+    "sent_test": "Alerte de test envoyée",
+    "achievement_distributed": "Succès distribué",
+    "achievement_replayed": "Succès rejoué",
+    "updated_parameter": "Paramètre mis à jour"
   },
   "login": {
     "login": "Login",
     "password": "Mot de passe",
-    "signin": "Connexion",
-    "error": "Échec de l'authentification"
+    "signin": "Connexion"
   },
   "last_achievements": {
     "header": "Derniers succès",

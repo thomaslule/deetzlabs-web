@@ -8,6 +8,7 @@ class GiveAchievement extends React.Component {
     super(props);
     this.state = {
       viewer: '',
+      waiting: false,
     };
   }
 
@@ -32,17 +33,22 @@ class GiveAchievement extends React.Component {
     this.setState({ achievement });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { api } = this.props;
     const { achievement, viewer } = this.state;
-    api.giveAchievement(achievement, viewer);
-    this.setState({ viewer: '' });
+    try {
+      this.setState({ waiting: true });
+      await api.giveAchievement(achievement, viewer);
+      this.setState({ viewer: '', waiting: false });
+    } catch (err) {
+      this.setState({ waiting: false });
+    }
   }
 
   render() {
     const { t } = this.props;
-    const { achievement, viewer, viewerNames, achievements } = this.state;
+    const { achievement, viewer, viewerNames, achievements, waiting } = this.state;
     if (viewerNames === undefined || achievements === undefined) { return null; }
     return (
       <Panel>
@@ -82,7 +88,7 @@ class GiveAchievement extends React.Component {
             </FormGroup>
             <FormGroup>
               <Col mdOffset={3} md={9}>
-                <Button type="submit">{t('give_achievement.apply')}</Button>
+                <Button type="submit" disabled={waiting}>{t('give_achievement.apply')}</Button>
               </Col>
             </FormGroup>
           </Form>

@@ -11,7 +11,9 @@ const SliderWithToolitp = Slider.createSliderWithTooltip(Slider);
 class AlertVolume extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      waiting: false,
+    };
   }
 
   componentDidMount() {
@@ -25,16 +27,22 @@ class AlertVolume extends React.Component {
     this.setState({ volume: value });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { api } = this.props;
     const { volume } = this.state;
-    api.changeAlertVolume(volume);
+    try {
+      this.setState({ waiting: true });
+      await api.changeAlertVolume(volume);
+      this.setState({ waiting: false });
+    } catch (err) {
+      this.setState({ waiting: false });
+    }
   }
 
   render() {
     const { t } = this.props;
-    const { volume } = this.state;
+    const { volume, waiting } = this.state;
     if (volume === undefined) { return null; }
     return (
       <Panel>
@@ -50,7 +58,7 @@ class AlertVolume extends React.Component {
                 defaultValue={volume}
               />
             </FormGroup>
-            <Button type="submit">{t('shared.apply')}</Button>
+            <Button type="submit" disabled={waiting}>{t('shared.apply')}</Button>
           </Form>
         </Panel.Body>
       </Panel>
