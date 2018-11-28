@@ -11,18 +11,20 @@ class LastAchievements extends React.Component {
   }
 
   componentDidMount() {
-    const { fetch } = this.props;
-    Promise.all([fetch('last_achievements'), fetch('achievements')])
-      .then(([lastAchievements, achievements]) => {
-        this.setState({ lastAchievements, achievements });
-      });
+    const { api } = this.props;
+    api.lastAchievements().subscribe((lastAchievements) => {
+      this.setState({ lastAchievements });
+    });
+    api.achievements().subscribe((achievements) => {
+      this.setState({ achievements });
+    });
   }
 
   render() {
     const { t } = this.props;
     const { lastAchievements, achievements } = this.state;
 
-    if (lastAchievements === undefined) {
+    if (lastAchievements === undefined || achievements === undefined) {
       return null;
     }
 

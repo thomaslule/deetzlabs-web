@@ -1,7 +1,6 @@
 import React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
-import { giveAchievement } from './api';
 import { withApi } from './ApiContext';
 
 class GiveAchievement extends React.Component {
@@ -9,20 +8,20 @@ class GiveAchievement extends React.Component {
     super(props);
     this.state = {
       viewer: '',
-      achievement: '',
     };
   }
 
   componentDidMount() {
-    const { fetch } = this.props;
-    Promise.all([fetch('viewer_names'), fetch('achievements')])
-      .then(([viewerNames, achievements]) => {
-        this.setState({
-          viewerNames,
-          achievements,
-          achievement: Object.keys(achievements)[0],
-        });
+    const { api } = this.props;
+    api.viewerNames().subscribe((viewerNames) => {
+      this.setState({ viewerNames });
+    });
+    api.achievements().subscribe((achievements) => {
+      this.setState({
+        achievements,
+        achievement: achievements ? Object.keys(achievements)[0] : undefined,
       });
+    });
   }
 
   handleChangeViewer(viewer) {
@@ -35,15 +34,16 @@ class GiveAchievement extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const { api } = this.props;
     const { achievement, viewer } = this.state;
-    giveAchievement(achievement, viewer);
+    api.giveAchievement(achievement, viewer);
     this.setState({ viewer: '' });
   }
 
   render() {
     const { t } = this.props;
     const { achievement, viewer, viewerNames, achievements } = this.state;
-    if (viewerNames === undefined) { return null; }
+    if (viewerNames === undefined || achievements === undefined) { return null; }
     return (
       <Panel>
         <Panel.Heading>{t('give_achievement.header')}</Panel.Heading>

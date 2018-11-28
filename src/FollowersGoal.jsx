@@ -1,7 +1,6 @@
 import React from 'react';
 import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, Col } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
-import { changeFollowersGoal } from './api';
 import { withApi } from './ApiContext';
 
 const codeStyle = {
@@ -41,9 +40,12 @@ class FollowersGoal extends React.Component {
   }
 
   componentDidMount() {
-    const { fetch } = this.props;
-    fetch('followers_goal').then(({ goal, html, css }) => {
-      this.setState({ goal, html, css, htmlPreview: getHtmlPreview(html) });
+    const { api } = this.props;
+    api.followersGoal().subscribe((res) => {
+      if (res) {
+        const { goal, html, css } = res;
+        this.setState({ goal, html, css, htmlPreview: getHtmlPreview(html) });
+      }
     });
   }
 
@@ -76,8 +78,9 @@ class FollowersGoal extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const { api } = this.props;
     const { goal, html, css } = this.state;
-    changeFollowersGoal(goal, html, css)
+    api.changeFollowersGoal(goal, html, css)
       .then(() => this.handleCloseModal());
   }
 

@@ -13,20 +13,31 @@ class AchievementsList extends React.Component {
   }
 
   componentDidMount() {
-    const { fetch } = this.props;
-    Promise.all([fetch('viewer_achievements'), fetch('achievements')])
-      .then(([viewerAchievements, achievements]) => {
-        const achievementsWithViewers = Object.entries(achievements)
-          .map(([achievementId, achievement]) => ({
-            achievement: { id: achievementId, ...achievement },
-            viewers: viewerAchievements
-              .filter(viewerAchievement => viewerAchievement.achievement === achievementId)
-              .map(viewerAchievement => viewerAchievement.viewerName)
-              .sort(sortStrings),
-          }))
-          .sort((a, b) => a.viewers.length - b.viewers.length);
-        this.setState({ achievementsWithViewers, collapsed: true });
-      });
+    const { api } = this.props;
+    const viewerAchievementsObservable = api.viewerAchievements();
+    const achievementsObservable = api.achievements();
+    viewerAchievementsObservable.subscribe((viewerAchievements) => {
+      this.sortAndGroup(viewerAchievements, achievementsObservable.value);
+    });
+    achievementsObservable.subscribe((achievements) => {
+      this.sortAndGroup(viewerAchievementsObservable.value, achievements);
+    });
+  }
+
+  sortAndGroup(viewerAchievements, achievements) {
+    if (viewerAchievements === undefined || achievements === undefined) {
+      return;
+    }
+    const achievementsWithViewers = Object.entries(achievements)
+      .map(([achievementId, achievement]) => ({
+        achievement: { id: achievementId, ...achievement },
+        viewers: viewerAchievements
+          .filter(viewerAchievement => viewerAchievement.achievement === achievementId)
+          .map(viewerAchievement => viewerAchievement.viewerName)
+          .sort(sortStrings),
+      }))
+      .sort((a, b) => a.viewers.length - b.viewers.length);
+    this.setState({ achievementsWithViewers, collapsed: true });
   }
 
   toggleCollapse() {

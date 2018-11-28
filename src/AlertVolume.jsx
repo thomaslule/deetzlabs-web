@@ -4,7 +4,6 @@ import React from 'react';
 import { Form, FormGroup, Button, Panel } from 'react-bootstrap';
 import Slider from 'rc-slider';
 import { withNamespaces } from 'react-i18next';
-import { postAlertVolume } from './api';
 import { withApi } from './ApiContext';
 
 const SliderWithToolitp = Slider.createSliderWithTooltip(Slider);
@@ -16,9 +15,9 @@ class AlertVolume extends React.Component {
   }
 
   componentDidMount() {
-    const { fetch } = this.props;
-    fetch('achievement_alert_volume').then((res) => {
-      this.setState({ volume: res.volume });
+    const { api } = this.props;
+    api.alertVolume().subscribe((res) => {
+      this.setState({ volume: res ? res.volume : undefined });
     });
   }
 
@@ -28,8 +27,9 @@ class AlertVolume extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const { api } = this.props;
     const { volume } = this.state;
-    postAlertVolume(volume);
+    api.changeAlertVolume(volume);
   }
 
   render() {

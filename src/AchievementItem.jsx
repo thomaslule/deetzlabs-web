@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListGroupItem, Glyphicon, Button, Modal } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
-import * as api from './api';
+import { withApi } from './ApiContext';
 
 class AchievementItem extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class AchievementItem extends React.Component {
   }
 
   confirm() {
-    const { achievement, viewerId } = this.props;
+    const { achievement, viewerId, api } = this.props;
     api.replayAchievement(achievement, viewerId);
     this.setState({ showModal: false });
   }
@@ -60,4 +60,4 @@ class AchievementItem extends React.Component {
   }
 }
 
-export default withNamespaces()(AchievementItem);
+export default withNamespaces()(withApi(AchievementItem));

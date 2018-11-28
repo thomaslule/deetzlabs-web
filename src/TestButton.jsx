@@ -1,18 +1,18 @@
 import React from 'react';
 import { Panel, Button } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
-import * as api from './api';
+import { withApi } from './ApiContext';
 
-const handleClick = () => {
+const handleClick = (api) => {
   api.test();
 };
 
-const TestButton = ({ t }) => (
+const TestButton = ({ t, api }) => (
   <Panel>
     <Panel.Body>
-      <Button onClick={handleClick}>{t('test_alert.test_alert')}</Button>
+      <Button onClick={() => handleClick(api)}>{t('test_alert.test_alert')}</Button>
     </Panel.Body>
   </Panel>
 );
 
-export default withNamespaces()(TestButton);
+export default withNamespaces()(withApi(TestButton));

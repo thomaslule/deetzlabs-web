@@ -3,7 +3,7 @@ import { PageHeader, Row, Col, Form, FormGroup, ControlLabel, FormControl, Butto
 import { Redirect } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 import { isAuthenticated, authenticate } from './auth';
-import * as api from './api';
+import { withApi } from './ApiContext';
 
 class Login extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { t } = this.props;
+    const { t, api } = this.props;
     const { username, password } = this.state;
     api.login(username, password)
       .then(({ token, expiresAt }) => {
@@ -81,4 +81,4 @@ class Login extends React.Component {
   }
 }
 
-export default withNamespaces()(Login);
+export default withNamespaces()(withApi(Login));
