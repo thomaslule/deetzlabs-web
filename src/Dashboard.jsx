@@ -1,15 +1,17 @@
 import React from 'react';
 import { Row, Col, PageHeader } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 import LastAchievements from './LastAchievements';
 import AchievementsList from './AchievementsList';
 import TestButton from './TestButton';
 import AlertVolume from './AlertVolume';
 import GiveAchievement from './GiveAchievement';
 import FollowersGoal from './FollowersGoal';
+import LangSelector from './LangSelector';
 import Logout from './Logout';
 import * as api from './api';
 
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = { data: null };
@@ -22,9 +24,10 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div>
-        <PageHeader>deetzlabs <Logout className="pull-right" /></PageHeader>
+        <PageHeader>{t('deetzlabs')} <Logout className="pull-right" /><LangSelector className="pull-right" /></PageHeader>
         {
           this.state.data
             ? (
@@ -47,3 +50,5 @@ export default class Dashboard extends React.Component {
     );
   }
 }
+
+export default withNamespaces()(Dashboard);
