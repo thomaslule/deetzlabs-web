@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListGroupItem, Glyphicon, Button, Modal } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 import * as api from './api';
 
 class AchievementItem extends React.Component {
@@ -20,30 +21,33 @@ class AchievementItem extends React.Component {
   }
 
   confirm() {
-    api.replayAchievement(this.props.achievement, this.props.viewerId);
+    const { achievement, viewerId } = this.props;
+    api.replayAchievement(achievement, viewerId);
     this.setState({ showModal: false });
   }
 
   render() {
+    const { t, achievementName, viewerName } = this.props;
+    const { showModal } = this.state;
     return (
-      <ListGroupItem header={this.props.achievementName}>
+      <ListGroupItem header={achievementName}>
         <Modal
-          show={this.state.showModal}
+          show={showModal}
           onHide={() => this.closeModal()}
           bsSize="small"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Rejouer le succès</Modal.Title>
+            <Modal.Title>{t('last_achievements.replay_achievement')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {this.props.achievementName} pour {this.props.viewerName}
+            {t('last_achievements.achievement_for', { achievement: achievementName, viewer: viewerName })}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.closeModal()}>Annuler</Button>
-            <Button onClick={() => this.confirm()} bsStyle="primary">Rejouer</Button>
+            <Button onClick={() => this.closeModal()}>{t('shared.cancel')}</Button>
+            <Button onClick={() => this.confirm()} bsStyle="primary">{t('last_achievements.replay')}</Button>
           </Modal.Footer>
         </Modal>
-        {this.props.viewerName}
+        {viewerName}
         <Button
           onClick={e => this.showModal(e)}
           className="pull-right"
@@ -56,4 +60,4 @@ class AchievementItem extends React.Component {
   }
 }
 
-export default AchievementItem;
+export default withNamespaces()(AchievementItem);

@@ -25,22 +25,23 @@ class Dashboard extends React.Component {
 
   render() {
     const { t } = this.props;
+    const { data } = this.state;
     return (
       <div>
         <PageHeader>{t('deetzlabs')} <Logout className="pull-right" /><LangSelector className="pull-right" /></PageHeader>
         {
-          this.state.data
+          data
             ? (
               <Row>
                 <Col md={6}>
-                  <LastAchievements data={this.state.data} />
+                  <LastAchievements data={data} />
                   <TestButton />
-                  <AlertVolume data={this.state.data} />
-                  <GiveAchievement data={this.state.data} />
-                  <FollowersGoal data={this.state.data} />
+                  <AlertVolume data={data} />
+                  <GiveAchievement data={data} />
+                  <FollowersGoal data={data} />
                 </Col>
                 <Col md={6}>
-                  <AchievementsList data={this.state.data} />
+                  <AchievementsList data={data} />
                 </Col>
               </Row>
             )

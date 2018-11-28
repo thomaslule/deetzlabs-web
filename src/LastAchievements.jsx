@@ -1,13 +1,14 @@
 import React from 'react';
 import { Panel, ListGroup } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 import AchievementItem from './AchievementItem';
 
-export default ({ data }) => {
+const LastAchievements = ({ data, t }) => {
   const { lastAchievements, achievements } = data;
 
   return (
     <Panel>
-      <Panel.Heading>Derniers succès</Panel.Heading>
+      <Panel.Heading>{t('last_achievements.header')}</Panel.Heading>
       <ListGroup>
         {lastAchievements.map((a, index) => (
           <AchievementItem
@@ -22,3 +23,5 @@ export default ({ data }) => {
     </Panel>
   );
 };
+
+export default withNamespaces()(LastAchievements);

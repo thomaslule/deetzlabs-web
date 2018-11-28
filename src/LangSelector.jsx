@@ -2,7 +2,7 @@ import { changeLanguage } from 'i18next';
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-function LangSelector(props) {
+function LangSelector({ className }) {
   const changeLang = (lang) => {
     changeLanguage(lang);
     localStorage.setItem('lang', lang);
@@ -10,8 +10,8 @@ function LangSelector(props) {
 
   return (
     <>
-      <Button {...props} bsStyle="link" onClick={() => changeLang('en')}>EN</Button>
-      <Button {...props} bsStyle="link" onClick={() => changeLang('fr')}>FR</Button>
+      <Button className={className} bsStyle="link" onClick={() => changeLang('en')}>EN</Button>
+      <Button className={className} bsStyle="link" onClick={() => changeLang('fr')}>FR</Button>
     </>
   );
 }

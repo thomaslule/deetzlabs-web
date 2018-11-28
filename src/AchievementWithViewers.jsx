@@ -1,15 +1,17 @@
 import React from 'react';
 import { ListGroupItem, Glyphicon } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 
-export default class AchievementWithViewers extends React.Component {
+class AchievementWithViewers extends React.Component {
   constructor(props) {
     super(props);
     this.state = { collapsed: props.collapsed };
   }
 
-  componentWillReceiveProps({ collapsed }) {
-    if (collapsed !== this.state.collapsed) {
-      this.setState({ collapsed });
+  componentWillReceiveProps(newProps) {
+    const { collapsed } = this.state;
+    if (newProps.collapsed !== collapsed) {
+      this.setState({ collapsed: newProps.collapsed });
     }
   }
 
@@ -18,7 +20,7 @@ export default class AchievementWithViewers extends React.Component {
   }
 
   render() {
-    const { viewers, achievement } = this.props;
+    const { viewers, achievement, t } = this.props;
     const { collapsed } = this.state;
     return (
       <ListGroupItem
@@ -38,7 +40,7 @@ export default class AchievementWithViewers extends React.Component {
               {
                 viewers.length > 0
                   ? viewers.map(v => (<span key={v}>{v}<br /></span>))
-                  : <em>Personne n&#39;a encore ce succès</em>
+                  : <em>{t('all_achievements.nobody_has_it')}</em>
               }
             </span>
           )
@@ -54,7 +56,7 @@ const AchievementHeader = ({ achievement, collapsed, onClick }) => (
     onClick={() => onClick()}
     role="button"
     tabIndex={0}
-    onKeyUp={() => onClick()}
+    onKeyUp={(e) => { if (e.keyCode === 32) onClick(); }}
   >
     {collapsed
       ? <Glyphicon glyph="chevron-right" style={{ marginRight: '5px' }} />
@@ -64,3 +66,5 @@ const AchievementHeader = ({ achievement, collapsed, onClick }) => (
     <em style={{ color: 'grey', marginLeft: '10px' }}>{achievement.description}</em>
   </div>
 );
+
+export default withNamespaces()(AchievementWithViewers);

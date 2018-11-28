@@ -1,5 +1,6 @@
 import React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 import { giveAchievement } from './api';
 
 class GiveAchievement extends React.Component {
@@ -21,23 +22,25 @@ class GiveAchievement extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    giveAchievement(this.state.achievement, this.state.viewer);
+    const { achievement, viewer } = this.state;
+    giveAchievement(achievement, viewer);
     this.setState({ viewer: '' });
   }
 
   render() {
-    const { data } = this.props;
+    const { data, t } = this.props;
+    const { achievement, viewer } = this.state;
     return (
       <Panel>
-        <Panel.Heading>Donner un succès</Panel.Heading>
+        <Panel.Heading>{t('give_achievement.header')}</Panel.Heading>
         <Panel.Body>
           <Form onSubmit={e => this.handleSubmit(e)} horizontal>
             <FormGroup controlId="name">
-              <Col componentClass={ControlLabel} md={3}>Pseudo</Col>
+              <Col componentClass={ControlLabel} md={3}>{t('give_achievement.name')}</Col>
               <Col md={9}>
                 <FormControl
                   type="text"
-                  value={this.state.viewer}
+                  value={viewer}
                   onChange={e => this.handleChangeViewer(e.target.value)}
                   list="viewers"
                   required
@@ -48,11 +51,11 @@ class GiveAchievement extends React.Component {
               </Col>
             </FormGroup>
             <FormGroup controlId="achievement">
-              <Col componentClass={ControlLabel} md={3}>Succès</Col>
+              <Col componentClass={ControlLabel} md={3}>{t('give_achievement.achievement')}</Col>
               <Col md={9}>
                 <FormControl
                   componentClass="select"
-                  value={this.state.achievement}
+                  value={achievement}
                   onChange={e => this.handleChangeAchievement(e.target.value)}
                   list="viewers"
                   required
@@ -65,7 +68,7 @@ class GiveAchievement extends React.Component {
             </FormGroup>
             <FormGroup>
               <Col mdOffset={3} md={9}>
-                <Button type="submit">Donner le succès</Button>
+                <Button type="submit">{t('give_achievement.apply')}</Button>
               </Col>
             </FormGroup>
           </Form>
@@ -75,4 +78,4 @@ class GiveAchievement extends React.Component {
   }
 }
 
-export default GiveAchievement;
+export default withNamespaces()(GiveAchievement);

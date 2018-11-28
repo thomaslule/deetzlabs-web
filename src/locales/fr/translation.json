@@ -1,3 +1,46 @@
 {
-  "deetzlabs": "le deetzlabs"
+  "deetzlabs": "deetzlabs",
+  "logout": "Déconnexion",
+  "shared": {
+    "apply": "Appliquer",
+    "cancel": "Annuler"
+  },
+  "login": {
+    "login": "Login",
+    "password": "Mot de passe",
+    "signin": "Connexion",
+    "error": "Échec de l'authentification"
+  },
+  "last_achievements": {
+    "header": "Derniers succès",
+    "replay_achievement": "Rejouer le succès",
+    "achievement_for": "{{achievement}} pour {{viewer}}",
+    "replay": "Rejouer"
+  },
+  "test_alert": {
+    "test_alert": "Tester l'alerte"
+  },
+  "volume": {
+    "volume": "Volume de l'alerte"
+  },
+  "give_achievement": {
+    "header": "Donner un succès",
+    "name": "Pseudo",
+    "achievement": "Succès",
+    "apply": "Donner le succès"
+  },
+  "followers_goal": {
+    "header": "Modifier l'objectif de followers",
+    "edit_button": "Modifier…",
+    "goal": "Objectif",
+    "current_follows": "Nombre actuel de followers",
+    "bar_width": "Barre de largeur n%",
+    "html": "HTML",
+    "css": "CSS",
+    "preview": "Prévisualisation"
+  },
+  "all_achievements": {
+    "all_achievements": "Tous les succès",
+    "nobody_has_it": "Personne n'a encore ce succès"
+  }
 }

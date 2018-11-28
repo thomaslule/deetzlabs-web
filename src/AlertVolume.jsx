@@ -3,6 +3,7 @@ import 'rc-tooltip/assets/bootstrap.css';
 import React from 'react';
 import { Form, FormGroup, Button, Panel } from 'react-bootstrap';
 import Slider from 'rc-slider';
+import { withNamespaces } from 'react-i18next';
 import { postAlertVolume } from './api';
 
 const SliderWithToolitp = Slider.createSliderWithTooltip(Slider);
@@ -21,13 +22,16 @@ class AlertVolume extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    postAlertVolume(this.state.volume);
+    const { volume } = this.state;
+    postAlertVolume(volume);
   }
 
   render() {
+    const { t } = this.props;
+    const { volume } = this.state;
     return (
       <Panel>
-        <Panel.Heading>Volume de l&#39;alerte</Panel.Heading>
+        <Panel.Heading>{t('volume.volume')}</Panel.Heading>
         <Panel.Body>
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormGroup controlId="name">
@@ -36,10 +40,10 @@ class AlertVolume extends React.Component {
                 max={1}
                 step={0.1}
                 onChange={val => this.handleChange(val)}
-                defaultValue={this.state.volume}
+                defaultValue={volume}
               />
             </FormGroup>
-            <Button type="submit">Appliquer</Button>
+            <Button type="submit">{t('shared.apply')}</Button>
           </Form>
         </Panel.Body>
       </Panel>
@@ -47,4 +51,4 @@ class AlertVolume extends React.Component {
   }
 }
 
-export default AlertVolume;
+export default withNamespaces()(AlertVolume);

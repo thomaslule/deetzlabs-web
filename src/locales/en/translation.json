@@ -1,3 +1,46 @@
 {
-  "deetzlabs": "the deetzlabs"
+  "deetzlabs": "deetzlabs",
+  "logout": "Logout",
+  "shared": {
+    "apply": "Apply",
+    "cancel": "Cancel"
+  },
+  "login": {
+    "login": "Login",
+    "password": "Password",
+    "signin": "Sign-in",
+    "error": "Authentication failure"
+  },
+  "last_achievements": {
+    "header": "Last achievements",
+    "replay_achievement": "Replay the achievement",
+    "achievement_for": "{{achievement}} for {{viewer}}",
+    "replay": "Replay"
+  },
+  "test_alert": {
+    "test_alert": "Test the alert"
+  },
+  "volume": {
+    "volume": "Alert volume"
+  },
+  "give_achievement": {
+    "header": "Give an achievement",
+    "name": "Name",
+    "achievement": "Achievement",
+    "apply": "Give the achievement"
+  },
+  "followers_goal": {
+    "header": "Edit the followers goal",
+    "edit_button": "Edit…",
+    "goal": "Goal",
+    "current_follows": "Current follows number",
+    "bar_width": "Bar of width n%",
+    "html": "HTML",
+    "css": "CSS",
+    "preview": "Preview"
+  },
+  "all_achievements": {
+    "all_achievements": "All achievements",
+    "nobody_has_it": "Nobody has this achievement yet"
+  }
 }

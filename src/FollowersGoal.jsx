@@ -1,5 +1,6 @@
 import React from 'react';
 import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, Col } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 import { changeFollowersGoal } from './api';
 
 const codeStyle = {
@@ -30,7 +31,7 @@ const HtmlExplain = ({ tag, definition }) => (
   </Row>
 );
 
-export default class FollowersGoal extends React.Component {
+class FollowersGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,46 +71,46 @@ export default class FollowersGoal extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    changeFollowersGoal(this.state.goal, this.state.html, this.state.css)
+    const { goal, html, css } = this.state;
+    changeFollowersGoal(goal, html, css)
       .then(() => this.handleCloseModal());
   }
 
   render() {
-    if (!this.state.html) {
-      return <div />;
-    }
+    const { t } = this.props;
+    const { goal, html, css, showModal, htmlPreview } = this.state;
     return (
-      <Panel header="Modifier l'objectif de followers">
-        <Panel.Heading>Modifier l&#39;objectif de followers</Panel.Heading>
+      <Panel>
+        <Panel.Heading>{t('followers_goal.header')}</Panel.Heading>
         <Panel.Body>
-          <Button onClick={() => this.handleShowModal()}>Modifier…</Button>
-          <Modal show={this.state.showModal} onHide={() => this.handleCloseModal()} bsSize="large">
+          <Button onClick={() => this.handleShowModal()}>{t('followers_goal.edit_button')}</Button>
+          <Modal show={showModal} onHide={() => this.handleCloseModal()} bsSize="large">
             <Modal.Header closeButton>
-              <Modal.Title>Modifier l{"'"}objectif de followers</Modal.Title>
+              <Modal.Title>{t('followers_goal.header')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={e => this.handleSubmit(e)} horizontal>
                 <FormGroup controlId="goal">
-                  <Col componentClass={ControlLabel} md={3}>Objectif</Col>
+                  <Col componentClass={ControlLabel} md={3}>{t('followers_goal.goal')}</Col>
                   <Col md={9}>
                     <FormControl
                       type="number"
-                      value={this.state.goal}
+                      value={goal}
                       onChange={e => this.handleChangeGoal(Number(e.target.value))}
                       required
                       min={1}
                     />
                   </Col>
                 </FormGroup>
-                <HtmlExplain tag={'<div id="current_amount" />'} definition="Nombre actuel de followers" />
-                <HtmlExplain tag={'<div id="goal" />'} definition="Objectif" />
-                <HtmlExplain tag={'<div id="current_bar" />'} definition="Barre de largeur n%" />
+                <HtmlExplain tag={'<div id="current_amount" />'} definition={t('followers_goal.current_follows')} />
+                <HtmlExplain tag={'<div id="goal" />'} definition={t('followers_goal.goal')} />
+                <HtmlExplain tag={'<div id="current_bar" />'} definition={t('followers_goal.bar_width')} />
                 <FormGroup controlId="html">
-                  <Col componentClass={ControlLabel} md={3}>Html</Col>
+                  <Col componentClass={ControlLabel} md={3}>{t('followers_goal.html')}</Col>
                   <Col md={9}>
                     <FormControl
                       componentClass="textarea"
-                      value={this.state.html}
+                      value={html}
                       onChange={e => this.handleChangeHtml(e.target.value)}
                       rows={10}
                       style={codeStyle}
@@ -117,11 +118,11 @@ export default class FollowersGoal extends React.Component {
                   </Col>
                 </FormGroup>
                 <FormGroup controlId="Css">
-                  <Col componentClass={ControlLabel} md={3}>Css</Col>
+                  <Col componentClass={ControlLabel} md={3}>{t('followers_goal.css')}</Col>
                   <Col md={9}>
                     <FormControl
                       componentClass="textarea"
-                      value={this.state.css}
+                      value={css}
                       onChange={e => this.handleChangeCss(e.target.value)}
                       rows={10}
                       style={codeStyle}
@@ -131,8 +132,8 @@ export default class FollowersGoal extends React.Component {
                 <FormGroup>
                   <Col mdOffset={3} md={9}>
                     <ButtonToolbar>
-                      <Button onClick={() => this.handlePreview()}>Prévisualisation</Button>
-                      <Button type="submit">Appliquer</Button>
+                      <Button onClick={() => this.handlePreview()}>{t('followers_goal.preview')}</Button>
+                      <Button type="submit">{t('shared.apply')}</Button>
                     </ButtonToolbar>
                   </Col>
                 </FormGroup>
@@ -143,8 +144,8 @@ export default class FollowersGoal extends React.Component {
                 action="http://jsfiddle.net/api/post/library/pure/"
                 target="_blank"
               >
-                <input type="hidden" name="html" value={this.state.htmlPreview} />
-                <input type="hidden" name="css" value={this.state.css} />
+                <input type="hidden" name="html" value={htmlPreview} />
+                <input type="hidden" name="css" value={css} />
               </form>
             </Modal.Body>
           </Modal>
@@ -153,3 +154,5 @@ export default class FollowersGoal extends React.Component {
     );
   }
 }
+
+export default withNamespaces()(FollowersGoal);

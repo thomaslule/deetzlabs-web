@@ -1,10 +1,11 @@
 import React from 'react';
 import { Panel, ListGroup, Glyphicon } from 'react-bootstrap';
+import { withNamespaces } from 'react-i18next';
 import AchievementWithViewers from './AchievementWithViewers';
 
 const sortStrings = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
 
-export default class AchievementsList extends React.Component {
+class AchievementsList extends React.Component {
   constructor(props) {
     super(props);
     const { viewerAchievements, achievements } = props.data;
@@ -25,7 +26,8 @@ export default class AchievementsList extends React.Component {
   }
 
   render() {
-    const { collapsed } = this.state;
+    const { t } = this.props;
+    const { collapsed, achievementsWithViewers } = this.state;
     return (
       <Panel>
         <Panel.Heading onClick={() => this.toggleCollapse()} style={{ cursor: 'pointer' }}>
@@ -33,14 +35,14 @@ export default class AchievementsList extends React.Component {
             ? <Glyphicon glyph="chevron-right" style={{ marginRight: '5px' }} />
             : <Glyphicon glyph="chevron-down" style={{ marginRight: '5px' }} />
           }
-          Tous les succès
+          {t('all_achievements.all_achievements')}
         </Panel.Heading>
         <ListGroup>
-          {this.state.achievementsWithViewers.map(a => (
+          {achievementsWithViewers.map(a => (
             <AchievementWithViewers
               achievement={a.achievement}
               viewers={a.viewers}
-              collapsed={this.state.collapsed}
+              collapsed={collapsed}
               key={a.achievement.id}
             />
           ))}
@@ -49,3 +51,5 @@ export default class AchievementsList extends React.Component {
     );
   }
 }
+
+export default withNamespaces()(AchievementsList);

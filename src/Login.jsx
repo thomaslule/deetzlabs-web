@@ -1,6 +1,7 @@
 import React from 'react';
 import { PageHeader, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button, Alert } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 import { isAuthenticated, authenticate } from './auth';
 import * as api from './api';
 
@@ -24,7 +25,9 @@ class Login extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    api.login(this.state.username, this.state.password)
+    const { t } = this.props;
+    const { username, password } = this.state;
+    api.login(username, password)
       .then(({ token, expiresAt }) => {
         authenticate(token, expiresAt);
         this.setState({ authenticated: true });
@@ -34,45 +37,48 @@ class Login extends React.Component {
         this.setState({
           username: '',
           password: '',
-          message: 'Échec de l\'authentification',
+          message: t('login.error'),
         });
       });
   }
 
   render() {
-    if (this.state.authenticated) {
+    const { t } = this.props;
+    const { authenticated, message, username, password } = this.state;
+    if (authenticated) {
       return (<Redirect to="/" />);
     }
 
     return (
       <div>
-        <PageHeader>deetzlabs</PageHeader>
+        <PageHeader>{t('deetzlabs')}</PageHeader>
         <Row>
           <Col md={3}>
-            {this.state.message ? <Alert bsStyle="danger">{this.state.message}</Alert> : null}
+            {message ? <Alert bsStyle="danger">{message}</Alert> : null}
             <Form onSubmit={e => this.handleSubmit(e)}>
               <FormGroup controlId="username">
-                <ControlLabel>Login</ControlLabel>
+                <ControlLabel>{t('login.login')}</ControlLabel>
                 <FormControl
                   type="text"
-                  value={this.state.username}
+                  value={username}
                   onChange={e => this.handleUsernameChange(e)}
                 />
               </FormGroup>
               <FormGroup controlId="password">
-                <ControlLabel>Mot de passe</ControlLabel>
+                <ControlLabel>{t('login.password')}</ControlLabel>
                 <FormControl
                   type="password"
-                  value={this.state.password}
+                  value={password}
                   onChange={e => this.handlePasswordChange(e)}
                 />
               </FormGroup>
-              <Button type="submit">Login</Button>
+              <Button type="submit">{t('login.signin')}</Button>
             </Form>
           </Col>
         </Row>
-      </div>);
+      </div>
+    );
   }
 }
 
-export default Login;
+export default withNamespaces()(Login);
