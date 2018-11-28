@@ -25,6 +25,7 @@
   },
   "main": "src/index.js",
   "proxy": "http://localhost:3100",
+  "homepage": "/admin",
   "browserslist": [
     ">0.2%",
     "not dead",
