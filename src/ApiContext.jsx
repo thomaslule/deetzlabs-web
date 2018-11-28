@@ -1,14 +1,18 @@
 import React from 'react';
 import { BehaviorSubject } from 'rxjs';
+import { withNamespaces } from 'react-i18next';
 import * as api from './api';
 
 const ApiContext = React.createContext();
 
-export class ApiContextProvider extends React.Component {
+class ApiContextProviderToLink extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       subjects: {},
+      alert: undefined,
+      alertTimeout: undefined,
+      alertLevel: undefined,
     };
   }
 
@@ -70,7 +74,15 @@ export class ApiContextProvider extends React.Component {
   }
 
   async testAlert() {
-    await api.test();
+    const { t } = this.props;
+    try {
+      await api.test();
+      this.showAlert(t('alerts.sent_test'), 'success');
+    } catch (err) {
+      console.error(err);
+      this.showAlert(t('alerts.error'), 'danger');
+      throw err;
+    }
   }
 
   async changeAlertVolume(volume) {
@@ -81,8 +93,25 @@ export class ApiContextProvider extends React.Component {
     await api.changeFollowersGoal(goal, html, css);
   }
 
+  showAlert(alert, alertLevel) {
+    const { alertTimeout } = this.state;
+    clearTimeout(alertTimeout);
+    this.setState({
+      alert,
+      alertLevel,
+      alertTimeout: setTimeout(() => this.hideAlert(), 3000),
+    });
+  }
+
+  hideAlert() {
+    const { alertTimeout } = this.state;
+    clearTimeout(alertTimeout);
+    this.setState({ alert: undefined });
+  }
+
   render() {
     const { children } = this.props;
+    const { alert, alertLevel } = this.state;
 
     return (
       <ApiContext.Provider
@@ -100,6 +129,10 @@ export class ApiContextProvider extends React.Component {
           testAlert: () => this.testAlert(),
           changeAlertVolume: volume => this.changeAlertVolume(volume),
           changeFollowersGoal: (goal, html, css) => this.changeFollowersGoal(goal, html, css),
+          showAlert: (msg, lvl) => this.showAlert(msg, lvl),
+          hideAlert: () => this.hideAlert(),
+          alert,
+          alertLevel,
         }}
       >
         {children}
@@ -108,10 +141,14 @@ export class ApiContextProvider extends React.Component {
   }
 }
 
+export const ApiContextProvider = withNamespaces()(ApiContextProviderToLink);
+
+export const ApiContextConsumer = ApiContext.Consumer;
+
 export function withApi(Component) {
   return props => (
-    <ApiContext.Consumer>
+    <ApiContextConsumer>
       {context => <Component {...props} api={context} />}
-    </ApiContext.Consumer>
+    </ApiContextConsumer>
   );
 }

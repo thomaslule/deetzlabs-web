@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import PrivateRoute from './PrivateRoute';
 import Login from './Login';
 import { ApiContextProvider } from './ApiContext';
+import FixedAlert from './FixedAlert';
 
 const App = () => (
   <ApiContextProvider>
@@ -14,6 +15,7 @@ const App = () => (
         <PrivateRoute exact path="/" component={Dashboard} />
       </Grid>
     </Router>
+    <FixedAlert />
   </ApiContextProvider>
 );
 

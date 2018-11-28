@@ -4,7 +4,7 @@ import { withNamespaces } from 'react-i18next';
 import { withApi } from './ApiContext';
 
 const handleClick = (api) => {
-  api.test();
+  api.testAlert().catch(() => {});
 };
 
 const TestButton = ({ t, api }) => (

@@ -5,6 +5,10 @@
     "apply": "Apply",
     "cancel": "Cancel"
   },
+  "alerts": {
+    "error": "An error happened",
+    "sent_test": "Test alert sent"
+  },
   "login": {
     "login": "Login",
     "password": "Password",
