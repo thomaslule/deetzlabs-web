@@ -21,41 +21,30 @@ export const get = (path) => {
     .then(res => res.body);
 };
 
-export const test = () => {
+export const post = (path) => {
   checkAuthenticated();
-  return request.post('/api/show_test_achievement')
-    .set(getAuthorization())
-    .then(noop);
+  return request.post(`/api/${path}`)
+    .set(getAuthorization());
 };
 
-export const giveAchievement = (achievement, viewerName) => {
-  checkAuthenticated();
-  return request.post('/api/give_achievement')
-    .set(getAuthorization())
+export const test = () => post('show_test_achievement').then(noop);
+
+export const giveAchievement = (achievement, viewerName) =>
+  post('give_achievement')
     .send({ achievement, viewerName })
     .then(noop);
-};
 
-export const replayAchievement = (achievement, viewerId) => {
-  checkAuthenticated();
-  return request.post('/api/replay_achievement', {
-    achievement,
-    viewerId,
-  }).set(getAuthorization())
+export const replayAchievement = (achievement, viewerId) =>
+  post('replay_achievement')
+    .send({ achievement, viewerId })
     .then(noop);
-};
 
-export const postAlertVolume = (volume) => {
-  checkAuthenticated();
-  return request.post('/api/achievement_alert_volume', { volume })
-    .set(getAuthorization())
+export const postAlertVolume = volume =>
+  post('achievement_alert_volume')
+    .send({ volume })
     .then(noop);
-};
 
-export const changeFollowersGoal = (goal, html, css) => {
-  checkAuthenticated();
-  return request.post('/api/change_followers_goal')
-    .set(getAuthorization())
+export const changeFollowersGoal = (goal, html, css) =>
+  post('change_followers_goal')
     .send({ goal, html, css })
     .then(noop);
-};
