@@ -2,26 +2,47 @@ import React from 'react';
 import { Panel, ListGroup } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
 import AchievementItem from './AchievementItem';
+import { withApi } from './ApiContext';
 
-const LastAchievements = ({ data, t }) => {
-  const { lastAchievements, achievements } = data;
+class LastAchievements extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-  return (
-    <Panel>
-      <Panel.Heading>{t('last_achievements.header')}</Panel.Heading>
-      <ListGroup>
-        {lastAchievements.map((a, index) => (
-          <AchievementItem
-            key={index}
-            achievement={a.achievement}
-            achievementName={achievements[a.achievement].name}
-            viewerId={a.viewerId}
-            viewerName={a.viewerName}
-          />
-        ))}
-      </ListGroup>
-    </Panel>
-  );
-};
+  componentDidMount() {
+    const { fetch } = this.props;
+    Promise.all([fetch('last_achievements'), fetch('achievements')])
+      .then(([lastAchievements, achievements]) => {
+        this.setState({ lastAchievements, achievements });
+      });
+  }
 
-export default withNamespaces()(LastAchievements);
+  render() {
+    const { t } = this.props;
+    const { lastAchievements, achievements } = this.state;
+
+    if (lastAchievements === undefined) {
+      return null;
+    }
+
+    return (
+      <Panel>
+        <Panel.Heading>{t('last_achievements.header')}</Panel.Heading>
+        <ListGroup>
+          {lastAchievements.map((a, index) => (
+            <AchievementItem
+              key={index}
+              achievement={a.achievement}
+              achievementName={achievements[a.achievement].name}
+              viewerId={a.viewerId}
+              viewerName={a.viewerName}
+            />
+          ))}
+        </ListGroup>
+      </Panel>
+    );
+  }
+}
+
+export default withNamespaces()(withApi(LastAchievements));

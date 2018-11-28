@@ -2,14 +2,27 @@ import React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
 import { giveAchievement } from './api';
+import { withApi } from './ApiContext';
 
 class GiveAchievement extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       viewer: '',
-      achievement: Object.keys(props.data.achievements)[0],
+      achievement: '',
     };
+  }
+
+  componentDidMount() {
+    const { fetch } = this.props;
+    Promise.all([fetch('viewer_names'), fetch('achievements')])
+      .then(([viewerNames, achievements]) => {
+        this.setState({
+          viewerNames,
+          achievements,
+          achievement: Object.keys(achievements)[0],
+        });
+      });
   }
 
   handleChangeViewer(viewer) {
@@ -28,8 +41,9 @@ class GiveAchievement extends React.Component {
   }
 
   render() {
-    const { data, t } = this.props;
-    const { achievement, viewer } = this.state;
+    const { t } = this.props;
+    const { achievement, viewer, viewerNames, achievements } = this.state;
+    if (viewerNames === undefined) { return null; }
     return (
       <Panel>
         <Panel.Heading>{t('give_achievement.header')}</Panel.Heading>
@@ -46,7 +60,7 @@ class GiveAchievement extends React.Component {
                   required
                 />
                 <datalist id="viewers">
-                  {Object.values(data.viewerNames).map(v => <option value={v} key={v} />)}
+                  {Object.values(viewerNames).map(v => <option value={v} key={v} />)}
                 </datalist>
               </Col>
             </FormGroup>
@@ -60,8 +74,8 @@ class GiveAchievement extends React.Component {
                   list="viewers"
                   required
                 >
-                  {Object.keys(data.achievements).map(a =>
-                    <option key={a} value={a}>{data.achievements[a].name}</option>)
+                  {Object.keys(achievements).map(a =>
+                    <option key={a} value={a}>{achievements[a].name}</option>)
                   }
                 </FormControl>
               </Col>
@@ -78,4 +92,4 @@ class GiveAchievement extends React.Component {
   }
 }
 
-export default withNamespaces()(GiveAchievement);
+export default withNamespaces()(withApi(GiveAchievement));

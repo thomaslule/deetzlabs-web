@@ -14,35 +14,11 @@ export const login = (username, password) =>
     .send({ username, password })
     .then(res => res.body);
 
-export const loadData = () => {
+export const get = (path) => {
   checkAuthenticated();
-
-  return Promise.all([
-    request.get('/api/viewer_names').set(getAuthorization()),
-    request.get('/api/viewer_achievements').set(getAuthorization()),
-    request.get('/api/last_achievements').set(getAuthorization()),
-    request.get('/api/achievements').set(getAuthorization()),
-    request.get('/api/achievement_alert_volume').set(getAuthorization()),
-    request.get('/api/followers_goal').set(getAuthorization()),
-  ]).then((res) => {
-    const [
-      viewerNames,
-      viewerAchievements,
-      lastAchievements,
-      achievements,
-      alertVolume,
-      followersGoal,
-    ] = res.map(obj => obj.body);
-
-    return {
-      viewerNames,
-      viewerAchievements,
-      lastAchievements,
-      achievements,
-      alertVolume: alertVolume.volume,
-      followersGoal,
-    };
-  });
+  return request.get(`/api/${path}`)
+    .set(getAuthorization())
+    .then(res => res.body);
 };
 
 export const test = () => {

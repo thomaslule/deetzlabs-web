@@ -2,6 +2,7 @@ import React from 'react';
 import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, Col } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
 import { changeFollowersGoal } from './api';
+import { withApi } from './ApiContext';
 
 const codeStyle = {
   fontFamily: 'Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace',
@@ -35,11 +36,15 @@ class FollowersGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      goal: 1,
       showModal: false,
-      ...props.data.followersGoal,
-      htmlPreview: getHtmlPreview(props.data.followersGoal.html),
     };
+  }
+
+  componentDidMount() {
+    const { fetch } = this.props;
+    fetch('followers_goal').then(({ goal, html, css }) => {
+      this.setState({ goal, html, css, htmlPreview: getHtmlPreview(html) });
+    });
   }
 
   handleCloseModal() {
@@ -79,6 +84,7 @@ class FollowersGoal extends React.Component {
   render() {
     const { t } = this.props;
     const { goal, html, css, showModal, htmlPreview } = this.state;
+    if (goal === undefined) return null;
     return (
       <Panel>
         <Panel.Heading>{t('followers_goal.header')}</Panel.Heading>
@@ -155,4 +161,4 @@ class FollowersGoal extends React.Component {
   }
 }
 
-export default withNamespaces()(FollowersGoal);
+export default withNamespaces()(withApi(FollowersGoal));

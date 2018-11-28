@@ -2,23 +2,31 @@ import React from 'react';
 import { Panel, ListGroup, Glyphicon } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
 import AchievementWithViewers from './AchievementWithViewers';
+import { withApi } from './ApiContext';
 
 const sortStrings = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
 
 class AchievementsList extends React.Component {
   constructor(props) {
     super(props);
-    const { viewerAchievements, achievements } = props.data;
-    const achievementsWithViewers = Object.entries(achievements)
-      .map(([achievementId, achievement]) => ({
-        achievement: { id: achievementId, ...achievement },
-        viewers: viewerAchievements
-          .filter(viewerAchievement => viewerAchievement.achievement === achievementId)
-          .map(viewerAchievement => viewerAchievement.viewerName)
-          .sort(sortStrings),
-      }))
-      .sort((a, b) => a.viewers.length - b.viewers.length);
-    this.state = { achievementsWithViewers, collapsed: true };
+    this.state = { collapsed: true };
+  }
+
+  componentDidMount() {
+    const { fetch } = this.props;
+    Promise.all([fetch('viewer_achievements'), fetch('achievements')])
+      .then(([viewerAchievements, achievements]) => {
+        const achievementsWithViewers = Object.entries(achievements)
+          .map(([achievementId, achievement]) => ({
+            achievement: { id: achievementId, ...achievement },
+            viewers: viewerAchievements
+              .filter(viewerAchievement => viewerAchievement.achievement === achievementId)
+              .map(viewerAchievement => viewerAchievement.viewerName)
+              .sort(sortStrings),
+          }))
+          .sort((a, b) => a.viewers.length - b.viewers.length);
+        this.setState({ achievementsWithViewers, collapsed: true });
+      });
   }
 
   toggleCollapse() {
@@ -28,6 +36,7 @@ class AchievementsList extends React.Component {
   render() {
     const { t } = this.props;
     const { collapsed, achievementsWithViewers } = this.state;
+    if (achievementsWithViewers === undefined) { return null; }
     return (
       <Panel>
         <Panel.Heading onClick={() => this.toggleCollapse()} style={{ cursor: 'pointer' }}>
@@ -52,4 +61,4 @@ class AchievementsList extends React.Component {
   }
 }
 
-export default withNamespaces()(AchievementsList);
+export default withNamespaces()(withApi(AchievementsList));

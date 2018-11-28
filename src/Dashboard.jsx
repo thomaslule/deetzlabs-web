@@ -9,47 +9,23 @@ import GiveAchievement from './GiveAchievement';
 import FollowersGoal from './FollowersGoal';
 import LangSelector from './LangSelector';
 import Logout from './Logout';
-import * as api from './api';
 
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { data: null };
-  }
-
-  componentDidMount() {
-    api.loadData().then((data) => {
-      this.setState({ data });
-    });
-  }
-
-  render() {
-    const { t } = this.props;
-    const { data } = this.state;
-    return (
-      <div>
-        <PageHeader>{t('deetzlabs')} <Logout className="pull-right" /><LangSelector className="pull-right" /></PageHeader>
-        {
-          data
-            ? (
-              <Row>
-                <Col md={6}>
-                  <LastAchievements data={data} />
-                  <TestButton />
-                  <AlertVolume data={data} />
-                  <GiveAchievement data={data} />
-                  <FollowersGoal data={data} />
-                </Col>
-                <Col md={6}>
-                  <AchievementsList data={data} />
-                </Col>
-              </Row>
-            )
-            : <div />
-        }
-      </div>
-    );
-  }
-}
+const Dashboard = ({ t }) => (
+  <div>
+    <PageHeader>{t('deetzlabs')} <Logout className="pull-right" /><LangSelector className="pull-right" /></PageHeader>
+    <Row>
+      <Col md={6}>
+        <LastAchievements />
+        <TestButton />
+        <AlertVolume />
+        <GiveAchievement />
+        <FollowersGoal />
+      </Col>
+      <Col md={6}>
+        <AchievementsList />
+      </Col>
+    </Row>
+  </div>
+);
 
 export default withNamespaces()(Dashboard);

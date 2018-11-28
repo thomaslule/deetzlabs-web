@@ -5,15 +5,21 @@ import { Form, FormGroup, Button, Panel } from 'react-bootstrap';
 import Slider from 'rc-slider';
 import { withNamespaces } from 'react-i18next';
 import { postAlertVolume } from './api';
+import { withApi } from './ApiContext';
 
 const SliderWithToolitp = Slider.createSliderWithTooltip(Slider);
 
 class AlertVolume extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      volume: props.data.alertVolume,
-    };
+    this.state = {};
+  }
+
+  componentDidMount() {
+    const { fetch } = this.props;
+    fetch('achievement_alert_volume').then((res) => {
+      this.setState({ volume: res.volume });
+    });
   }
 
   handleChange(value) {
@@ -29,6 +35,7 @@ class AlertVolume extends React.Component {
   render() {
     const { t } = this.props;
     const { volume } = this.state;
+    if (volume === undefined) { return null; }
     return (
       <Panel>
         <Panel.Heading>{t('volume.volume')}</Panel.Heading>
@@ -51,4 +58,4 @@ class AlertVolume extends React.Component {
   }
 }
 
-export default withNamespaces()(AlertVolume);
+export default withNamespaces()(withApi(AlertVolume));
