@@ -1,5 +1,5 @@
 import React from 'react';
-import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, Col } from 'react-bootstrap';
+import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
 import { withNamespaces } from 'react-i18next';
 import { withApi } from './ApiContext';
 
@@ -145,28 +145,24 @@ class FollowersGoal extends React.Component {
                     />
                   </Col>
                 </FormGroup>
-                <FormGroup>
-                  <Col mdOffset={3} md={9}>
-                    <ButtonToolbar>
-                      <Button onClick={() => this.handleCloseModal()} bsStyle="default">{t('shared.cancel')}</Button>
-                      <Button onClick={() => this.handlePreview()} bsStyle="default">{t('followers_goal.preview')}</Button>
-                      <Button type="submit" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
-                    </ButtonToolbar>
-                  </Col>
-                </FormGroup>
               </Form>
-              <form
-                ref={(form) => { this.jsFiddleForm = form; }}
-                method="post"
-                action="http://jsfiddle.net/api/post/library/pure/"
-                target="_blank"
-              >
-                <input type="hidden" name="html" value={htmlPreview} />
-                <input type="hidden" name="css" value={css} />
-              </form>
             </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={() => this.handleCloseModal()} bsStyle="default">{t('shared.cancel')}</Button>
+              <Button onClick={() => this.handlePreview()} bsStyle="default">{t('followers_goal.preview')}</Button>
+              <Button type="submit" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
+            </Modal.Footer>
           </Modal>
         </Panel.Body>
+        <form
+          ref={(form) => { this.jsFiddleForm = form; }}
+          method="post"
+          action="http://jsfiddle.net/api/post/library/pure/"
+          target="_blank"
+        >
+          <input type="hidden" name="html" value={htmlPreview} />
+          <input type="hidden" name="css" value={css} />
+        </form>
       </Panel>
     );
   }
