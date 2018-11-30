@@ -49,7 +49,7 @@ class AchievementsList extends React.Component {
     const { collapsed, achievementsWithViewers } = this.state;
     if (achievementsWithViewers === undefined) { return null; }
     return (
-      <Panel>
+      <Panel bsStyle="primary">
         <Panel.Heading onClick={() => this.toggleCollapse()} style={{ cursor: 'pointer' }}>
           {collapsed
             ? <Glyphicon glyph="chevron-right" style={{ marginRight: '5px' }} />

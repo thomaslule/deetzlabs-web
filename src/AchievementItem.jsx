@@ -49,10 +49,10 @@ class AchievementItem extends React.Component {
             {t('last_achievements.achievement_for', { achievement: achievementName, viewer: viewerName })}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.closeModal()}>{t('shared.cancel')}</Button>
+            <Button onClick={() => this.closeModal()} bsStyle="default">{t('shared.cancel')}</Button>
             <Button
               onClick={() => this.confirm()}
-              bsStyle="primary"
+              bsStyle="info"
               disabled={waiting}
             >
               {t('last_achievements.replay')}
@@ -64,6 +64,7 @@ class AchievementItem extends React.Component {
           onClick={e => this.showModal(e)}
           className="pull-right"
           bsSize="xsmall"
+          bsStyle="default"
         >
           <Glyphicon glyph="repeat" />
         </Button>

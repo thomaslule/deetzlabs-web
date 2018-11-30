@@ -29,7 +29,7 @@ class LastAchievements extends React.Component {
     }
 
     return (
-      <Panel>
+      <Panel bsStyle="primary">
         <Panel.Heading>{t('last_achievements.header')}</Panel.Heading>
         <ListGroup>
           {lastAchievements.map((a, index) => (

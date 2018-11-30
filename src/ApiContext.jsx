@@ -46,7 +46,7 @@ class ApiContextProviderToLink extends React.Component {
     } catch (err) {
       console.error(err);
       const { t } = this.props;
-      this.showAlert(t('alerts.error_auth'), 'danger');
+      this.showAlert(t('alerts.error_auth'), 'warning');
       throw err;
     }
   }
@@ -126,7 +126,7 @@ class ApiContextProviderToLink extends React.Component {
 
   showErrorAlert() {
     const { t } = this.props;
-    this.showAlert(t('alerts.error'), 'danger');
+    this.showAlert(t('alerts.error'), 'warning');
   }
 
   observable(path) {

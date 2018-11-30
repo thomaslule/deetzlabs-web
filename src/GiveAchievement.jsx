@@ -51,7 +51,7 @@ class GiveAchievement extends React.Component {
     const { achievement, viewer, viewerNames, achievements, waiting } = this.state;
     if (viewerNames === undefined || achievements === undefined) { return null; }
     return (
-      <Panel>
+      <Panel bsStyle="primary">
         <Panel.Heading>{t('give_achievement.header')}</Panel.Heading>
         <Panel.Body>
           <Form onSubmit={e => this.handleSubmit(e)} horizontal>
@@ -88,7 +88,7 @@ class GiveAchievement extends React.Component {
             </FormGroup>
             <FormGroup>
               <Col mdOffset={3} md={9}>
-                <Button type="submit" disabled={waiting}>{t('give_achievement.apply')}</Button>
+                <Button type="submit" disabled={waiting} bsStyle="info">{t('give_achievement.apply')}</Button>
               </Col>
             </FormGroup>
           </Form>

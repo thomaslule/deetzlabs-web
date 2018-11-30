@@ -8,9 +8,9 @@ const handleClick = (api) => {
 };
 
 const TestButton = ({ t, api }) => (
-  <Panel>
+  <Panel bsStyle="primary">
     <Panel.Body>
-      <Button onClick={() => handleClick(api)}>{t('test_alert.test_alert')}</Button>
+      <Button onClick={() => handleClick(api)} bsStyle="info">{t('test_alert.test_alert')}</Button>
     </Panel.Body>
   </Panel>
 );

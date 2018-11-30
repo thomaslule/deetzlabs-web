@@ -96,10 +96,10 @@ class FollowersGoal extends React.Component {
     const { goal, html, css, showModal, htmlPreview, waiting } = this.state;
     if (goal === undefined) return null;
     return (
-      <Panel>
+      <Panel bsStyle="primary">
         <Panel.Heading>{t('followers_goal.header')}</Panel.Heading>
         <Panel.Body>
-          <Button onClick={() => this.handleShowModal()}>{t('followers_goal.edit_button')}</Button>
+          <Button onClick={() => this.handleShowModal()} bsStyle="default">{t('followers_goal.edit_button')}</Button>
           <Modal show={showModal} onHide={() => this.handleCloseModal()} bsSize="large">
             <Modal.Header closeButton>
               <Modal.Title>{t('followers_goal.header')}</Modal.Title>
@@ -148,8 +148,9 @@ class FollowersGoal extends React.Component {
                 <FormGroup>
                   <Col mdOffset={3} md={9}>
                     <ButtonToolbar>
-                      <Button onClick={() => this.handlePreview()}>{t('followers_goal.preview')}</Button>
-                      <Button type="submit" disabled={waiting}>{t('shared.apply')}</Button>
+                      <Button onClick={() => this.handleCloseModal()} bsStyle="default">{t('shared.cancel')}</Button>
+                      <Button onClick={() => this.handlePreview()} bsStyle="default">{t('followers_goal.preview')}</Button>
+                      <Button type="submit" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
                     </ButtonToolbar>
                   </Col>
                 </FormGroup>

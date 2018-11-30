@@ -45,7 +45,7 @@ class AlertVolume extends React.Component {
     const { volume, waiting } = this.state;
     if (volume === undefined) { return null; }
     return (
-      <Panel>
+      <Panel bsStyle="primary">
         <Panel.Heading>{t('volume.volume')}</Panel.Heading>
         <Panel.Body>
           <Form onSubmit={e => this.handleSubmit(e)}>
@@ -58,7 +58,7 @@ class AlertVolume extends React.Component {
                 defaultValue={volume}
               />
             </FormGroup>
-            <Button type="submit" disabled={waiting}>{t('shared.apply')}</Button>
+            <Button type="submit" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
           </Form>
         </Panel.Body>
       </Panel>

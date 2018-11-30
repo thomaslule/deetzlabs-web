@@ -71,7 +71,7 @@ class Login extends React.Component {
                   onChange={e => this.handlePasswordChange(e)}
                 />
               </FormGroup>
-              <Button type="submit" disabled={waiting}>{t('login.signin')}</Button>
+              <Button type="submit" disabled={waiting} bsStyle="primary">{t('login.signin')}</Button>
             </Form>
           </Col>
         </Row>

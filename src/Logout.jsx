@@ -20,7 +20,7 @@ class Logout extends React.Component {
   render() {
     const { t, className } = this.props;
     const { authenticated } = this.state;
-    const button = <Button onClick={() => this.handleClick()} className={className}>{t('logout')}</Button>;
+    const button = <Button onClick={() => this.handleClick()} bsStyle="warning" className={className}>{t('logout')}</Button>;
     const redirect = (<Redirect to="/login" />);
     return authenticated ? button : redirect;
   }
