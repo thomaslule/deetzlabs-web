@@ -105,7 +105,7 @@ class FollowersGoal extends React.Component {
               <Modal.Title>{t('followers_goal.header')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form onSubmit={e => this.handleSubmit(e)} horizontal>
+              <Form id="followers-goal-form" onSubmit={e => this.handleSubmit(e)} horizontal>
                 <FormGroup controlId="goal">
                   <Col componentClass={ControlLabel} md={3}>{t('followers_goal.goal')}</Col>
                   <Col md={9}>
@@ -150,7 +150,7 @@ class FollowersGoal extends React.Component {
             <Modal.Footer>
               <Button onClick={() => this.handleCloseModal()} bsStyle="default">{t('shared.cancel')}</Button>
               <Button onClick={() => this.handlePreview()} bsStyle="default">{t('followers_goal.preview')}</Button>
-              <Button type="submit" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
+              <Button type="submit" form="followers-goal-form" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
             </Modal.Footer>
           </Modal>
         </Panel.Body>
