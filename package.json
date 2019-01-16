@@ -1,6 +1,6 @@
 {
   "name": "deetzlabs-web",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "scripts": {
     "prepublishOnly": "npm run build",
     "start": "react-scripts start",
