@@ -1,6 +1,6 @@
-import React from 'react';
-import { ListGroupItem, Glyphicon } from 'react-bootstrap';
-import { withNamespaces } from 'react-i18next';
+import React from "react";
+import { ListGroupItem, Glyphicon } from "react-bootstrap";
+import { withNamespaces } from "react-i18next";
 
 class AchievementWithViewers extends React.Component {
   constructor(props) {
@@ -25,26 +25,28 @@ class AchievementWithViewers extends React.Component {
     return (
       <ListGroupItem
         key={achievement.id}
-        header={(
+        header={
           <AchievementHeader
             achievement={achievement}
             collapsed={collapsed}
             onClick={() => this.toggleCollapse()}
           />
-        )}
-      >
-        {collapsed
-          ? null
-          : (
-            <span id={`achievement-${achievement.id}-viewers`}>
-              {
-                viewers.length > 0
-                  ? viewers.map(v => (<span key={v}>{v}<br /></span>))
-                  : <em>{t('all_achievements.nobody_has_it')}</em>
-              }
-            </span>
-          )
         }
+      >
+        {collapsed ? null : (
+          <span id={`achievement-${achievement.id}-viewers`}>
+            {viewers.length > 0 ? (
+              viewers.map(v => (
+                <span key={v}>
+                  {v}
+                  <br />
+                </span>
+              ))
+            ) : (
+              <em>{t("all_achievements.nobody_has_it")}</em>
+            )}
+          </span>
+        )}
       </ListGroupItem>
     );
   }
@@ -56,14 +58,19 @@ const AchievementHeader = ({ achievement, collapsed, onClick }) => (
     onClick={() => onClick()}
     role="button"
     tabIndex={0}
-    onKeyUp={(e) => { if (e.keyCode === 32) onClick(); }}
+    onKeyUp={e => {
+      if (e.keyCode === 32) onClick();
+    }}
   >
-    {collapsed
-      ? <Glyphicon glyph="chevron-right" style={{ marginRight: '5px' }} />
-      : <Glyphicon glyph="chevron-down" style={{ marginRight: '5px' }} />
-    }
-    <h4 style={{ display: 'inline' }}>{achievement.name}</h4>
-    <em style={{ color: 'grey', marginLeft: '10px' }}>{achievement.description}</em>
+    {collapsed ? (
+      <Glyphicon glyph="chevron-right" style={{ marginRight: "5px" }} />
+    ) : (
+      <Glyphicon glyph="chevron-down" style={{ marginRight: "5px" }} />
+    )}
+    <h4 style={{ display: "inline" }}>{achievement.name}</h4>
+    <em style={{ color: "grey", marginLeft: "10px" }}>
+      {achievement.description}
+    </em>
   </div>
 );
 

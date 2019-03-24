@@ -1,11 +1,11 @@
-import React from 'react';
-import { Grid } from 'react-bootstrap';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Dashboard from './Dashboard';
-import PrivateRoute from './PrivateRoute';
-import Login from './Login';
-import { ApiContextProvider } from './ApiContext';
-import FixedAlert from './FixedAlert';
+import React from "react";
+import { Grid } from "react-bootstrap";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Dashboard from "./Dashboard";
+import PrivateRoute from "./PrivateRoute";
+import Login from "./Login";
+import { ApiContextProvider } from "./ApiContext";
+import FixedAlert from "./FixedAlert";
 
 const App = () => (
   <ApiContextProvider>

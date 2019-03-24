@@ -1,8 +1,8 @@
-import React from 'react';
-import { Panel, ListGroup } from 'react-bootstrap';
-import { withNamespaces } from 'react-i18next';
-import AchievementItem from './AchievementItem';
-import { withApi } from './ApiContext';
+import React from "react";
+import { Panel, ListGroup } from "react-bootstrap";
+import { withNamespaces } from "react-i18next";
+import AchievementItem from "./AchievementItem";
+import { withApi } from "./ApiContext";
 
 class LastAchievements extends React.Component {
   constructor(props) {
@@ -12,10 +12,10 @@ class LastAchievements extends React.Component {
 
   componentDidMount() {
     const { api } = this.props;
-    api.lastAchievements().subscribe((lastAchievements) => {
+    api.lastAchievements().subscribe(lastAchievements => {
       this.setState({ lastAchievements });
     });
-    api.achievements().subscribe((achievements) => {
+    api.achievements().subscribe(achievements => {
       this.setState({ achievements });
     });
   }
@@ -30,7 +30,7 @@ class LastAchievements extends React.Component {
 
     return (
       <Panel bsStyle="primary">
-        <Panel.Heading>{t('last_achievements.header')}</Panel.Heading>
+        <Panel.Heading>{t("last_achievements.header")}</Panel.Heading>
         <ListGroup>
           {lastAchievements.map((a, index) => (
             <AchievementItem

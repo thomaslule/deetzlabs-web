@@ -1,32 +1,43 @@
-import React from 'react';
-import { Panel, Row, Modal, Form, FormGroup, ControlLabel, FormControl, Button, Col } from 'react-bootstrap';
-import { withNamespaces } from 'react-i18next';
-import { withApi } from './ApiContext';
+import React from "react";
+import {
+  Panel,
+  Row,
+  Modal,
+  Form,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Button,
+  Col
+} from "react-bootstrap";
+import { withNamespaces } from "react-i18next";
+import { withApi } from "./ApiContext";
 
 const codeStyle = {
-  fontFamily: 'Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace',
-  fontSize: 12,
+  fontFamily:
+    "Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace",
+  fontSize: 12
 };
 
 const getIfExists = (element, selector) => {
   const arr = element.querySelectorAll(selector);
-  return arr.length > 0
-    ? arr[0]
-    : {};
+  return arr.length > 0 ? arr[0] : {};
 };
 
-const getHtmlPreview = (html) => {
-  const preview = document.createElement('div');
+const getHtmlPreview = html => {
+  const preview = document.createElement("div");
   preview.innerHTML = html;
-  getIfExists(preview, '#current_amount').innerHTML = '33';
-  getIfExists(preview, '#goal').innerHTML = '100';
-  getIfExists(preview, '#current_bar').style = 'width: 33%;';
+  getIfExists(preview, "#current_amount").innerHTML = "33";
+  getIfExists(preview, "#goal").innerHTML = "100";
+  getIfExists(preview, "#current_bar").style = "width: 33%;";
   return preview.innerHTML;
 };
 
 const HtmlExplain = ({ tag, definition }) => (
   <Row>
-    <Col mdOffset={3} md={3} style={codeStyle}>{tag}</Col>
+    <Col mdOffset={3} md={3} style={codeStyle}>
+      {tag}
+    </Col>
     <Col md={6}>{definition}</Col>
   </Row>
 );
@@ -36,13 +47,13 @@ class FollowersGoal extends React.Component {
     super(props);
     this.state = {
       showModal: false,
-      waiting: false,
+      waiting: false
     };
   }
 
   componentDidMount() {
     const { api } = this.props;
-    api.followersGoal().subscribe((res) => {
+    api.followersGoal().subscribe(res => {
       if (res) {
         const { goal, html, css } = res;
         this.setState({ goal, html, css, htmlPreview: getHtmlPreview(html) });
@@ -65,7 +76,7 @@ class FollowersGoal extends React.Component {
   handleChangeHtml(html) {
     this.setState({
       html,
-      htmlPreview: getHtmlPreview(html),
+      htmlPreview: getHtmlPreview(html)
     });
   }
 
@@ -97,32 +108,57 @@ class FollowersGoal extends React.Component {
     if (goal === undefined) return null;
     return (
       <Panel bsStyle="primary">
-        <Panel.Heading>{t('followers_goal.header')}</Panel.Heading>
+        <Panel.Heading>{t("followers_goal.header")}</Panel.Heading>
         <Panel.Body>
-          <Button onClick={() => this.handleShowModal()} bsStyle="default">{t('followers_goal.edit_button')}</Button>
-          <Modal show={showModal} onHide={() => this.handleCloseModal()} bsSize="large">
+          <Button onClick={() => this.handleShowModal()} bsStyle="default">
+            {t("followers_goal.edit_button")}
+          </Button>
+          <Modal
+            show={showModal}
+            onHide={() => this.handleCloseModal()}
+            bsSize="large"
+          >
             <Modal.Header closeButton>
-              <Modal.Title>{t('followers_goal.header')}</Modal.Title>
+              <Modal.Title>{t("followers_goal.header")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form id="followers-goal-form" onSubmit={e => this.handleSubmit(e)} horizontal>
+              <Form
+                id="followers-goal-form"
+                onSubmit={e => this.handleSubmit(e)}
+                horizontal
+              >
                 <FormGroup controlId="goal">
-                  <Col componentClass={ControlLabel} md={3}>{t('followers_goal.goal')}</Col>
+                  <Col componentClass={ControlLabel} md={3}>
+                    {t("followers_goal.goal")}
+                  </Col>
                   <Col md={9}>
                     <FormControl
                       type="number"
                       value={goal}
-                      onChange={e => this.handleChangeGoal(Number(e.target.value))}
+                      onChange={e =>
+                        this.handleChangeGoal(Number(e.target.value))
+                      }
                       required
                       min={1}
                     />
                   </Col>
                 </FormGroup>
-                <HtmlExplain tag={'<div id="current_amount" />'} definition={t('followers_goal.current_follows')} />
-                <HtmlExplain tag={'<div id="goal" />'} definition={t('followers_goal.goal')} />
-                <HtmlExplain tag={'<div id="current_bar" />'} definition={t('followers_goal.bar_width')} />
+                <HtmlExplain
+                  tag={'<div id="current_amount" />'}
+                  definition={t("followers_goal.current_follows")}
+                />
+                <HtmlExplain
+                  tag={'<div id="goal" />'}
+                  definition={t("followers_goal.goal")}
+                />
+                <HtmlExplain
+                  tag={'<div id="current_bar" />'}
+                  definition={t("followers_goal.bar_width")}
+                />
                 <FormGroup controlId="html">
-                  <Col componentClass={ControlLabel} md={3}>{t('followers_goal.html')}</Col>
+                  <Col componentClass={ControlLabel} md={3}>
+                    {t("followers_goal.html")}
+                  </Col>
                   <Col md={9}>
                     <FormControl
                       componentClass="textarea"
@@ -134,7 +170,9 @@ class FollowersGoal extends React.Component {
                   </Col>
                 </FormGroup>
                 <FormGroup controlId="Css">
-                  <Col componentClass={ControlLabel} md={3}>{t('followers_goal.css')}</Col>
+                  <Col componentClass={ControlLabel} md={3}>
+                    {t("followers_goal.css")}
+                  </Col>
                   <Col md={9}>
                     <FormControl
                       componentClass="textarea"
@@ -148,14 +186,27 @@ class FollowersGoal extends React.Component {
               </Form>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => this.handleCloseModal()} bsStyle="default">{t('shared.cancel')}</Button>
-              <Button onClick={() => this.handlePreview()} bsStyle="default">{t('followers_goal.preview')}</Button>
-              <Button type="submit" form="followers-goal-form" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
+              <Button onClick={() => this.handleCloseModal()} bsStyle="default">
+                {t("shared.cancel")}
+              </Button>
+              <Button onClick={() => this.handlePreview()} bsStyle="default">
+                {t("followers_goal.preview")}
+              </Button>
+              <Button
+                type="submit"
+                form="followers-goal-form"
+                disabled={waiting}
+                bsStyle="primary"
+              >
+                {t("shared.apply")}
+              </Button>
             </Modal.Footer>
           </Modal>
         </Panel.Body>
         <form
-          ref={(form) => { this.jsFiddleForm = form; }}
+          ref={form => {
+            this.jsFiddleForm = form;
+          }}
           method="post"
           action="http://jsfiddle.net/api/post/library/pure/"
           target="_blank"

@@ -1,18 +1,27 @@
-import React from 'react';
-import { PageHeader, Row, Col, Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
-import { isAuthenticated, authenticate } from './auth';
-import { withApi } from './ApiContext';
+import React from "react";
+import {
+  PageHeader,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  Button
+} from "react-bootstrap";
+import { Redirect } from "react-router-dom";
+import { withNamespaces } from "react-i18next";
+import { isAuthenticated, authenticate } from "./auth";
+import { withApi } from "./ApiContext";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       authenticated: isAuthenticated(),
-      username: '',
-      password: '',
-      waiting: false,
+      username: "",
+      password: "",
+      waiting: false
     };
   }
 
@@ -36,8 +45,8 @@ class Login extends React.Component {
     } catch (err) {
       this.setState({
         waiting: false,
-        username: '',
-        password: '',
+        username: "",
+        password: ""
       });
     }
   }
@@ -46,17 +55,17 @@ class Login extends React.Component {
     const { t } = this.props;
     const { authenticated, username, password, waiting } = this.state;
     if (authenticated) {
-      return (<Redirect to="/" />);
+      return <Redirect to="/" />;
     }
 
     return (
       <div>
-        <PageHeader>{t('deetzlabs')}</PageHeader>
+        <PageHeader>{t("deetzlabs")}</PageHeader>
         <Row>
           <Col md={3}>
             <Form onSubmit={e => this.handleSubmit(e)}>
               <FormGroup controlId="username">
-                <ControlLabel>{t('login.login')}</ControlLabel>
+                <ControlLabel>{t("login.login")}</ControlLabel>
                 <FormControl
                   type="text"
                   value={username}
@@ -64,14 +73,16 @@ class Login extends React.Component {
                 />
               </FormGroup>
               <FormGroup controlId="password">
-                <ControlLabel>{t('login.password')}</ControlLabel>
+                <ControlLabel>{t("login.password")}</ControlLabel>
                 <FormControl
                   type="password"
                   value={password}
                   onChange={e => this.handlePasswordChange(e)}
                 />
               </FormGroup>
-              <Button type="submit" disabled={waiting} bsStyle="primary">{t('login.signin')}</Button>
+              <Button type="submit" disabled={waiting} bsStyle="primary">
+                {t("login.signin")}
+              </Button>
             </Form>
           </Col>
         </Row>

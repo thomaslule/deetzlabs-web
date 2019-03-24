@@ -1,14 +1,14 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
-import { logout } from './auth';
+import React from "react";
+import { Button } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
+import { withNamespaces } from "react-i18next";
+import { logout } from "./auth";
 
 class Logout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: true,
+      authenticated: true
     };
   }
 
@@ -20,8 +20,16 @@ class Logout extends React.Component {
   render() {
     const { t, className } = this.props;
     const { authenticated } = this.state;
-    const button = <Button onClick={() => this.handleClick()} bsStyle="warning" className={className}>{t('logout')}</Button>;
-    const redirect = (<Redirect to="/login" />);
+    const button = (
+      <Button
+        onClick={() => this.handleClick()}
+        bsStyle="warning"
+        className={className}
+      >
+        {t("logout")}
+      </Button>
+    );
+    const redirect = <Redirect to="/login" />;
     return authenticated ? button : redirect;
   }
 }

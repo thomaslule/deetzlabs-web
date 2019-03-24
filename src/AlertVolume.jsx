@@ -1,10 +1,10 @@
-import 'rc-slider/assets/index.css';
-import 'rc-tooltip/assets/bootstrap.css';
-import React from 'react';
-import { Form, FormGroup, Button, Panel } from 'react-bootstrap';
-import Slider from 'rc-slider';
-import { withNamespaces } from 'react-i18next';
-import { withApi } from './ApiContext';
+import "rc-slider/assets/index.css";
+import "rc-tooltip/assets/bootstrap.css";
+import React from "react";
+import { Form, FormGroup, Button, Panel } from "react-bootstrap";
+import Slider from "rc-slider";
+import { withNamespaces } from "react-i18next";
+import { withApi } from "./ApiContext";
 
 const SliderWithToolitp = Slider.createSliderWithTooltip(Slider);
 
@@ -12,13 +12,13 @@ class AlertVolume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      waiting: false,
+      waiting: false
     };
   }
 
   componentDidMount() {
     const { api } = this.props;
-    api.alertVolume().subscribe((res) => {
+    api.alertVolume().subscribe(res => {
       this.setState({ volume: res ? res.volume : undefined });
     });
   }
@@ -43,10 +43,12 @@ class AlertVolume extends React.Component {
   render() {
     const { t } = this.props;
     const { volume, waiting } = this.state;
-    if (volume === undefined) { return null; }
+    if (volume === undefined) {
+      return null;
+    }
     return (
       <Panel bsStyle="primary">
-        <Panel.Heading>{t('volume.volume')}</Panel.Heading>
+        <Panel.Heading>{t("volume.volume")}</Panel.Heading>
         <Panel.Body>
           <Form onSubmit={e => this.handleSubmit(e)}>
             <FormGroup controlId="name">
@@ -58,7 +60,9 @@ class AlertVolume extends React.Component {
                 defaultValue={volume}
               />
             </FormGroup>
-            <Button type="submit" disabled={waiting} bsStyle="primary">{t('shared.apply')}</Button>
+            <Button type="submit" disabled={waiting} bsStyle="primary">
+              {t("shared.apply")}
+            </Button>
           </Form>
         </Panel.Body>
       </Panel>

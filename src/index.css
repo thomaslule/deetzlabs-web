@@ -4,8 +4,8 @@ body {
   font-family: sans-serif;
 }
 .achievement-header {
-  cursor: 'pointer';
+  cursor: "pointer";
 }
 .achievement-header:focus {
-  outline:0;
+  outline: 0;
 }

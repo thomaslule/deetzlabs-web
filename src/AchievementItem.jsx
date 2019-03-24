@@ -1,14 +1,14 @@
-import React from 'react';
-import { ListGroupItem, Glyphicon, Button, Modal } from 'react-bootstrap';
-import { withNamespaces } from 'react-i18next';
-import { withApi } from './ApiContext';
+import React from "react";
+import { ListGroupItem, Glyphicon, Button, Modal } from "react-bootstrap";
+import { withNamespaces } from "react-i18next";
+import { withApi } from "./ApiContext";
 
 class AchievementItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
-      waiting: false,
+      waiting: false
     };
   }
 
@@ -37,25 +37,28 @@ class AchievementItem extends React.Component {
     const { showModal, waiting } = this.state;
     return (
       <ListGroupItem header={achievementName}>
-        <Modal
-          show={showModal}
-          onHide={() => this.closeModal()}
-          bsSize="small"
-        >
+        <Modal show={showModal} onHide={() => this.closeModal()} bsSize="small">
           <Modal.Header closeButton>
-            <Modal.Title>{t('last_achievements.replay_achievement')}</Modal.Title>
+            <Modal.Title>
+              {t("last_achievements.replay_achievement")}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {t('last_achievements.achievement_for', { achievement: achievementName, viewer: viewerName })}
+            {t("last_achievements.achievement_for", {
+              achievement: achievementName,
+              viewer: viewerName
+            })}
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => this.closeModal()} bsStyle="default">{t('shared.cancel')}</Button>
+            <Button onClick={() => this.closeModal()} bsStyle="default">
+              {t("shared.cancel")}
+            </Button>
             <Button
               onClick={() => this.confirm()}
               bsStyle="info"
               disabled={waiting}
             >
-              {t('last_achievements.replay')}
+              {t("last_achievements.replay")}
             </Button>
           </Modal.Footer>
         </Modal>

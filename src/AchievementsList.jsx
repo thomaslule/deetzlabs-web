@@ -1,8 +1,8 @@
-import React from 'react';
-import { Panel, ListGroup, Glyphicon } from 'react-bootstrap';
-import { withNamespaces } from 'react-i18next';
-import AchievementWithViewers from './AchievementWithViewers';
-import { withApi } from './ApiContext';
+import React from "react";
+import { Panel, ListGroup, Glyphicon } from "react-bootstrap";
+import { withNamespaces } from "react-i18next";
+import AchievementWithViewers from "./AchievementWithViewers";
+import { withApi } from "./ApiContext";
 
 const sortStrings = (a, b) => a.toLowerCase().localeCompare(b.toLowerCase());
 
@@ -16,10 +16,10 @@ class AchievementsList extends React.Component {
     const { api } = this.props;
     const viewerAchievementsObservable = api.viewerAchievements();
     const achievementsObservable = api.achievements();
-    viewerAchievementsObservable.subscribe((viewerAchievements) => {
+    viewerAchievementsObservable.subscribe(viewerAchievements => {
       this.sortAndGroup(viewerAchievements, achievementsObservable.value);
     });
-    achievementsObservable.subscribe((achievements) => {
+    achievementsObservable.subscribe(achievements => {
       this.sortAndGroup(viewerAchievementsObservable.value, achievements);
     });
   }
@@ -32,9 +32,11 @@ class AchievementsList extends React.Component {
       .map(([achievementId, achievement]) => ({
         achievement: { id: achievementId, ...achievement },
         viewers: viewerAchievements
-          .filter(viewerAchievement => viewerAchievement.achievement === achievementId)
+          .filter(
+            viewerAchievement => viewerAchievement.achievement === achievementId
+          )
           .map(viewerAchievement => viewerAchievement.viewerName)
-          .sort(sortStrings),
+          .sort(sortStrings)
       }))
       .sort((a, b) => a.viewers.length - b.viewers.length);
     this.setState({ achievementsWithViewers, collapsed: true });
@@ -47,15 +49,21 @@ class AchievementsList extends React.Component {
   render() {
     const { t } = this.props;
     const { collapsed, achievementsWithViewers } = this.state;
-    if (achievementsWithViewers === undefined) { return null; }
+    if (achievementsWithViewers === undefined) {
+      return null;
+    }
     return (
       <Panel bsStyle="primary">
-        <Panel.Heading onClick={() => this.toggleCollapse()} style={{ cursor: 'pointer' }}>
-          {collapsed
-            ? <Glyphicon glyph="chevron-right" style={{ marginRight: '5px' }} />
-            : <Glyphicon glyph="chevron-down" style={{ marginRight: '5px' }} />
-          }
-          {t('all_achievements.all_achievements')}
+        <Panel.Heading
+          onClick={() => this.toggleCollapse()}
+          style={{ cursor: "pointer" }}
+        >
+          {collapsed ? (
+            <Glyphicon glyph="chevron-right" style={{ marginRight: "5px" }} />
+          ) : (
+            <Glyphicon glyph="chevron-down" style={{ marginRight: "5px" }} />
+          )}
+          {t("all_achievements.all_achievements")}
         </Panel.Heading>
         <ListGroup>
           {achievementsWithViewers.map(a => (
