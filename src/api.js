@@ -40,6 +40,10 @@ export const replayAchievement = (achievement, viewerId) =>
     .send({ achievement, viewerId })
     .then(noop);
 
+export const mute = () => post("mute").then(noop);
+
+export const unmute = () => post("unmute").then(noop);
+
 export const postAlertVolume = volume =>
   post("achievement_alert_volume")
     .send({ volume })

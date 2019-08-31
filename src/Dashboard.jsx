@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, PageHeader } from "react-bootstrap";
 import { withNamespaces } from "react-i18next";
+import Mute from "./Mute";
 import LastAchievements from "./LastAchievements";
 import AchievementsList from "./AchievementsList";
 import TestButton from "./TestButton";
@@ -18,6 +19,7 @@ const Dashboard = ({ t }) => (
     </PageHeader>
     <Row>
       <Col md={6}>
+        <Mute />
         <LastAchievements />
         <TestButton />
         <AlertVolume />
