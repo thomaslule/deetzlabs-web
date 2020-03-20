@@ -1,32 +1,33 @@
 import request from "superagent";
-import { getToken, isAuthenticated } from "./auth";
+import { getToken, logout } from "./auth";
 
-const checkAuthenticated = () => {
-  if (!isAuthenticated()) {
-    window.location.replace("/admin/login");
-  }
-};
-const getAuthorization = () => ({ Authorization: `Bearer ${getToken()}` });
+const getAuthorization = () => ({ Authorization: `OAuth ${getToken()}` });
 const noop = res => res;
 
-export const login = (username, password) =>
-  request
-    .post("/api/login")
-    .send({ username, password })
-    .then(res => res.body);
+function logoutIfUnauthorized(err) {
+  if (err.status === 401) {
+    logout();
+    window.location.replace("/login");
+  }
+}
 
 export const get = path => {
-  checkAuthenticated();
   return request
     .get(`/api/${path}`)
     .set(getAuthorization())
+    .on("error", logoutIfUnauthorized)
     .then(res => res.body);
 };
 
 export const post = path => {
-  checkAuthenticated();
-  return request.post(`/api/${path}`).set(getAuthorization());
+  return request
+    .post(`/api/${path}`)
+    .set(getAuthorization())
+    .on("error", logoutIfUnauthorized);
 };
+
+export const getClientId = () =>
+  request.get("/api/client_id").then(res => res.body);
 
 export const test = () => post("show_test_achievement").then(noop);
 

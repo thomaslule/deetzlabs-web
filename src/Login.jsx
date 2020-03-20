@@ -1,61 +1,49 @@
 import React from "react";
-import {
-  PageHeader,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  Button
-} from "react-bootstrap";
-import { Redirect } from "react-router-dom";
+import { Col, PageHeader, Row } from "react-bootstrap";
 import { withNamespaces } from "react-i18next";
-import { isAuthenticated, authenticate } from "./auth";
+import { Redirect } from "react-router-dom";
+import { get, getClientId } from "./api";
 import { withApi } from "./ApiContext";
+import { authenticate, isAuthenticated } from "./auth";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       authenticated: isAuthenticated(),
-      username: "",
-      password: "",
-      waiting: false
+      clientId: undefined
     };
   }
 
-  handleUsernameChange(e) {
-    this.setState({ username: e.target.value });
-  }
-
-  handlePasswordChange(e) {
-    this.setState({ password: e.target.value });
-  }
-
-  async handleSubmit(e) {
-    e.preventDefault();
-    const { api } = this.props;
-    const { username, password } = this.state;
-    try {
-      this.setState({ waiting: true });
-      const { token, expiresAt } = await api.login(username, password);
-      authenticate(token, expiresAt);
-      this.setState({ waiting: false, authenticated: true });
-    } catch (err) {
-      this.setState({
-        waiting: false,
-        username: "",
-        password: ""
-      });
+  async componentDidMount() {
+    const tokenMatch = window.location.hash.match(/access_token=([^&]+)/);
+    if (tokenMatch) {
+      const token = tokenMatch[1];
+      authenticate(token);
+      // if the token is invalid, it will auto-logout
+      await get("validate_token");
+      this.setState({ authenticated: true });
+    } else {
+      const { clientId } = await getClientId();
+      this.setState({ clientId, loading: false });
     }
+  }
+
+  getTwitchUrl() {
+    const { clientId } = this.state;
+    const host = window.location.origin;
+    return `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${host}/admin/login&response_type=token&scope=&force_verify=true`;
   }
 
   render() {
     const { t } = this.props;
-    const { authenticated, username, password, waiting } = this.state;
+    const { authenticated, loading } = this.state;
     if (authenticated) {
       return <Redirect to="/" />;
+    }
+    if (loading) {
+      return null;
     }
 
     return (
@@ -63,27 +51,7 @@ class Login extends React.Component {
         <PageHeader>{t("deetzlabs")}</PageHeader>
         <Row>
           <Col md={3}>
-            <Form onSubmit={e => this.handleSubmit(e)}>
-              <FormGroup controlId="username">
-                <ControlLabel>{t("login.login")}</ControlLabel>
-                <FormControl
-                  type="text"
-                  value={username}
-                  onChange={e => this.handleUsernameChange(e)}
-                />
-              </FormGroup>
-              <FormGroup controlId="password">
-                <ControlLabel>{t("login.password")}</ControlLabel>
-                <FormControl
-                  type="password"
-                  value={password}
-                  onChange={e => this.handlePasswordChange(e)}
-                />
-              </FormGroup>
-              <Button type="submit" disabled={waiting} bsStyle="primary">
-                {t("login.signin")}
-              </Button>
-            </Form>
+            <a href={this.getTwitchUrl()}>Login with twitch</a>
           </Col>
         </Row>
       </div>

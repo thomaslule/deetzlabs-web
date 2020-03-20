@@ -1,6 +1,6 @@
 import React from "react";
-import { BehaviorSubject } from "rxjs";
 import { withNamespaces } from "react-i18next";
+import { BehaviorSubject } from "rxjs";
 import * as api from "./api";
 
 const ApiContext = React.createContext();
@@ -42,17 +42,6 @@ class ApiContextProviderToLink extends React.Component {
 
   followersGoal() {
     return this.observable("followers_goal");
-  }
-
-  async login(username, password) {
-    try {
-      return await api.login(username, password);
-    } catch (err) {
-      console.error(err);
-      const { t } = this.props;
-      this.showAlert(t("alerts.error_auth"), "warning");
-      throw err;
-    }
   }
 
   async giveAchievement(achievement, viewer) {
@@ -190,7 +179,6 @@ class ApiContextProviderToLink extends React.Component {
     return (
       <ApiContext.Provider
         value={{
-          login: (username, password) => this.login(username, password),
           achievements: () => this.achievements(),
           lastAchievements: () => this.lastAchievements(),
           viewerAchievements: () => this.viewerAchievements(),

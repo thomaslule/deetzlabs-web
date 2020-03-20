@@ -1,10 +1,10 @@
-export const authenticate = (token, expiresAt) => {
-  localStorage.setItem("login_data", JSON.stringify({ token, expiresAt }));
+export const authenticate = token => {
+  localStorage.setItem("login_data", JSON.stringify({ token }));
 };
 
 export const isAuthenticated = () => {
   const loginData = localStorage.getItem("login_data");
-  return loginData && Date.now() < JSON.parse(loginData).expiresAt;
+  return Boolean(loginData);
 };
 
 export const getToken = () =>
