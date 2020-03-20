@@ -4,7 +4,12 @@ import { withNamespaces } from "react-i18next";
 import { Redirect } from "react-router-dom";
 import { get, getClientId } from "./api";
 import { withApi } from "./ApiContext";
-import { authenticate, isAuthenticated } from "./auth";
+import {
+  authenticate,
+  generateAndSaveRandomState,
+  isAuthenticated,
+  isRandomStateEqualTo
+} from "./auth";
 
 class Login extends React.Component {
   constructor(props) {
@@ -12,28 +17,50 @@ class Login extends React.Component {
     this.state = {
       loading: true,
       authenticated: isAuthenticated(),
-      clientId: undefined
+      clientId: undefined,
+      randomState: undefined
     };
   }
 
   async componentDidMount() {
-    const tokenMatch = window.location.hash.match(/access_token=([^&]+)/);
-    if (tokenMatch) {
-      const token = tokenMatch[1];
-      authenticate(token);
-      // if the token is invalid, it will auto-logout
-      await get("validate_token");
-      this.setState({ authenticated: true });
-    } else {
-      const { clientId } = await getClientId();
-      this.setState({ clientId, loading: false });
+    const token = this.getHashParam("access_token");
+    if (!token) {
+      console.log("No token found in hash");
+      this.prepareAuthLink();
+      return;
     }
+    const randomState = this.getHashParam("state");
+    if (!isRandomStateEqualTo(randomState)) {
+      console.error("Invalid state param received in hash");
+      this.prepareAuthLink();
+      return;
+    }
+    authenticate(token);
+    // if the token is invalid, it will auto-logout
+    await get("check_token");
+    this.setState({ authenticated: true });
+  }
+
+  getHashParam(paramName) {
+    const tokenMatch = window.location.hash.match(
+      new RegExp(`[&#]${paramName}=([^&]+)`)
+    );
+    return tokenMatch ? tokenMatch[1] : undefined;
   }
 
   getTwitchUrl() {
-    const { clientId } = this.state;
+    const { clientId, randomState } = this.state;
     const host = window.location.origin;
-    return `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${host}/admin/login&response_type=token&scope=&force_verify=true`;
+    return `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${host}/admin/login&response_type=token&scope=&force_verify=true&state=${randomState}`;
+  }
+
+  async prepareAuthLink() {
+    const { clientId } = await getClientId();
+    this.setState({
+      clientId,
+      loading: false,
+      randomState: generateAndSaveRandomState()
+    });
   }
 
   render() {

@@ -5,7 +5,8 @@ const getAuthorization = () => ({ Authorization: `OAuth ${getToken()}` });
 const noop = res => res;
 
 function logoutIfUnauthorized(err) {
-  if (err.status === 401) {
+  if (err.status === 401 || err.status === 403) {
+    console.error(`Authentication error: ${err.status} ${err.response.text}`);
     logout();
     window.location.replace("/login");
   }
