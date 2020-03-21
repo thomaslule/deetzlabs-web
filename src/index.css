@@ -3,6 +3,14 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+.login-link,
+.login-link:hover,
+.login-link:focus {
+  color: white;
+  background-color: #9146ff;
+  padding: 10px;
+  text-decoration: none;
+}
 .achievement-header {
   cursor: "pointer";
 }

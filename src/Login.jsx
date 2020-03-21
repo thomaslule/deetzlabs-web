@@ -78,7 +78,9 @@ class Login extends React.Component {
         <PageHeader>{t("deetzlabs")}</PageHeader>
         <Row>
           <Col md={3}>
-            <a href={this.getTwitchUrl()}>Login with twitch</a>
+            <a href={this.getTwitchUrl()} className="login-link">
+              Login with twitch
+            </a>
           </Col>
         </Row>
       </div>
