@@ -8,7 +8,7 @@ function logoutIfUnauthorized(err) {
   if (err.status === 401 || err.status === 403) {
     console.error(`Authentication error: ${err.status} ${err.response.text}`);
     logout();
-    window.location.replace("/login");
+    window.location.replace("/admin/login");
   }
 }
 
