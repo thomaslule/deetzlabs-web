@@ -27,9 +27,9 @@
   "test_alert": {
     "test_alert": "Tester l'alerte"
   },
-  "mute": {
-    "title": "Muet",
-    "mute": "Désactiver messages et alertes"
+  "enabled": {
+    "title": "Activé",
+    "enabled": "Messages et alertes actives"
   },
   "volume": {
     "volume": "Volume de l'alerte"

@@ -1,10 +1,10 @@
 import React from "react";
 import { Panel } from "react-bootstrap";
-import Switch from "react-switch";
 import { withNamespaces } from "react-i18next";
+import Switch from "react-switch";
 import { withApi } from "./ApiContext";
 
-class Mute extends React.Component {
+class Active extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,13 +44,13 @@ class Mute extends React.Component {
     }
     return (
       <Panel bsStyle="primary">
-        <Panel.Heading>{t("mute.title")}</Panel.Heading>
+        <Panel.Heading>{t("enabled.title")}</Panel.Heading>
         <Panel.Body>
           <label>
-            <p>{t("mute.mute")}</p>
+            <p>{t("enabled.enabled")}</p>
             <Switch
               onChange={() => this.handleSwitch()}
-              checked={muted}
+              checked={!muted}
               disabled={waiting}
             />
           </label>
@@ -60,4 +60,4 @@ class Mute extends React.Component {
   }
 }
 
-export default withNamespaces()(withApi(Mute));
+export default withNamespaces()(withApi(Active));

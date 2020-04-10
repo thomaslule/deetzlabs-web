@@ -1,15 +1,15 @@
 import React from "react";
-import { Row, Col, PageHeader } from "react-bootstrap";
+import { Col, PageHeader, Row } from "react-bootstrap";
 import { withNamespaces } from "react-i18next";
-import Mute from "./Mute";
-import LastAchievements from "./LastAchievements";
 import AchievementsList from "./AchievementsList";
-import TestButton from "./TestButton";
 import AlertVolume from "./AlertVolume";
-import GiveAchievement from "./GiveAchievement";
+import Enabled from "./Enabled";
 import FollowersGoal from "./FollowersGoal";
+import GiveAchievement from "./GiveAchievement";
 import LangSelector from "./LangSelector";
+import LastAchievements from "./LastAchievements";
 import Logout from "./Logout";
+import TestButton from "./TestButton";
 
 const Dashboard = ({ t }) => (
   <div>
@@ -19,7 +19,7 @@ const Dashboard = ({ t }) => (
     </PageHeader>
     <Row>
       <Col md={6}>
-        <Mute />
+        <Enabled />
         <LastAchievements />
         <TestButton />
         <AlertVolume />
