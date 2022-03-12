@@ -1,4 +1,4 @@
-export const authenticate = token => {
+export const authenticate = (token) => {
   localStorage.setItem("login_data", JSON.stringify({ token }));
 };
 
@@ -14,12 +14,8 @@ export const logout = () => localStorage.removeItem("login_data");
 
 function generateRandomString() {
   return (
-    Math.random()
-      .toString(36)
-      .substring(2, 15) +
-    Math.random()
-      .toString(36)
-      .substring(2, 15)
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
   );
 }
 
@@ -29,6 +25,6 @@ export const generateAndSaveRandomState = () => {
   return state;
 };
 
-export const isRandomStateEqualTo = state => {
+export const isRandomStateEqualTo = (state) => {
   return state === localStorage.getItem("login_state");
 };

@@ -8,7 +8,7 @@ import {
   authenticate,
   generateAndSaveRandomState,
   isAuthenticated,
-  isRandomStateEqualTo
+  isRandomStateEqualTo,
 } from "./auth";
 
 class Login extends React.Component {
@@ -18,7 +18,7 @@ class Login extends React.Component {
       loading: true,
       authenticated: isAuthenticated(),
       clientId: undefined,
-      randomState: undefined
+      randomState: undefined,
     };
   }
 
@@ -59,7 +59,7 @@ class Login extends React.Component {
     this.setState({
       clientId,
       loading: false,
-      randomState: generateAndSaveRandomState()
+      randomState: generateAndSaveRandomState(),
     });
   }
 

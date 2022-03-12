@@ -9,13 +9,13 @@ const currentLanguage =
 i18n.use(reactI18nextModule).init({
   resources: {
     en: { translation: translationEN },
-    fr: { translation: translationFR }
+    fr: { translation: translationFR },
   },
   lng: currentLanguage,
   fallbackLng: "fr",
   interpolation: {
-    escapeValue: false
-  }
+    escapeValue: false,
+  },
 });
 
 export default i18n;

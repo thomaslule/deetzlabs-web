@@ -3,7 +3,7 @@ import { Panel, Button } from "react-bootstrap";
 import { withNamespaces } from "react-i18next";
 import { withApi } from "./ApiContext";
 
-const handleClick = api => {
+const handleClick = (api) => {
   api.testAlert().catch(() => {});
 };
 

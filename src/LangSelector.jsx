@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 
 function LangSelector({ className }) {
-  const changeLang = lang => {
+  const changeLang = (lang) => {
     changeLanguage(lang);
     localStorage.setItem("lang", lang);
   };

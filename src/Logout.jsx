@@ -8,7 +8,7 @@ class Logout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: true
+      authenticated: true,
     };
   }
 

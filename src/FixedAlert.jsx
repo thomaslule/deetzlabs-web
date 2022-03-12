@@ -11,7 +11,7 @@ function FixedAlert({ api }) {
         position: "fixed",
         bottom: "5px",
         left: "20px",
-        minWidth: "100px"
+        minWidth: "100px",
       }}
     >
       {api.alert}

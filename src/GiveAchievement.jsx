@@ -6,7 +6,7 @@ import {
   ControlLabel,
   FormControl,
   Button,
-  Col
+  Col,
 } from "react-bootstrap";
 import { withNamespaces } from "react-i18next";
 import { withApi } from "./ApiContext";
@@ -16,19 +16,19 @@ class GiveAchievement extends React.Component {
     super(props);
     this.state = {
       viewer: "",
-      waiting: false
+      waiting: false,
     };
   }
 
   componentDidMount() {
     const { api } = this.props;
-    api.viewerNames().subscribe(viewerNames => {
+    api.viewerNames().subscribe((viewerNames) => {
       this.setState({ viewerNames });
     });
-    api.achievements().subscribe(achievements => {
+    api.achievements().subscribe((achievements) => {
       this.setState({
         achievements,
-        achievement: achievements ? Object.keys(achievements)[0] : undefined
+        achievement: achievements ? Object.keys(achievements)[0] : undefined,
       });
     });
   }
@@ -56,13 +56,8 @@ class GiveAchievement extends React.Component {
 
   render() {
     const { t } = this.props;
-    const {
-      achievement,
-      viewer,
-      viewerNames,
-      achievements,
-      waiting
-    } = this.state;
+    const { achievement, viewer, viewerNames, achievements, waiting } =
+      this.state;
     if (viewerNames === undefined || achievements === undefined) {
       return null;
     }
@@ -70,7 +65,7 @@ class GiveAchievement extends React.Component {
       <Panel bsStyle="primary">
         <Panel.Heading>{t("give_achievement.header")}</Panel.Heading>
         <Panel.Body>
-          <Form onSubmit={e => this.handleSubmit(e)} horizontal>
+          <Form onSubmit={(e) => this.handleSubmit(e)} horizontal>
             <FormGroup controlId="name">
               <Col componentClass={ControlLabel} md={3}>
                 {t("give_achievement.name")}
@@ -79,12 +74,12 @@ class GiveAchievement extends React.Component {
                 <FormControl
                   type="text"
                   value={viewer}
-                  onChange={e => this.handleChangeViewer(e.target.value)}
+                  onChange={(e) => this.handleChangeViewer(e.target.value)}
                   list="viewers"
                   required
                 />
                 <datalist id="viewers">
-                  {Object.values(viewerNames).map(v => (
+                  {Object.values(viewerNames).map((v) => (
                     <option value={v} key={v} />
                   ))}
                 </datalist>
@@ -98,11 +93,11 @@ class GiveAchievement extends React.Component {
                 <FormControl
                   componentClass="select"
                   value={achievement}
-                  onChange={e => this.handleChangeAchievement(e.target.value)}
+                  onChange={(e) => this.handleChangeAchievement(e.target.value)}
                   list="viewers"
                   required
                 >
-                  {Object.keys(achievements).map(a => (
+                  {Object.keys(achievements).map((a) => (
                     <option key={a} value={a}>
                       {achievements[a].name}
                     </option>

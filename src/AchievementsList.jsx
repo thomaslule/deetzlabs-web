@@ -16,10 +16,10 @@ class AchievementsList extends React.Component {
     const { api } = this.props;
     const viewerAchievementsObservable = api.viewerAchievements();
     const achievementsObservable = api.achievements();
-    viewerAchievementsObservable.subscribe(viewerAchievements => {
+    viewerAchievementsObservable.subscribe((viewerAchievements) => {
       this.sortAndGroup(viewerAchievements, achievementsObservable.value);
     });
-    achievementsObservable.subscribe(achievements => {
+    achievementsObservable.subscribe((achievements) => {
       this.sortAndGroup(viewerAchievementsObservable.value, achievements);
     });
   }
@@ -33,17 +33,18 @@ class AchievementsList extends React.Component {
         achievement: { id: achievementId, ...achievement },
         viewers: viewerAchievements
           .filter(
-            viewerAchievement => viewerAchievement.achievement === achievementId
+            (viewerAchievement) =>
+              viewerAchievement.achievement === achievementId
           )
-          .map(viewerAchievement => viewerAchievement.viewerName)
-          .sort(sortStrings)
+          .map((viewerAchievement) => viewerAchievement.viewerName)
+          .sort(sortStrings),
       }))
       .sort((a, b) => a.viewers.length - b.viewers.length);
     this.setState({ achievementsWithViewers, collapsed: true });
   }
 
   toggleCollapse() {
-    this.setState(prevState => ({ collapsed: !prevState.collapsed }));
+    this.setState((prevState) => ({ collapsed: !prevState.collapsed }));
   }
 
   render() {
@@ -66,7 +67,7 @@ class AchievementsList extends React.Component {
           {t("all_achievements.all_achievements")}
         </Panel.Heading>
         <ListGroup>
-          {achievementsWithViewers.map(a => (
+          {achievementsWithViewers.map((a) => (
             <AchievementWithViewers
               achievement={a.achievement}
               viewers={a.viewers}

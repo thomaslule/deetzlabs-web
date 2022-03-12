@@ -12,13 +12,13 @@ class AlertVolume extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      waiting: false
+      waiting: false,
     };
   }
 
   componentDidMount() {
     const { api } = this.props;
-    api.alertVolume().subscribe(res => {
+    api.alertVolume().subscribe((res) => {
       this.setState({ volume: res ? res.volume : undefined });
     });
   }
@@ -50,13 +50,13 @@ class AlertVolume extends React.Component {
       <Panel bsStyle="primary">
         <Panel.Heading>{t("volume.volume")}</Panel.Heading>
         <Panel.Body>
-          <Form onSubmit={e => this.handleSubmit(e)}>
+          <Form onSubmit={(e) => this.handleSubmit(e)}>
             <FormGroup controlId="name">
               <SliderWithToolitp
                 min={0.1}
                 max={1}
                 step={0.1}
-                onChange={val => this.handleChange(val)}
+                onChange={(val) => this.handleChange(val)}
                 defaultValue={volume}
               />
             </FormGroup>

@@ -8,15 +8,16 @@ class AchievementWithViewers extends React.Component {
     this.state = { collapsed: props.collapsed };
   }
 
-  componentWillReceiveProps(newProps) {
-    const { collapsed } = this.state;
-    if (newProps.collapsed !== collapsed) {
-      this.setState({ collapsed: newProps.collapsed });
+  static getDerivedStateFromProps(props, state) {
+    if (props.collapsed !== state.lastRow) {
+      return { collapsed: props.collapsed };
     }
+
+    return null;
   }
 
   toggleCollapse() {
-    this.setState(prevState => ({ collapsed: !prevState.collapsed }));
+    this.setState((prevState) => ({ collapsed: !prevState.collapsed }));
   }
 
   render() {
@@ -36,7 +37,7 @@ class AchievementWithViewers extends React.Component {
         {collapsed ? null : (
           <span id={`achievement-${achievement.id}-viewers`}>
             {viewers.length > 0 ? (
-              viewers.map(v => (
+              viewers.map((v) => (
                 <span key={v}>
                   {v}
                   <br />
@@ -58,7 +59,7 @@ const AchievementHeader = ({ achievement, collapsed, onClick }) => (
     onClick={() => onClick()}
     role="button"
     tabIndex={0}
-    onKeyUp={e => {
+    onKeyUp={(e) => {
       if (e.keyCode === 32) onClick();
     }}
   >

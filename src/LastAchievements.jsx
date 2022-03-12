@@ -12,10 +12,10 @@ class LastAchievements extends React.Component {
 
   componentDidMount() {
     const { api } = this.props;
-    api.lastAchievements().subscribe(lastAchievements => {
+    api.lastAchievements().subscribe((lastAchievements) => {
       this.setState({ lastAchievements });
     });
-    api.achievements().subscribe(achievements => {
+    api.achievements().subscribe((achievements) => {
       this.setState({ achievements });
     });
   }

@@ -12,7 +12,7 @@ class ApiContextProviderToLink extends React.Component {
       subjects: {},
       alert: undefined,
       alertTimeout: undefined,
-      alertLevel: undefined
+      alertLevel: undefined,
     };
   }
 
@@ -139,7 +139,7 @@ class ApiContextProviderToLink extends React.Component {
       alertLevel,
       alertTimeout: setTimeout(() => {
         this.setState({ alert: undefined });
-      }, 5000)
+      }, 5000),
     });
   }
 
@@ -163,10 +163,10 @@ class ApiContextProviderToLink extends React.Component {
     }
     api
       .get(path)
-      .then(value => {
+      .then((value) => {
         subjects[path].next(value);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         this.showErrorAlert();
       });
@@ -193,12 +193,12 @@ class ApiContextProviderToLink extends React.Component {
           testAlert: () => this.testAlert(),
           mute: () => this.mute(),
           unmute: () => this.unmute(),
-          changeAlertVolume: volume => this.changeAlertVolume(volume),
+          changeAlertVolume: (volume) => this.changeAlertVolume(volume),
           changeFollowersGoal: (goal, html, css) =>
             this.changeFollowersGoal(goal, html, css),
           showAlert: (msg, lvl) => this.showAlert(msg, lvl),
           alert,
-          alertLevel
+          alertLevel,
         }}
       >
         {children}
@@ -212,9 +212,11 @@ export const ApiContextProvider = withNamespaces()(ApiContextProviderToLink);
 export const ApiContextConsumer = ApiContext.Consumer;
 
 export function withApi(Component) {
-  return props => (
-    <ApiContextConsumer>
-      {context => <Component {...props} api={context} />}
-    </ApiContextConsumer>
-  );
+  return function ComponentWithApi(props) {
+    return (
+      <ApiContextConsumer>
+        {(context) => <Component {...props} api={context} />}
+      </ApiContextConsumer>
+    );
+  };
 }

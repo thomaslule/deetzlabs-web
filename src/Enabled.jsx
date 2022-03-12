@@ -8,13 +8,13 @@ class Active extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      waiting: false
+      waiting: false,
     };
   }
 
   componentDidMount() {
     const { api } = this.props;
-    api.muted().subscribe(res => {
+    api.muted().subscribe((res) => {
       this.setState({ muted: res ? res.muted : undefined });
     });
   }

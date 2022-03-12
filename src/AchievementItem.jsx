@@ -8,7 +8,7 @@ class AchievementItem extends React.Component {
     super(props);
     this.state = {
       showModal: false,
-      waiting: false
+      waiting: false,
     };
   }
 
@@ -46,7 +46,7 @@ class AchievementItem extends React.Component {
           <Modal.Body>
             {t("last_achievements.achievement_for", {
               achievement: achievementName,
-              viewer: viewerName
+              viewer: viewerName,
             })}
           </Modal.Body>
           <Modal.Footer>
@@ -64,7 +64,7 @@ class AchievementItem extends React.Component {
         </Modal>
         {viewerName}
         <Button
-          onClick={e => this.showModal(e)}
+          onClick={(e) => this.showModal(e)}
           className="pull-right"
           bsSize="xsmall"
           bsStyle="default"
