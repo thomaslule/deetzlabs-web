@@ -1,6 +1,6 @@
 {
   "name": "deetzlabs-web",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
