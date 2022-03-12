@@ -1,6 +1,7 @@
 {
   "deetzlabs": "deetzlabs",
   "logout": "Déconnexion",
+  "authorize": "Autoriser l'app",
   "shared": {
     "apply": "Appliquer",
     "cancel": "Annuler"

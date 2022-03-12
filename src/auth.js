@@ -1,5 +1,5 @@
-export const authenticate = (token) => {
-  localStorage.setItem("login_data", JSON.stringify({ token }));
+export const authenticate = (token, isBroadcaster = false) => {
+  localStorage.setItem("login_data", JSON.stringify({ token, isBroadcaster }));
 };
 
 export const isAuthenticated = () => {
@@ -10,7 +10,13 @@ export const isAuthenticated = () => {
 export const getToken = () =>
   JSON.parse(localStorage.getItem("login_data")).token;
 
-export const logout = () => localStorage.removeItem("login_data");
+export const isBroadcaster = () =>
+  JSON.parse(localStorage.getItem("login_data")).isBroadcaster;
+
+export const logout = () => {
+  localStorage.removeItem("login_data");
+  localStorage.removeItem("login_is_broadcaster");
+};
 
 function generateRandomString() {
   return (

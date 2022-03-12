@@ -37,7 +37,8 @@ class Login extends React.Component {
     }
     authenticate(token);
     // if the token is invalid, it will auto-logout
-    await get("check_token");
+    const { isBroadcaster } = await get("check_token");
+    authenticate(token, isBroadcaster);
     this.setState({ authenticated: true });
   }
 
