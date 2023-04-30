@@ -14,21 +14,21 @@ class Active extends React.Component {
 
   componentDidMount() {
     const { api } = this.props;
-    api.muted().subscribe((res) => {
-      this.setState({ muted: res ? res.muted : undefined });
+    api.started().subscribe((res) => {
+      this.setState({ started: res ? res.started : undefined });
     });
   }
 
   async handleSwitch() {
     const { api } = this.props;
-    const wasMuted = this.state.muted;
-    this.setState({ muted: !wasMuted });
+    const wasStarted = this.state.started;
+    this.setState({ started: !wasStarted });
     try {
       this.setState({ waiting: true });
-      if (wasMuted) {
-        await api.unmute();
+      if (wasStarted) {
+        await api.stop();
       } else {
-        await api.mute();
+        await api.start();
       }
       this.setState({ waiting: false });
     } catch (err) {
@@ -38,8 +38,8 @@ class Active extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { muted, waiting } = this.state;
-    if (muted === undefined) {
+    const { started, waiting } = this.state;
+    if (started === undefined) {
       return null;
     }
     return (
@@ -50,7 +50,7 @@ class Active extends React.Component {
             <p>{t("enabled.enabled")}</p>
             <Switch
               onChange={() => this.handleSwitch()}
-              checked={!muted}
+              checked={started}
               disabled={waiting}
             />
           </label>

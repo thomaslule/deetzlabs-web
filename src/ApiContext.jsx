@@ -32,8 +32,8 @@ class ApiContextProviderToLink extends React.Component {
     return this.observable("viewer_names");
   }
 
-  muted() {
-    return this.observable("muted");
+  started() {
+    return this.observable("started");
   }
 
   alertVolume() {
@@ -83,10 +83,10 @@ class ApiContextProviderToLink extends React.Component {
     }
   }
 
-  async mute() {
+  async stop() {
     const { t } = this.props;
     try {
-      await api.mute();
+      await api.stop();
       this.showAlert(t("alerts.updated_parameter"), "success");
     } catch (err) {
       console.error(err);
@@ -95,10 +95,10 @@ class ApiContextProviderToLink extends React.Component {
     }
   }
 
-  async unmute() {
+  async start() {
     const { t } = this.props;
     try {
-      await api.unmute();
+      await api.start();
       this.showAlert(t("alerts.updated_parameter"), "success");
     } catch (err) {
       console.error(err);
@@ -183,7 +183,7 @@ class ApiContextProviderToLink extends React.Component {
           lastAchievements: () => this.lastAchievements(),
           viewerAchievements: () => this.viewerAchievements(),
           viewerNames: () => this.viewerNames(),
-          muted: () => this.muted(),
+          started: () => this.started(),
           alertVolume: () => this.alertVolume(),
           followersGoal: () => this.followersGoal(),
           giveAchievement: (achievement, viewer) =>
@@ -191,8 +191,8 @@ class ApiContextProviderToLink extends React.Component {
           replayAchievement: (achievement, viewerId) =>
             this.replayAchievement(achievement, viewerId),
           testAlert: () => this.testAlert(),
-          mute: () => this.mute(),
-          unmute: () => this.unmute(),
+          stop: () => this.stop(),
+          start: () => this.start(),
           changeAlertVolume: (volume) => this.changeAlertVolume(volume),
           changeFollowersGoal: (goal, html, css) =>
             this.changeFollowersGoal(goal, html, css),

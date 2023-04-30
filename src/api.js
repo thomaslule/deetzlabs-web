@@ -38,9 +38,9 @@ export const giveAchievement = (achievement, viewerName) =>
 export const replayAchievement = (achievement, viewerId) =>
   post("replay_achievement").send({ achievement, viewerId }).then(noop);
 
-export const mute = () => post("mute").then(noop);
+export const stop = () => post("stop").then(noop);
 
-export const unmute = () => post("unmute").then(noop);
+export const start = () => post("start").then(noop);
 
 export const postAlertVolume = (volume) =>
   post("achievement_alert_volume").send({ volume }).then(noop);
