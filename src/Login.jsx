@@ -2,8 +2,8 @@ import React from "react";
 import { Col, PageHeader, Row } from "react-bootstrap";
 import { withNamespaces } from "react-i18next";
 import { Redirect } from "react-router-dom";
-import { get, getClientId } from "./api";
 import { withApi } from "./ApiContext";
+import { get, getClientId } from "./api";
 import {
   authenticate,
   generateAndSaveRandomState,
@@ -15,6 +15,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      codeReceived: new URLSearchParams(window.location.search).get("code"),
+      codeSent: false,
       loading: true,
       authenticated: isAuthenticated(),
       clientId: undefined,
@@ -23,6 +25,13 @@ class Login extends React.Component {
   }
 
   async componentDidMount() {
+    const { codeReceived, codeSent } = this.state;
+    const { api } = this.props;
+    if (codeReceived && !codeSent) {
+      await api.sendCode(codeReceived);
+      this.setState({ codeSent: true });
+      return;
+    }
     const token = this.getHashParam("access_token");
     if (!token) {
       console.log("No token found in hash");
@@ -66,7 +75,10 @@ class Login extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { authenticated, loading } = this.state;
+    const { authenticated, codeReceived, codeSent, loading } = this.state;
+    if (codeReceived && !codeSent) {
+      return null;
+    }
     if (authenticated) {
       return <Redirect to="/" />;
     }

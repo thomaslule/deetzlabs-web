@@ -131,6 +131,16 @@ class ApiContextProviderToLink extends React.Component {
     }
   }
 
+  async sendCode(code) {
+    try {
+      await api.sendCode(code);
+    } catch (err) {
+      console.error(err);
+      this.showErrorAlert();
+      throw err;
+    }
+  }
+
   showAlert(alert, alertLevel) {
     const { alertTimeout } = this.state;
     clearTimeout(alertTimeout);
@@ -199,6 +209,7 @@ class ApiContextProviderToLink extends React.Component {
           showAlert: (msg, lvl) => this.showAlert(msg, lvl),
           alert,
           alertLevel,
+          sendCode: (code) => this.sendCode(code),
         }}
       >
         {children}

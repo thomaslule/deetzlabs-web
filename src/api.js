@@ -47,3 +47,6 @@ export const postAlertVolume = (volume) =>
 
 export const changeFollowersGoal = (goal, html, css) =>
   post("change_followers_goal").send({ goal, html, css }).then(noop);
+
+export const sendCode = (code) =>
+  request.post("/api/code").set(getAuthorization()).send({ code }).then(noop);

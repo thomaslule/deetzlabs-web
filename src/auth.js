@@ -19,10 +19,9 @@ export const logout = () => {
 };
 
 function generateRandomString() {
-  return (
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15)
-  );
+  return Array.from(crypto.getRandomValues(new Uint8Array(20)), (dec) =>
+    dec.toString(16).padStart(2, "0")
+  ).join("");
 }
 
 export const generateAndSaveRandomState = () => {
